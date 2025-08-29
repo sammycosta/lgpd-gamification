@@ -1,41 +1,25 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "../index.css";
-import Providers from "@/components/providers";
-import Header from "@/components/header";
-
-const geistSans = Geist({
-	variable: "--font-geist-sans",
-	subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-	variable: "--font-geist-mono",
-	subsets: ["latin"],
-});
+import Providers from '@/components/providers'
+import type { Metadata } from 'next'
+import '../index.css'
 
 export const metadata: Metadata = {
-	title: "app",
-	description: "app",
-};
+  title: 'LGPD Gamificada',
+  description: 'LGPD Gamificada'
+}
 
 export default function RootLayout({
-	children,
+  children
 }: Readonly<{
-	children: React.ReactNode;
+  children: React.ReactNode
 }>) {
-	return (
-		<html lang="en" suppressHydrationWarning>
-			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-			>
-				<Providers>
-					<div className="grid grid-rows-[auto_1fr] h-svh">
-						<Header />
-						{children}
-					</div>
-				</Providers>
-			</body>
-		</html>
-	);
+  return (
+    <html lang="pt-br" suppressHydrationWarning>
+      <body>
+        <Providers>
+          {/* TODO: Header aqui, e tratativas globais */}
+          {children}
+        </Providers>
+      </body>
+    </html>
+  )
 }
