@@ -1,4 +1,6 @@
 import Providers from '@/components/providers'
+import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core'
+import '@mantine/core/styles.css'
 import type { Metadata } from 'next'
 import '../index.css'
 
@@ -13,7 +15,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="pt-br" suppressHydrationWarning>
+    <html lang="pt-br" {...mantineHtmlProps}>
+      <head>
+        <ColorSchemeScript />
+      </head>
       <body>
         <Providers>
           {/* TODO: Header aqui, e tratativas globais */}
