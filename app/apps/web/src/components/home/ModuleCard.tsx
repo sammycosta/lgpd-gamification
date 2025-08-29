@@ -8,7 +8,7 @@ import {
   Text,
   Tooltip
 } from '@mantine/core'
-import { BookOpenText, Info, PlayCircle } from 'lucide-react'
+import { BookOpenText, NotebookText, PlayCircle } from 'lucide-react'
 
 interface ModuleCardProps {
   id: string | number // Deve vir da estrutura e ser chave pra redirecionar para atividades, etc.
@@ -63,7 +63,7 @@ export default function ModuleCard({
           </Tooltip>
           <Tooltip label="Saiba mais">
             <Button variant="light" size="lg" radius="xl" px="sm">
-              <Info />
+              <NotebookText />
             </Button>
           </Tooltip>
         </Stack>
