@@ -1,16 +1,32 @@
 'use client'
 
-import { Button, Card, Text } from '@mantine/core'
+import ModuleCard from '@/components/home/ModuleCard'
+import { SimpleGrid } from '@mantine/core'
+import { useState } from 'react'
 
 export default function Home() {
-  //   const healthCheck = useQuery(trpc.healthCheck.queryOptions());
+  const [modules, setModules] = useState([
+    {
+      id: 1,
+      name: 'Introdução à LGPD',
+      locked: false,
+      maxPoints: 100,
+      points: 65
+    },
+    {
+      id: 2,
+      name: 'Conceitos Básicos',
+      locked: true,
+      maxPoints: 120,
+      points: 0
+    }
+  ])
 
   return (
-    <>
-      <Card shadow="sm" padding="lg">
-        <Text size="xl">Bem-vindo à LGPD Gamificada!</Text>
-        <Button color="teal">Começar Quiz</Button>
-      </Card>
-    </>
+    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg" verticalSpacing="md">
+      {modules.map((module) => (
+        <ModuleCard key={module.id} {...module} />
+      ))}
+    </SimpleGrid>
   )
 }

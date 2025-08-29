@@ -1,3 +1,4 @@
+import Layout from '@/components/Layout'
 import Providers from '@/components/providers'
 import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core'
 import '@mantine/core/styles.css'
@@ -22,7 +23,7 @@ export default function RootLayout({
       <body>
         <Providers>
           {/* TODO: Header aqui, e tratativas globais */}
-          {children}
+          <Layout> {children}</Layout>
         </Providers>
       </body>
     </html>
