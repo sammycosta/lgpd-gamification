@@ -1,6 +1,6 @@
 import { Container } from '@mantine/core'
 
-export default function Layout({
+export default function PageContainer({
   children
 }: Readonly<{
   children: React.ReactNode

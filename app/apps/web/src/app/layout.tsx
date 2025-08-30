@@ -1,6 +1,13 @@
-import Layout from '@/components/Layout'
 import Providers from '@/components/providers'
-import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core'
+import Header from '@/components/ui/Header'
+import PageContainer from '@/components/ui/PageContainer'
+import {
+  AppShell,
+  AppShellHeader,
+  AppShellMain,
+  ColorSchemeScript,
+  mantineHtmlProps
+} from '@mantine/core'
 import '@mantine/core/styles.css'
 import type { Metadata } from 'next'
 import '../index.css'
@@ -22,8 +29,14 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>
-          {/* TODO: Header aqui, e tratativas globais */}
-          <Layout> {children}</Layout>
+          <AppShell header={{ height: 60 }} padding="md">
+            <AppShellHeader>
+              <Header />
+            </AppShellHeader>
+            <AppShellMain>
+              <PageContainer>{children}</PageContainer>
+            </AppShellMain>
+          </AppShell>
         </Providers>
       </body>
     </html>
