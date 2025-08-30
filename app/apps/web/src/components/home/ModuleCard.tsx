@@ -29,6 +29,8 @@ export default function ModuleCard({
   const progressPercentage = (points / maxPoints) * 100
   const iconComponent = icon || <BookOpenText size={100} strokeWidth={1} />
 
+  // TODO: Indicativo visual mais forte quando as seções estão bloqueadas.
+
   return (
     <Card padding="md" radius="sm" withBorder>
       <Group justify="space-between" align="center" gap="lg" wrap="nowrap">
@@ -50,7 +52,7 @@ export default function ModuleCard({
           >{`${points} / ${maxPoints} pontos`}</Text>
         </Box>
         <Stack gap="xs">
-          <Tooltip label={locked ? 'Complete as seções anteriores!' : 'Jogar'}>
+          <Tooltip label="Jogar" disabled={locked}>
             <Button
               variant="filled"
               size="lg"
