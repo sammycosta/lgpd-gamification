@@ -4,7 +4,7 @@ export const MODULE_DATA = [
     name: 'Introdução à LGPD',
     locked: false,
     maxPoints: 100,
-    points: 100
+    points: 70
   },
   {
     id: 2,

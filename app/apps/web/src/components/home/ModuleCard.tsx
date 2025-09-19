@@ -1,14 +1,6 @@
-import {
-  Box,
-  Button,
-  Card,
-  Group,
-  Progress,
-  Stack,
-  Text,
-  Tooltip
-} from '@mantine/core'
+import { Box, Button, Card, Group, Stack, Text, Tooltip } from '@mantine/core'
 import { BookOpenText, NotebookText, PlayCircle } from 'lucide-react'
+import ProgressBar from './ProgressBar'
 
 interface ModuleCardProps {
   id: string | number // Deve vir da estrutura e ser chave pra redirecionar para atividades, etc.
@@ -40,10 +32,7 @@ export default function ModuleCard({
             {name}
           </Text>
           <Group gap="xs" align="center" w="100%">
-            <Box style={{ flex: 1 }}>
-              <Progress value={progressPercentage} size="md" radius="sm" />
-            </Box>
-            <Text fz="sm" fw={500}>{`${Math.round(progressPercentage)}%`}</Text>
+            <ProgressBar progressPercentage={progressPercentage} />
           </Group>
           <Text
             fz="xs"
