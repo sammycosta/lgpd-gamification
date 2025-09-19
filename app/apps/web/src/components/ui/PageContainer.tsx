@@ -6,7 +6,7 @@ export default function PageContainer({
   children: React.ReactNode
 }>) {
   return (
-    <Container size="xl" my="md">
+    <Container size="xl" my="md" p={0}>
       {children}
     </Container>
   )

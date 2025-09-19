@@ -17,12 +17,11 @@ const styles: Record<string, MantineStyleProp> = {
     position: 'absolute',
     top: '50%',
     width: '100%',
-    transform: 'translateY(-50%)',
     zIndex: 1
   },
   baseIcon: {
     position: 'absolute',
-    transform: 'translateX(-50%)'
+    transform: 'translateX(-90%)'
   }
 }
 
@@ -32,7 +31,7 @@ interface ProgressBarProps {
 
 export default function ProgressBar({ progressPercentage }: ProgressBarProps) {
   return (
-    <Box style={styles.wrapper}>
+    <Box pr="sm" style={styles.wrapper}>
       <Progress size="xl" value={progressPercentage} striped />
       <Group style={styles.iconWrapper}>
         <StarGoal type="bronze" progressPercentage={progressPercentage} />

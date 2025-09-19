@@ -19,8 +19,16 @@ export default function ModuleCard({
   locked
 }: ModuleCardProps) {
   const progressPercentage = (points / maxPoints) * 100
-  const iconComponent = icon || <BookOpenText size={100} strokeWidth={1} />
+  const iconComponent = icon || (
+    <BookOpenText
+      size={100}
+      strokeWidth={1}
+      color={locked ? 'gray' : 'black'}
+    />
+  )
 
+  // TODO: adicionar hook usemediaquery do mantine e fazer atualizações:
+  // diminuir espaçamentos/gaps no mobile e mais informações!
   // TODO: Indicativo visual mais forte quando as seções estão bloqueadas.
 
   return (

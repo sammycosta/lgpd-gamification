@@ -29,7 +29,10 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>
-          <AppShell header={{ height: 60 }} padding="md">
+          <AppShell
+            header={{ height: 60 }}
+            padding={{ base: 'sm', xs: 'lg', md: 'xl' }}
+          >
             <AppShellHeader>
               <Header />
             </AppShellHeader>
