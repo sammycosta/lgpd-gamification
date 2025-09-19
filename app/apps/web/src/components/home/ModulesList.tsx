@@ -37,7 +37,7 @@ export default function ModulesList({ modules }: ModulesListProps) {
               <Center>
                 <Box
                   style={{
-                    width: rem(3),
+                    width: rem(5),
                     backgroundColor: lineColor,
                     height: rem(50)
                   }}

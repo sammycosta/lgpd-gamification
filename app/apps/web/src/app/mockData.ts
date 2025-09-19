@@ -11,7 +11,7 @@ export const MODULE_DATA = [
     name: 'Conceitos Básicos',
     locked: false,
     maxPoints: 120,
-    points: 60
+    points: 120
   },
   {
     id: 3,
