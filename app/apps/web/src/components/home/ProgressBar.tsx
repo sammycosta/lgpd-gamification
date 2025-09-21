@@ -27,16 +27,32 @@ const styles: Record<string, MantineStyleProp> = {
 
 interface ProgressBarProps {
   progressPercentage: number
+  small?: boolean
 }
 
-export default function ProgressBar({ progressPercentage }: ProgressBarProps) {
+export default function ProgressBar({
+  progressPercentage,
+  small
+}: ProgressBarProps) {
   return (
     <Box pr="sm" style={styles.wrapper}>
       <Progress size="xl" value={progressPercentage} striped />
       <Group style={styles.iconWrapper}>
-        <StarGoal type="bronze" progressPercentage={progressPercentage} />
-        <StarGoal type="silver" progressPercentage={progressPercentage} />
-        <StarGoal type="gold" progressPercentage={progressPercentage} />
+        <StarGoal
+          type="bronze"
+          progressPercentage={progressPercentage}
+          small={small}
+        />
+        <StarGoal
+          type="silver"
+          progressPercentage={progressPercentage}
+          small={small}
+        />
+        <StarGoal
+          type="gold"
+          progressPercentage={progressPercentage}
+          small={small}
+        />
       </Group>
     </Box>
   )
@@ -45,10 +61,11 @@ export default function ProgressBar({ progressPercentage }: ProgressBarProps) {
 interface StarGoalProps {
   type: 'bronze' | 'silver' | 'gold'
   progressPercentage: number
+  small?: boolean
 }
 
 const StarGoal = (props: StarGoalProps) => {
-  const { progressPercentage, type } = props
+  const { progressPercentage, type, small } = props
 
   const theme = useMantineTheme()
   const colors = {
@@ -70,7 +87,7 @@ const StarGoal = (props: StarGoalProps) => {
   return (
     <Box style={{ ...styles.baseIcon, left: `${percentageGoal}%` }}>
       <Star
-        size={40}
+        size={small ? 30 : 40}
         color={achieved ? colors.borderAchieved : colors.border}
         fill={achieved ? colors[type] : theme.colors.gray[3]}
       />

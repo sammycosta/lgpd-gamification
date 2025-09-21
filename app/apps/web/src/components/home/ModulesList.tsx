@@ -29,7 +29,6 @@ export default function ModulesList({ modules }: ModulesListProps) {
         const lineColor = isCompleted
           ? theme.colors[theme.primaryColor][6]
           : theme.colors.gray[4]
-
         return (
           <Box key={module.id} w="100%">
             <ModuleCard {...module} />
@@ -39,7 +38,7 @@ export default function ModulesList({ modules }: ModulesListProps) {
                   style={{
                     width: rem(5),
                     backgroundColor: lineColor,
-                    height: rem(50)
+                    height: rem(25)
                   }}
                 />
               </Center>

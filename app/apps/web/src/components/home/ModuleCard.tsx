@@ -1,5 +1,22 @@
-import { Box, Button, Card, Group, Stack, Text, Tooltip } from '@mantine/core'
-import { BookOpenText, NotebookText, PlayCircle } from 'lucide-react'
+import {
+  Box,
+  Button,
+  Card,
+  Group,
+  Popover,
+  Stack,
+  Text,
+  ThemeIcon,
+  Tooltip,
+  useMantineTheme
+} from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
+import {
+  BookOpenText,
+  LockKeyhole,
+  NotebookText,
+  PlayCircle
+} from 'lucide-react'
 import ProgressBar from './ProgressBar'
 
 interface ModuleCardProps {
@@ -18,55 +35,111 @@ export default function ModuleCard({
   maxPoints,
   locked
 }: ModuleCardProps) {
+  const theme = useMantineTheme()
+  const biggerThanXs = useMediaQuery(`(min-width: ${theme.breakpoints.xs})`)
+
   const progressPercentage = (points / maxPoints) * 100
   const iconComponent = icon || (
     <BookOpenText
       size={100}
       strokeWidth={1}
-      color={locked ? 'gray' : 'black'}
+      color={locked ? 'gray' : 'black'} // Fazer isso pros dinâmicos também no futuro.
     />
   )
 
-  // TODO: adicionar hook usemediaquery do mantine e fazer atualizações:
-  // diminuir espaçamentos/gaps no mobile e mais informações!
-  // TODO: Indicativo visual mais forte quando as seções estão bloqueadas.
-
   return (
     <Card padding="md" radius="sm" withBorder>
-      <Group justify="space-between" align="center" gap="lg" wrap="nowrap">
+      <Group
+        justify="space-between"
+        align="center"
+        wrap="nowrap"
+        gap={biggerThanXs ? 'lg' : 'xs'}
+      >
         <Box pos="relative">{iconComponent}</Box>
         <Box w="100%">
-          <Text fw={500} fz="lg">
+          <Text fw={500} fz="lg" mb={4}>
             {name}
           </Text>
-          <Group gap="xs" align="center" w="100%">
+          <Group gap="xs" align="center" w="100%" visibleFrom="xs">
             <ProgressBar progressPercentage={progressPercentage} />
           </Group>
           <Text
             fz="xs"
             c="dimmed"
             mt={4}
+            visibleFrom="xs"
           >{`${points} / ${maxPoints} pontos`}</Text>
         </Box>
         <Stack gap="xs">
-          <Tooltip label="Jogar" disabled={locked}>
+          <ActionButtons locked={locked} />
+        </Stack>
+      </Group>
+      <Box hiddenFrom="xs" mt="sm">
+        <Group align="center" w="100%">
+          <ProgressBar progressPercentage={progressPercentage} small />
+        </Group>
+        <Text
+          fz="xs"
+          c="dimmed"
+          mt={4}
+        >{`${points} / ${maxPoints} pontos`}</Text>
+      </Box>
+    </Card>
+  )
+}
+
+const ActionButtons = ({ locked }: { locked: boolean }) => {
+  return (
+    <>
+      {locked ? (
+        <Popover
+          width={320}
+          position="bottom"
+          withArrow
+          shadow="md"
+          arrowSize={15}
+        >
+          <Popover.Target>
             <Button
               variant="filled"
               size="lg"
               radius="xl"
-              disabled={locked}
               px="sm"
+              data-disabled
+              style={{ cursor: 'pointer' }}
             >
               <PlayCircle />
             </Button>
-          </Tooltip>
-          <Tooltip label="Saiba mais">
-            <Button variant="light" size="lg" radius="xl" px="sm">
-              <NotebookText />
-            </Button>
-          </Tooltip>
-        </Stack>
-      </Group>
-    </Card>
+          </Popover.Target>
+          <Popover.Dropdown>
+            <Group justify="center" gap="xs" wrap="nowrap">
+              <ThemeIcon
+                variant="gradient"
+                size="xl"
+                aria-label="Gradient action icon"
+                gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+              >
+                <LockKeyhole />
+              </ThemeIcon>
+              <Text size="sm" style={{ textAlign: 'center' }}>
+                Alcance ao menos <b>70%</b> do módulo anterior para desbloquear
+                atividades
+              </Text>
+            </Group>
+          </Popover.Dropdown>
+        </Popover>
+      ) : (
+        <Tooltip label="Jogar">
+          <Button variant="filled" size="lg" radius="xl" px="sm">
+            <PlayCircle />
+          </Button>
+        </Tooltip>
+      )}
+      <Tooltip label="Conteúdos">
+        <Button variant="light" size="lg" radius="xl" px="sm">
+          <NotebookText />
+        </Button>
+      </Tooltip>
+    </>
   )
 }
