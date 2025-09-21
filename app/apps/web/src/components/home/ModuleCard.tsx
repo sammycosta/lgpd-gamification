@@ -17,7 +17,8 @@ import {
   NotebookText,
   PlayCircle
 } from 'lucide-react'
-import ProgressBar from './ProgressBar'
+import Link from 'next/link'
+import ProgressBar from '../ui/ProgressBar'
 
 interface ModuleCardProps {
   id: string | number // Deve vir da estrutura e ser chave pra redirecionar para atividades, etc.
@@ -33,7 +34,8 @@ export default function ModuleCard({
   icon,
   points,
   maxPoints,
-  locked
+  locked,
+  id
 }: ModuleCardProps) {
   const theme = useMantineTheme()
   const biggerThanXs = useMediaQuery(`(min-width: ${theme.breakpoints.xs})`)
@@ -71,7 +73,7 @@ export default function ModuleCard({
           >{`${points} / ${maxPoints} pontos`}</Text>
         </Box>
         <Stack gap="xs">
-          <ActionButtons locked={locked} />
+          <ActionButtons locked={locked} id={id} />
         </Stack>
       </Group>
       <Box hiddenFrom="xs" mt="sm">
@@ -88,7 +90,13 @@ export default function ModuleCard({
   )
 }
 
-const ActionButtons = ({ locked }: { locked: boolean }) => {
+const ActionButtons = ({
+  locked,
+  id
+}: {
+  locked: boolean
+  id: string | number
+}) => {
   return (
     <>
       {locked ? (
@@ -130,7 +138,16 @@ const ActionButtons = ({ locked }: { locked: boolean }) => {
         </Popover>
       ) : (
         <Tooltip label="Jogar">
-          <Button variant="filled" size="lg" radius="xl" px="sm">
+          <Button
+            component={Link}
+            href={{
+              pathname: `/module/${id}`
+            }}
+            variant="filled"
+            size="lg"
+            radius="xl"
+            px="sm"
+          >
             <PlayCircle />
           </Button>
         </Tooltip>

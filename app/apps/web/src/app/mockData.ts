@@ -1,3 +1,5 @@
+import { ActivityStatus, ActivityType, type Activity } from '@/types/api'
+
 export const MODULE_DATA = [
   {
     id: 1,
@@ -49,3 +51,85 @@ export const MODULE_DATA = [
     points: 0
   }
 ]
+
+export interface ActivitiesByModuleIndex {
+  [key: number]: Activity[]
+}
+
+export const ATIVIDADE_BY_MODULE_INDEX_DATA: ActivitiesByModuleIndex = {
+  1: [
+    {
+      id: 1,
+      name: 'Pergunta 1',
+      type: ActivityType.QEA,
+      status: ActivityStatus.WRONG,
+      data: {
+        question:
+          'Qual dado se refere ao titular que não possa ser identificado?',
+        options: [
+          {
+            id: 1,
+            text: 'Dado pessoal sensível'
+          },
+          {
+            id: 2,
+            text: 'Dado pessoal'
+          },
+          {
+            id: 3,
+            text: 'Dado anonimizado'
+          }
+        ],
+        answer: 3
+      }
+    },
+    {
+      id: 2,
+      name: 'Pergunta 2',
+      type: ActivityType.QEA,
+      status: ActivityStatus.RIGHT,
+      data: {
+        question: 'Teste B',
+        options: [
+          {
+            id: 1,
+            text: 'A'
+          },
+          {
+            id: 2,
+            text: 'B'
+          },
+          {
+            id: 2,
+            text: 'C'
+          }
+        ],
+        answer: 2
+      }
+    },
+    {
+      id: 3,
+      name: 'Pergunta 3',
+      type: ActivityType.QEA,
+      status: ActivityStatus.TODO,
+      data: {
+        question: 'Teste C',
+        options: [
+          {
+            id: 1,
+            text: 'A'
+          },
+          {
+            id: 2,
+            text: 'B'
+          },
+          {
+            id: 2,
+            text: 'C'
+          }
+        ],
+        answer: 1
+      }
+    }
+  ]
+}
