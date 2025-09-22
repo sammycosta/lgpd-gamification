@@ -78,7 +78,7 @@ export default function ModuleCard({
       </Group>
       <Box hiddenFrom="xs" mt="sm">
         <Group align="center" w="100%">
-          <ProgressBar progressPercentage={progressPercentage} small />
+          <ProgressBar progressPercentage={progressPercentage} checkSmall />
         </Group>
         <Text
           fz="xs"

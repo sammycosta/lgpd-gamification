@@ -11,8 +11,10 @@ interface ModulePageProps {
 
 export default async function ModulePage({ params }: ModulePageProps) {
   const { id } = await params
+
   const moduleId = Number(id)
   const module = MODULE_DATA.find((m) => m.id === moduleId)
+
   const progressPercentage = module
     ? (module.points / module.maxPoints) * 100
     : 0
@@ -40,11 +42,11 @@ export default async function ModulePage({ params }: ModulePageProps) {
         {module.name}
       </Title>
       {/* Possivelmente evoluir a visão da barra de progresso nessa página. */}
-      <ProgressBar progressPercentage={progressPercentage} />
+      <ProgressBar progressPercentage={progressPercentage} checkSmall />
+      {/* Text sempre parece vir com a progressbar, talvez unir? */}
       <Text fz="xs" c="dimmed" mt={4}>
         {`${module.points} / ${module.maxPoints} pontos`}
       </Text>
-      {/* Text sempre parece vir com a progressbar, talvez unir? */}
       <Activities moduleId={moduleId} />
     </div>
   )

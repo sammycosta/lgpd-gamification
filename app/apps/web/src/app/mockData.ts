@@ -100,7 +100,7 @@ export const ATIVIDADE_BY_MODULE_INDEX_DATA: ActivitiesByModuleIndex = {
             text: 'B'
           },
           {
-            id: 2,
+            id: 3,
             text: 'C'
           }
         ],
@@ -124,7 +124,7 @@ export const ATIVIDADE_BY_MODULE_INDEX_DATA: ActivitiesByModuleIndex = {
             text: 'B'
           },
           {
-            id: 2,
+            id: 3,
             text: 'C'
           }
         ],

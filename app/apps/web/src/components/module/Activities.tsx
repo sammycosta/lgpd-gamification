@@ -1,16 +1,35 @@
 'use client'
 
 import { ATIVIDADE_BY_MODULE_INDEX_DATA } from '@/app/mockData'
-import { ActivityStatus } from '@/types/api'
-import { Button, Group, Stack, ThemeIcon, useMantineTheme } from '@mantine/core'
-import { CircleCheck, CircleDashed, CircleX } from 'lucide-react'
+import { ActivityStatus, ActivityType, type Activity } from '@/types/api'
+import {
+  ActionIcon,
+  Button,
+  Card,
+  Flex,
+  Group,
+  Stack,
+  ThemeIcon,
+  useMantineTheme
+} from '@mantine/core'
+import { CircleCheck, CircleDashed, CircleX, X } from 'lucide-react'
+import { useState } from 'react'
+import QeAView from './QeAView'
 
-export default function Activities({ moduleId }: { moduleId: number }) {
+interface ActivitiesProps {
+  moduleId: number
+}
+
+export default function Activities({ moduleId }: ActivitiesProps) {
+  const [selectedActivity, setSelectedActivity] = useState<Activity | null>(
+    null
+  )
   const theme = useMantineTheme()
 
   const activiesData = ATIVIDADE_BY_MODULE_INDEX_DATA[moduleId]
 
   if (!activiesData) {
+    //TODO: Fazer visão bonita.
     return <div>Sem atividades para esse módulo por enquanto!</div>
   }
 
@@ -24,8 +43,8 @@ export default function Activities({ moduleId }: { moduleId: number }) {
     [ActivityStatus.TODO]: {
       icon: <CircleDashed />,
       iconColor: theme.colors.gray[4],
-      buttonVariant: 'default',
-      buttonColor: undefined
+      buttonVariant: 'light',
+      buttonColor: 'gray'
     },
     [ActivityStatus.WRONG]: {
       icon: <CircleX />,
@@ -35,23 +54,48 @@ export default function Activities({ moduleId }: { moduleId: number }) {
     }
   }
 
-  // TODO: tipo uma lista de botoes das atividades.
-  // TODO: ícones/etc devem depender do status da atividdade (nao feita, errada, certa, possivelmente o tipo)
+  if (selectedActivity) {
+    return (
+      <Card mt="lg" radius="md" withBorder>
+        <Card.Section>
+          <Flex justify="flex-end">
+            <ActionIcon
+              variant="subtle"
+              color="gray"
+              onClick={() => setSelectedActivity(null)}
+              aria-label="Fechar atividade"
+              size="lg"
+              radius="xl"
+              m={2}
+            >
+              <X size={16} />
+            </ActionIcon>
+          </Flex>
+        </Card.Section>
+        <ActivityContentSwitch activity={selectedActivity} />
+      </Card>
+    )
+  }
+
   return (
     <Stack mt="lg">
-      {activiesData.map(({ name, status }, index) => {
+      {activiesData.map((activity, index) => {
         const { icon, iconColor, buttonVariant, buttonColor } =
-          ActivityStyle[status]
+          ActivityStyle[activity.status]
+
+        const onClick = () => setSelectedActivity(activity)
+
         return (
-          <Group wrap="nowrap" gap="xs">
+          <Group wrap="nowrap" gap="xs" key={index}>
             <Button
               justify="start"
               key={index}
               fullWidth
               variant={buttonVariant}
               color={buttonColor}
+              onClick={onClick}
             >
-              {name}
+              {activity.name}
             </Button>
             <ThemeIcon radius="xl" color={iconColor} size={30}>
               {icon}
@@ -61,4 +105,13 @@ export default function Activities({ moduleId }: { moduleId: number }) {
       })}
     </Stack>
   )
+}
+
+const ActivityContentSwitch = ({ activity }: { activity: Activity }) => {
+  switch (activity.type) {
+    case ActivityType.QEA:
+      return <QeAView activity={activity} /> //Ver depois de passar só data
+    default:
+      return <div>invalid type</div>
+  }
 }

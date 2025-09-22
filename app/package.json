@@ -20,7 +20,8 @@
 	"packageManager": "bun@1.2.21",
 	"dependencies": {
 		"@mantine/core": "^8.2.7",
-		"@mantine/hooks": "^8.3.1"
+		"@mantine/hooks": "^8.3.1",
+		"canvas-confetti": "^1.9.3"
 	},
 	"devDependencies": {
 		"postcss": "^8.5.6",

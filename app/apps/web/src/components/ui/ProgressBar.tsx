@@ -6,6 +6,7 @@ import {
   useMantineTheme,
   type MantineStyleProp
 } from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
 import { Star } from 'lucide-react'
 
 const styles: Record<string, MantineStyleProp> = {
@@ -28,13 +29,19 @@ const styles: Record<string, MantineStyleProp> = {
 
 interface ProgressBarProps {
   progressPercentage: number
-  small?: boolean
+  forceSmall?: boolean
+  checkSmall?: boolean
 }
 
 export default function ProgressBar({
   progressPercentage,
-  small
+  forceSmall,
+  checkSmall
 }: ProgressBarProps) {
+  const theme = useMantineTheme()
+  const mediaQuerySmall = !useMediaQuery(`(min-width: ${theme.breakpoints.xs})`)
+  const small = forceSmall || (checkSmall && mediaQuerySmall)
+
   return (
     <Box pr="sm" style={styles.wrapper}>
       <Progress size="xl" value={progressPercentage} striped />

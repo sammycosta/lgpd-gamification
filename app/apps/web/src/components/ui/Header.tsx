@@ -8,6 +8,7 @@ import {
   Tooltip
 } from '@mantine/core'
 import { LogOut, Puzzle } from 'lucide-react'
+import Link from 'next/link'
 
 export default function Header() {
   return (
@@ -16,7 +17,7 @@ export default function Header() {
         <Group gap="xs">
           <Puzzle size={22} />
           <Text fw={700} fz={{ base: 'md', sm: 'lg' }}>
-            LGPD Gamificada
+            <Link href="/">LGPD Gamificada</Link>
           </Text>
         </Group>
 
