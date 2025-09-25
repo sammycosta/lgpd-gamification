@@ -17,6 +17,9 @@ export enum ActivityStatus {
   RIGHT
 }
 
+//TODO: Depois ver se troco pra enum proprio ou reutilizo o enum de cima
+export type ActivityFeedbackStatus = 'idle' | 'correct' | 'wrong'
+
 export interface BaseActivity {
   id: number
   name: string
@@ -29,7 +32,8 @@ export interface QEA {
     id: number
     text: string
   }[]
-  answer: number
+  isMultiple?: boolean
+  answer: number | number[]
 }
 
 // Passo 3: A união discriminada que une tudo

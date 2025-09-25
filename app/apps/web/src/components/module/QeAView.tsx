@@ -1,9 +1,11 @@
 // declara o módulo só pra TS saber que ele existe
 
-import type { Activity } from '@/types/api'
-import { Alert, Button, Group, Radio, Stack, Text } from '@mantine/core'
-import { CircleCheck, CircleQuestionMark } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useConfetti } from '@/hooks/useConfetti'
+import type { Activity, ActivityFeedbackStatus } from '@/types/api'
+import { Alert, Group, Radio, Stack, Text } from '@mantine/core'
+import { CircleQuestionMark } from 'lucide-react'
+import { useState } from 'react'
+import ActivityControls from './ActivityControls'
 import classes from './style.module.css'
 
 interface QeAViewProps {
@@ -13,9 +15,9 @@ interface QeAViewProps {
 }
 
 export default function QeAView({ activity, goToNextActivity }: QeAViewProps) {
-  const { question, options, answer } = activity.data
+  const { question, options, answer, isMultiple } = activity.data
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
-  const [status, setStatus] = useState<'idle' | 'correct' | 'wrong'>('idle')
+  const [status, setStatus] = useState<ActivityFeedbackStatus>('idle')
 
   const checkAnswer = () => {
     if (selectedOption === String(answer)) {
@@ -26,19 +28,7 @@ export default function QeAView({ activity, goToNextActivity }: QeAViewProps) {
     //TODO: OnSubmit
   }
 
-  //TODO: Possivelmente fazer uma hook personalizada para confetti.
-  useEffect(() => {
-    if (status === 'correct') {
-      const confetti = require('canvas-confetti').default
-      confetti({
-        particleCount: 120,
-        spread: 80,
-        origin: { x: 0.5, y: 1 },
-        angle: 90,
-        gravity: 1.5
-      })
-    }
-  }, [status])
+  useConfetti(status === 'correct')
 
   return (
     <>
@@ -77,32 +67,12 @@ export default function QeAView({ activity, goToNextActivity }: QeAViewProps) {
           ))}
         </Stack>
       </Radio.Group>
-      {/* TODO: Provavelmente, esses componentes: referentes a todos os tipos de atividades. */}
-      {status === 'correct' && (
-        <Alert mt="md" color="green" icon={<CircleCheck />} title="Correto!">
-          Excelente! Você acertou.
-        </Alert>
-      )}
-      {status === 'wrong' && (
-        <Alert mt="md" color="red" icon={<CircleCheck />} title="Incorreto">
-          Não foi dessa vez. Tente novamente!
-        </Alert>
-      )}
-      <Group mt="md" justify="flex-end" gap="sm">
-        {(status === 'idle' || status === 'wrong') && (
-          <>
-            <Button variant="transparent" onClick={goToNextActivity}>
-              Pular
-            </Button>
-            <Button onClick={checkAnswer} disabled={!selectedOption}>
-              Verificar
-            </Button>
-          </>
-        )}
-        {status === 'correct' && (
-          <Button onClick={goToNextActivity}>Continuar</Button>
-        )}
-      </Group>
+      <ActivityControls
+        status={status}
+        onVerify={checkAnswer}
+        onNext={goToNextActivity}
+        hasAnswer={!!selectedOption}
+      />
     </>
   )
 }

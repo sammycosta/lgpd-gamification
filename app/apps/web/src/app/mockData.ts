@@ -130,6 +130,31 @@ export const ATIVIDADE_BY_MODULE_INDEX_DATA: ActivitiesByModuleIndex = {
         ],
         answer: 1
       }
+    },
+    {
+      id: 3,
+      name: 'Pergunta 3',
+      type: ActivityType.QEA,
+      status: ActivityStatus.TODO,
+      data: {
+        question: 'Teste C',
+        options: [
+          {
+            id: 1,
+            text: 'A'
+          },
+          {
+            id: 2,
+            text: 'B'
+          },
+          {
+            id: 3,
+            text: 'C'
+          }
+        ],
+        isMultiple: true,
+        answer: [2, 3]
+      }
     }
   ]
 }
