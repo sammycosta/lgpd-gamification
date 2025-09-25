@@ -14,6 +14,7 @@ import {
 } from '@mantine/core'
 import { CircleCheck, CircleDashed, CircleX, X } from 'lucide-react'
 import { useState } from 'react'
+import QeAMultipleView from './QeAMultipleView'
 import QeAView from './QeAView'
 
 interface ActivitiesProps {
@@ -111,6 +112,8 @@ const ActivityContentSwitch = ({ activity }: { activity: Activity }) => {
   switch (activity.type) {
     case ActivityType.QEA:
       return <QeAView activity={activity} /> //Ver depois de passar só data
+    case ActivityType.QEAMultiple:
+      return <QeAMultipleView activity={activity} />
     default:
       return <div>invalid type</div>
   }

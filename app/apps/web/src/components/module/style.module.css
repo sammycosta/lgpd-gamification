@@ -1,4 +1,4 @@
-.radio-card {
+.answer-card {
   position: relative;
   padding: var(--mantine-spacing-md);
   transition: border-color 150ms ease;

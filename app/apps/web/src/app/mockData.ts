@@ -132,9 +132,9 @@ export const ATIVIDADE_BY_MODULE_INDEX_DATA: ActivitiesByModuleIndex = {
       }
     },
     {
-      id: 3,
-      name: 'Pergunta 3',
-      type: ActivityType.QEA,
+      id: 4,
+      name: 'Pergunta 4',
+      type: ActivityType.QEAMultiple,
       status: ActivityStatus.TODO,
       data: {
         question: 'Teste C',
@@ -152,7 +152,6 @@ export const ATIVIDADE_BY_MODULE_INDEX_DATA: ActivitiesByModuleIndex = {
             text: 'C'
           }
         ],
-        isMultiple: true,
         answer: [2, 3]
       }
     }

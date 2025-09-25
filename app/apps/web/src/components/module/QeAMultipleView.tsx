@@ -1,26 +1,28 @@
 import { useConfetti } from '@/hooks/useConfetti'
-import type { ActivityFeedbackStatus, QeAActivity } from '@/types/api'
-import { Group, Radio, Stack, Text } from '@mantine/core'
+import type { ActivityFeedbackStatus, QeAMultipleActivity } from '@/types/api'
+import { Checkbox, Group, Stack, Text } from '@mantine/core'
 import { useState } from 'react'
 import ActivityControls from './ActivityControls'
 import QuestionTitle from './QuestionTitle'
 import classes from './style.module.css'
 
-interface QeAViewProps {
-  activity: QeAActivity
+interface QeAMultipleViewProps {
+  activity: QeAMultipleActivity
   goToNextActivity?: () => void
-  onSubmit?: (option: number) => void
+  onSubmit?: (option: number[]) => void
 }
 
-export default function QeAView(props: QeAViewProps) {
+export default function QeAMultipleView(props: QeAMultipleViewProps) {
   const { activity, goToNextActivity, onSubmit } = props
   const { question, options, answer } = activity.data
-  const [value, setValue] = useState<string | null>(null)
+  const [value, setValue] = useState<string[]>([])
   const [status, setStatus] = useState<ActivityFeedbackStatus>('idle')
 
   const checkAnswer = () => {
-    setStatus(value === String(answer) ? 'correct' : 'wrong')
-    onSubmit?.(Number(value))
+    const isCorrect =
+      value.sort().join(',') === answer.map(String).sort().join(',')
+    setStatus(isCorrect ? 'correct' : 'wrong')
+    onSubmit?.(value.map(Number))
   }
 
   useConfetti(status === 'correct')
@@ -28,35 +30,35 @@ export default function QeAView(props: QeAViewProps) {
   return (
     <>
       <QuestionTitle question={question} />
-      <Radio.Group
-        value={value as string}
+      <Checkbox.Group
+        value={value as string[]}
         onChange={setValue}
-        description="Escolha uma resposta"
+        description="Selecione as respostas corretas"
         mt="md"
       >
         <Stack pt="md" gap="xs">
           {options.map(({ id, text }) => (
-            <Radio.Card
+            <Checkbox.Card
               className={classes['answer-card']}
               radius="md"
               value={String(id)}
               key={id}
             >
               <Group wrap="nowrap" align="flex-start">
-                <Radio.Indicator />
+                <Checkbox.Indicator />
                 <div>
                   <Text>{text}</Text>
                 </div>
               </Group>
-            </Radio.Card>
+            </Checkbox.Card>
           ))}
         </Stack>
-      </Radio.Group>
+      </Checkbox.Group>
       <ActivityControls
         status={status}
         onVerify={checkAnswer}
         onNext={goToNextActivity}
-        hasAnswer={!!value}
+        hasAnswer={value.length > 0}
       />
     </>
   )

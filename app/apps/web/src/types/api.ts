@@ -8,7 +8,8 @@ export interface Module {
 }
 
 export enum ActivityType {
-  QEA
+  QEA,
+  QEAMultiple
 }
 
 export enum ActivityStatus {
@@ -32,19 +33,21 @@ export interface QEA {
     id: number
     text: string
   }[]
-  isMultiple?: boolean
-  answer: number | number[]
+  answer: number
 }
 
-// Passo 3: A união discriminada que une tudo
-export type Activity = BaseActivity & {
+export interface QEAMultiple extends Omit<QEA, 'answer'> {
+  answer: number[]
+}
+
+export type QeAActivity = BaseActivity & {
   type: ActivityType.QEA
   data: QEA
 }
-// | BaseActivity & {
-//   type: ActivityType.Video;
-//   data: VideoData;
-// } | BaseActivity & {
-//   type: ActivityType.Text;
-//   data: TextData;
-// };
+
+export type QeAMultipleActivity = BaseActivity & {
+  type: ActivityType.QEAMultiple
+  data: QEAMultiple
+}
+
+export type Activity = QeAActivity | QeAMultipleActivity
