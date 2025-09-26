@@ -147,13 +147,24 @@ const ActionButtons = ({
             size="lg"
             radius="xl"
             px="sm"
+            aria-label="Jogar"
           >
             <PlayCircle />
           </Button>
         </Tooltip>
       )}
-      <Tooltip label="Conteúdos">
-        <Button variant="light" size="lg" radius="xl" px="sm">
+      <Tooltip label="Acessar materiais de apoio">
+        <Button
+          component={Link}
+          href={{
+            pathname: `/resources/${id}`
+          }}
+          variant="light"
+          size="lg"
+          radius="xl"
+          px="sm"
+          aria-label="Acessar materiais de apoio"
+        >
           <NotebookText />
         </Button>
       </Tooltip>

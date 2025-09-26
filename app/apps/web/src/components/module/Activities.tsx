@@ -3,16 +3,16 @@
 import { ATIVIDADE_BY_MODULE_INDEX_DATA } from '@/app/mockData'
 import { ActivityStatus, ActivityType, type Activity } from '@/types/api'
 import {
-  ActionIcon,
   Button,
   Card,
+  CloseButton,
   Flex,
   Group,
   Stack,
   ThemeIcon,
   useMantineTheme
 } from '@mantine/core'
-import { CircleCheck, CircleDashed, CircleX, X } from 'lucide-react'
+import { CircleCheck, CircleDashed, CircleX } from 'lucide-react'
 import { useState } from 'react'
 import QeAMultipleView from './QeAMultipleView'
 import QeAView from './QeAView'
@@ -60,17 +60,10 @@ export default function Activities({ moduleId }: ActivitiesProps) {
       <Card mt="lg" radius="md" withBorder>
         <Card.Section>
           <Flex justify="flex-end">
-            <ActionIcon
-              variant="subtle"
-              color="gray"
-              onClick={() => setSelectedActivity(null)}
+            <CloseButton
               aria-label="Fechar atividade"
-              size="lg"
-              radius="xl"
-              m={2}
-            >
-              <X size={16} />
-            </ActionIcon>
+              onClick={() => setSelectedActivity(null)}
+            />
           </Flex>
         </Card.Section>
         <ActivityContentSwitch activity={selectedActivity} />

@@ -1,9 +1,8 @@
 import { MODULE_DATA } from '@/app/mockData'
 import Activities from '@/components/module/Activities'
 import ProgressBar from '@/components/ui/ProgressBar'
-import { Button, Text, Title } from '@mantine/core'
-import { ArrowLeft } from 'lucide-react'
-import Link from 'next/link'
+import { Text, Title } from '@mantine/core'
+import PageActions from './PageActions'
 
 interface ModulePageProps {
   params: Promise<{ id: string }>
@@ -28,17 +27,8 @@ export default async function ModulePage({ params }: ModulePageProps) {
 
   return (
     <div>
-      <Button
-        component={Link}
-        variant="subtle"
-        href="/"
-        leftSection={<ArrowLeft size={16} />}
-        mb="sm"
-      >
-        Voltar
-      </Button>
-      {/* TODO: botão semelhante para o próximo módulo? na direita da página. */}
-      <Title order={1} mb="sm">
+      <PageActions id={id} />
+      <Title order={1} mt="md" mb="md">
         {module.name}
       </Title>
       {/* Possivelmente evoluir a visão da barra de progresso nessa página. */}
