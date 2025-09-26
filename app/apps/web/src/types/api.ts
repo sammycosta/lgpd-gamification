@@ -25,6 +25,7 @@ export interface BaseActivity {
   id: number
   name: string
   status: ActivityStatus
+  moduleId: number
 }
 
 export interface QEA {

@@ -57,6 +57,7 @@ export default function QeAView(props: QeAViewProps) {
         onVerify={checkAnswer}
         onNext={goToNextActivity}
         hasAnswer={!!value}
+        moduleId={activity.moduleId}
       />
     </>
   )

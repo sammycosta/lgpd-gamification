@@ -59,6 +59,7 @@ export interface ActivitiesByModuleIndex {
 export const ATIVIDADE_BY_MODULE_INDEX_DATA: ActivitiesByModuleIndex = {
   1: [
     {
+      moduleId: 1,
       id: 1,
       name: 'Pergunta 1',
       type: ActivityType.QEA,
@@ -84,6 +85,7 @@ export const ATIVIDADE_BY_MODULE_INDEX_DATA: ActivitiesByModuleIndex = {
       }
     },
     {
+      moduleId: 1,
       id: 2,
       name: 'Pergunta 2',
       type: ActivityType.QEA,
@@ -108,6 +110,8 @@ export const ATIVIDADE_BY_MODULE_INDEX_DATA: ActivitiesByModuleIndex = {
       }
     },
     {
+      moduleId: 1,
+
       id: 3,
       name: 'Pergunta 3',
       type: ActivityType.QEA,
@@ -132,6 +136,7 @@ export const ATIVIDADE_BY_MODULE_INDEX_DATA: ActivitiesByModuleIndex = {
       }
     },
     {
+      moduleId: 1,
       id: 4,
       name: 'Pergunta 4',
       type: ActivityType.QEAMultiple,

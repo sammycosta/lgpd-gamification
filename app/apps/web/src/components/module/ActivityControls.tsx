@@ -1,16 +1,18 @@
 import type { ActivityFeedbackStatus } from '@/types/api'
-import { Alert, Button, Group } from '@mantine/core'
-import { CircleCheck } from 'lucide-react'
+import { Alert, Anchor, Button, Group, Text } from '@mantine/core'
+import { CircleCheck, CircleX } from 'lucide-react'
+import Link from 'next/link'
 
 interface ActivityControlsProps {
   status: ActivityFeedbackStatus
   onNext?: () => void
   onVerify: () => void
   hasAnswer: boolean
+  moduleId: number
 }
 
 export default function ActivityControls(props: ActivityControlsProps) {
-  const { status, onNext, onVerify, hasAnswer } = props
+  const { status, onNext, onVerify, hasAnswer, moduleId } = props
   return (
     <>
       {status === 'correct' && (
@@ -19,8 +21,20 @@ export default function ActivityControls(props: ActivityControlsProps) {
         </Alert>
       )}
       {status === 'wrong' && (
-        <Alert mt="md" color="red" icon={<CircleCheck />} title="Incorreto">
+        <Alert mt="md" color="red" icon={<CircleX />} title="Incorreto">
           Não foi dessa vez. Tente novamente!
+          <Text fz="sm">
+            Você pode consultar os&nbsp;
+            <Anchor
+              component={Link}
+              href={{ pathname: `/resources/${moduleId}` }}
+              fz="sm"
+              fw={600}
+            >
+              materiais de apoio
+            </Anchor>
+            .
+          </Text>
         </Alert>
       )}
       <Group mt="md" justify="flex-end" gap="sm">

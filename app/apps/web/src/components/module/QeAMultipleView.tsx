@@ -59,6 +59,7 @@ export default function QeAMultipleView(props: QeAMultipleViewProps) {
         onVerify={checkAnswer}
         onNext={goToNextActivity}
         hasAnswer={value.length > 0}
+        moduleId={activity.moduleId}
       />
     </>
   )

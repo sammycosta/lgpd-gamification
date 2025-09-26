@@ -22,13 +22,13 @@ export default function PageActions({ id }: { id: string }) {
     <Group justify="space-between" mb="md">
       <ButtonGoBack url="/" label="Voltar ao início" />
       <Group gap="xs" visibleFrom="xs">
-        <Tooltip label="Abrir materiais de apoio">
+        <Tooltip label="Acessar materiais de apoio">
           <ActionIcon
             component={Link}
             href={urls.RECOURSES_PAGE}
             variant="subtle"
             color="blue"
-            aria-label="Abrir materiais de apoio"
+            aria-label="Acessar materiais de apoio"
             size="lg"
           >
             <NotebookText size={24} />
