@@ -8,5 +8,5 @@ export interface User {
   progressToNextLevel: number
   title: string // Pode depender PONTOS, LEVEL E BADGES. Posso futuramente fazer um acúmulo de títulos e escolha de título no perfil.
   badgeCount: number
-  badges?: Badge[]
+  badges: Badge[]
 }

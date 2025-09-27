@@ -9,11 +9,12 @@ import { MODULE_DATA } from './mockData'
 export default function Home() {
   const [modules, setModules] = useState(MODULE_DATA)
 
+  // TODO: Verificar possibilidade da tela maior ficar por mais tempo (breakpoint sm)
   return (
     <>
       <Box hiddenFrom="md">
         <Stack gap="md">
-          Componente de visualização do Perfil menor
+          <ProfileInfoBox small />
           <ModulesList modules={modules} />
         </Stack>
       </Box>
