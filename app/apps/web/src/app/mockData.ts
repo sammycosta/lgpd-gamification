@@ -1,5 +1,7 @@
 import { ActivityStatus, ActivityType, type Activity } from '@/types/api'
 
+// Todas essas informações abaixo tem também dependência do usuário que está puxando os dados
+
 export const MODULE_DATA = [
   {
     id: 1,

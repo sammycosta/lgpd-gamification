@@ -52,3 +52,10 @@ export type QeAMultipleActivity = BaseActivity & {
 }
 
 export type Activity = QeAActivity | QeAMultipleActivity
+
+export type BadgeType = 'gold' | 'silver' | 'bronze'
+
+export interface Badge {
+  moduleId: number
+  type: BadgeType
+}

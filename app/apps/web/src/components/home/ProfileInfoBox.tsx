@@ -1,33 +1,135 @@
-import { Box } from '@mantine/core'
+import { userDefault } from '@/app/mockUser'
+import {
+  ActionIcon,
+  Avatar,
+  Badge,
+  Box,
+  Card,
+  Group,
+  Progress,
+  Stack,
+  Text,
+  Tooltip
+} from '@mantine/core'
+import { CircleStar, Star } from 'lucide-react'
 
 export default function ProfileInfoBox() {
+  const user = userDefault // Atualmente: dados e informações mockadas
+  const requiredPointsForNextLevel = 2500 // Exemplo para o cálculo da barra
+  const progressPercent = Math.min(
+    100,
+    (user.points / requiredPointsForNextLevel) * 100
+  )
+
   return (
-    <Box>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus enim
-      quis lobortis congue. Etiam laoreet vehicula felis eget congue. Ut quis
-      urna non neque fermentum porttitor sed eu quam. Maecenas consectetur
-      pellentesque mi, eget malesuada quam porta ac. Donec at velit quam.
-      Maecenas condimentum elementum odio, vel dapibus felis rhoncus sed. Cras
-      dapibus sit amet enim non faucibus. In nisi orci, blandit in porta in,
-      malesuada vitae eros. Vivamus consectetur ornare ipsum, vitae commodo
-      nulla tincidunt sit amet. Morbi a neque id neque iaculis maximus vitae a
-      mi. Suspendisse vestibulum justo fringilla dolor facilisis commodo. Nulla
-      maximus egestas auctor. Phasellus eget felis eu lorem dignissim venenatis.
-      Nullam quis mi ac quam vestibulum congue. Phasellus ultrices velit in est
-      posuere facilisis. Curabitur id massa ac dui dignissim tempus. Aenean id
-      ornare diam. Etiam eu bibendum mauris, in rutrum ipsum. Donec mattis neque
-      non commodo sollicitudin. Etiam pretium vitae mi vel finibus. Donec sed
-      iaculis felis. Quisque hendrerit scelerisque felis, at varius turpis
-      mattis in. Nam ultrices risus vel eros pharetra, ut lobortis libero
-      porttitor. Donec et pharetra lectus. Nulla facilisi. Vivamus pretium eget
-      felis id molestie. Integer bibendum non felis viverra luctus. Orci varius
-      natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-      Mauris sed congue diam. Pellentesque mattis elit a arcu convallis
-      efficitur. Aenean porta tortor at vestibulum semper. Ut varius tellus eget
-      dolor ultrices, vel varius ante rutrum. Ut libero est, ornare id eleifend
-      quis, molestie a odio. In semper lectus at orci vulputate ultricies.
-      Vivamus at eros vitae ante imperdiet lacinia eu eu tortor. Donec erat
-      erat, tincidunt eu purus a, convallis semper tellus.
+    <Box bg="var(--mantine-color-body)">
+      <Stack align="center" gap="xs" mb="xl">
+        <Avatar
+          src={user.avatar}
+          alt="Avatar do usuário"
+          size={120}
+          radius="xl"
+        />
+
+        <Text fw={700} fz="xl">
+          {user.name}
+        </Text>
+        <Badge
+          variant="gradient"
+          gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+          size="lg"
+          radius="xl"
+          leftSection={<Star size={14} />}
+          tt="uppercase"
+          fw={700}
+        >
+          {user.title}
+        </Badge>
+      </Stack>
+
+      <Card withBorder>
+        <Stack gap="lg">
+          <Text fw={600} fz="lg" c="dimmed">
+            Progresso
+          </Text>
+
+          {/* A. NÍVEL */}
+          <Group justify="space-between" align="flex-end" wrap="nowrap">
+            <Text fw={700} fz={48} c="blue.7" lh={1}>
+              {user.level}
+            </Text>
+            <Stack gap={0} align="flex-end">
+              <Text fw={600} fz="md" c="blue.7">
+                NÍVEL ATUAL
+              </Text>
+              <Text fz="xs" c="dimmed">
+                Avance para mais prêmios
+              </Text>
+            </Stack>
+          </Group>
+
+          <Stack gap={0}>
+            <Group justify="space-between">
+              <Text fz="sm" fw={500} c="dimmed">
+                {user.points} XP
+              </Text>
+              <Text fz="sm" fw={500} c="dimmed">
+                {user.progressToNextLevel} XP
+              </Text>
+            </Group>
+            <Progress
+              value={progressPercent}
+              color="blue"
+              size="xl"
+              radius="sm"
+            />
+          </Stack>
+        </Stack>
+      </Card>
+
+      {/* TODO: Melhorar visualização quando dados forem dinâmicos. Melhorar responsividade. */}
+      <Card withBorder mt="lg">
+        <Stack gap="lg">
+          <Text fw={600} fz="lg" c="dimmed">
+            Emblemas ({user.badgeCount})
+          </Text>
+
+          <Group gap="sm">
+            {user.badges?.map((badge, index) => {
+              const color =
+                badge.type === 'gold'
+                  ? 'yellow'
+                  : badge.type === 'silver'
+                  ? 'gray'
+                  : 'orange'
+              const title =
+                badge.type.charAt(0).toUpperCase() + badge.type.slice(1)
+
+              return (
+                <Tooltip
+                  key={index}
+                  label={`Módulo ${badge.moduleId}: ${title}`}
+                  withArrow
+                >
+                  <Stack align="center" gap={4} w={70}>
+                    <ActionIcon
+                      size={64}
+                      radius="xl"
+                      variant="light"
+                      color={color}
+                    >
+                      <CircleStar size={48} />
+                    </ActionIcon>
+                    <Text fz="xs" c="dimmed" ta="center">
+                      Módulo {badge.moduleId}
+                    </Text>
+                  </Stack>
+                </Tooltip>
+              )
+            })}
+          </Group>
+        </Stack>
+      </Card>
     </Box>
   )
 }
