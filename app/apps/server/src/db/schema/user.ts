@@ -17,8 +17,12 @@ export const users = sqliteTable("users", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
   points: integer("points").default(0).notNull(),
-  avatarId: integer("avatar_id").references(() => avatars.id), // Colocar um default depois.
-  titleId: integer("title_id").references(() => titles.id), // Colocar um default depois.
+  avatarId: integer("avatar_id")
+    .references(() => avatars.id)
+    .notNull(), // Colocar um default depois.
+  titleId: integer("title_id")
+    .references(() => titles.id)
+    .notNull(), // Colocar um default depois.
 });
 
 export const badgeTypes = sqliteTable("badge_types", {

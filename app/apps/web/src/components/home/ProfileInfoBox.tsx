@@ -1,4 +1,4 @@
-import { userDefault } from '@/app/mockUser'
+import { trpc } from '@/utils/trpc'
 import {
   ActionIcon,
   Avatar,
@@ -12,15 +12,28 @@ import {
   ThemeIcon,
   Tooltip
 } from '@mantine/core'
+import { useQuery } from '@tanstack/react-query'
 import { CircleStar, Star } from 'lucide-react'
 
 export default function ProfileInfoBox({ small }: { small?: boolean }) {
-  const user = userDefault // Atualmente: dados e informações mockadas
-  const requiredPointsForNextLevel = 2500 // Exemplo para o cálculo da barra
-  const progressPercent = Math.min(
-    100,
-    (user.points / requiredPointsForNextLevel) * 100
+  // TODO: Tratar chamada para um contexto ou service, e tratar erros e loading etc
+  const userInfoQuery = useQuery(
+    trpc.user.getUserInfo.queryOptions({ userId: 1 })
   )
+  const user = userInfoQuery.data
+  if (!user) return null
+
+  const {
+    name,
+    title,
+    avatarPath,
+    level,
+    points,
+    badges,
+    badgeCount,
+    progressPercent,
+    requiredPointsToNextLevel
+  } = user
 
   const badgeColor = (type: string) =>
     type === 'gold' ? 'yellow' : type === 'silver' ? 'gray' : 'orange'
@@ -31,16 +44,16 @@ export default function ProfileInfoBox({ small }: { small?: boolean }) {
         <Group justify="space-between" wrap="nowrap">
           <Group gap="sm" wrap="nowrap">
             <Avatar
-              src={user.avatar}
+              src={`/${avatarPath}`}
               alt="Avatar do usuário"
               size={64}
               radius="xl"
             />
             <Stack gap={0}>
               <Text fw={700} fz="lg">
-                {user.name}
+                {name}
               </Text>
-              <TitleBadge title={user.title} small />
+              <TitleBadge title={title} small />
             </Stack>
           </Group>
           <Stack gap={0} align="flex-end">
@@ -48,19 +61,19 @@ export default function ProfileInfoBox({ small }: { small?: boolean }) {
               Nível
             </Text>
             <Text fw={700} fz="xl" c="blue.7">
-              {user.level}
+              {level}
             </Text>
           </Stack>
         </Group>
         <LevelProgress
-          points={user.points}
+          points={points}
           progressPercent={progressPercent}
-          progressToNextLevel={requiredPointsForNextLevel}
+          progressToNextLevel={requiredPointsToNextLevel}
           small
         />
         {/* TODO: Melhorar responsividade das badges */}
         <Group gap="xs" wrap="nowrap">
-          {user.badges?.slice(0, 4).map((badge, index) => (
+          {badges?.slice(0, 4).map((badge, index) => (
             <Tooltip key={index} label={`Módulo ${badge.moduleId}`} withArrow>
               <ThemeIcon
                 size={40}
@@ -73,10 +86,10 @@ export default function ProfileInfoBox({ small }: { small?: boolean }) {
             </Tooltip>
           ))}
           {/* Número limite pode ser dinâmico calculando o espaço da tela? */}
-          {user.badges.length > 4 && (
-            <Tooltip label={`+${user.badges.length - 4} emblemas`}>
+          {badgeCount > 4 && (
+            <Tooltip label={`+${badgeCount - 4} emblemas`}>
               <ActionIcon size={40} radius="xl" variant="light" color="gray">
-                +{user.badges.length - 4}
+                +{badgeCount - 4}
               </ActionIcon>
             </Tooltip>
           )}
@@ -89,15 +102,15 @@ export default function ProfileInfoBox({ small }: { small?: boolean }) {
     <Box bg="var(--mantine-color-body)">
       <Stack align="center" gap="xs" mb="xl">
         <Avatar
-          src={user.avatar}
+          src={`/${avatarPath}`}
           alt="Avatar do usuário"
           size={120}
           radius="xl"
         />
         <Text fw={700} fz="xl">
-          {user.name}
+          {name}
         </Text>
-        <TitleBadge title={user.title} />
+        <TitleBadge title={title} />
       </Stack>
       <Card withBorder>
         <Stack gap="lg">
@@ -106,7 +119,7 @@ export default function ProfileInfoBox({ small }: { small?: boolean }) {
           </Text>
           <Group justify="space-between" align="flex-end" wrap="nowrap">
             <Text fw={700} fz={48} c="blue.7" lh={1}>
-              {user.level}
+              {level}
             </Text>
             <Stack gap={0} align="flex-end">
               <Text fw={600} fz="md" c="blue.7">
@@ -118,9 +131,9 @@ export default function ProfileInfoBox({ small }: { small?: boolean }) {
             </Stack>
           </Group>
           <LevelProgress
-            points={user.points}
+            points={points}
             progressPercent={progressPercent}
-            progressToNextLevel={requiredPointsForNextLevel}
+            progressToNextLevel={requiredPointsToNextLevel}
           />
         </Stack>
       </Card>
@@ -129,11 +142,11 @@ export default function ProfileInfoBox({ small }: { small?: boolean }) {
       <Card withBorder mt="lg">
         <Stack gap="lg">
           <Text fw={600} fz="lg" c="dimmed">
-            Emblemas ({user.badgeCount})
+            Emblemas ({badgeCount})
           </Text>
 
           <Group gap="sm">
-            {user.badges?.map((badge, index) => {
+            {badges?.map((badge, index) => {
               const title =
                 badge.type.charAt(0).toUpperCase() + badge.type.slice(1)
 
