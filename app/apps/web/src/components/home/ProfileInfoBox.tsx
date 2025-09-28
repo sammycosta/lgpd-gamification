@@ -7,6 +7,7 @@ import {
   Card,
   Group,
   Progress,
+  Skeleton,
   Stack,
   Text,
   ThemeIcon,
@@ -20,7 +21,21 @@ export default function ProfileInfoBox({ small }: { small?: boolean }) {
   const userInfoQuery = useQuery(
     trpc.user.getUserInfo.queryOptions({ userId: 1 })
   )
+
+  // TODO: possivelmente melhorar isso aqui
+  if (userInfoQuery.isLoading) {
+    return (
+      <>
+        <Skeleton height={50} circle mb="xl" />
+        <Skeleton height={8} radius="xl" />
+        <Skeleton height={8} mt={6} radius="xl" />
+        <Skeleton height={8} mt={6} width="70%" radius="xl" />
+      </>
+    )
+  }
+
   const user = userInfoQuery.data
+
   if (!user) return null
 
   const {
@@ -149,7 +164,6 @@ export default function ProfileInfoBox({ small }: { small?: boolean }) {
             {badges?.map((badge, index) => {
               const title =
                 badge.type.charAt(0).toUpperCase() + badge.type.slice(1)
-
               return (
                 <Tooltip
                   key={index}
