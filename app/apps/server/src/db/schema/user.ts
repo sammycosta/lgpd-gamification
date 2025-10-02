@@ -56,7 +56,7 @@ export const userBadges = sqliteTable(
       .notNull(),
   },
   (table) => [
-    unique("unique_user_module").on(table.userId, table.moduleId),
+    unique("user_badges_user_id_module_id_uk").on(table.userId, table.moduleId),
     index("user_badges_user_id_idx").on(table.userId),
     index("user_badges_module_id_idx").on(table.moduleId),
     index("user_badges_type_id_idx").on(table.typeId),

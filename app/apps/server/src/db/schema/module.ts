@@ -1,12 +1,27 @@
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import {
+  foreignKey,
+  index,
+  integer,
+  sqliteTable,
+  text,
+} from "drizzle-orm/sqlite-core";
 
-export const modules = sqliteTable("modules", {
-  id: integer("id").primaryKey(),
-  name: text("name").notNull(),
-  maxPoints: integer("max_points").notNull(),
-  // Como fazer auto-referencia?
-  // requiredModule: integer("required_module").references(() => modules.id),
-});
+export const modules = sqliteTable(
+  "modules",
+  {
+    id: integer("id").primaryKey(),
+    name: text("name").notNull(),
+    maxPoints: integer("max_points").notNull(),
+    requiredModuleId: integer("required_module_id"),
+  },
+  (table) => [
+    foreignKey({
+      name: "modules_required_module_id_fk",
+      columns: [table.requiredModuleId],
+      foreignColumns: [table.id],
+    }),
+  ]
+);
 
 export const activityTypes = sqliteTable("activity_types", {
   id: integer("id").primaryKey(),
