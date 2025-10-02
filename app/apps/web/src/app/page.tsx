@@ -2,14 +2,18 @@
 
 import ModulesList from '@/components/home/ModulesList'
 import ProfileInfoBox from '@/components/home/ProfileInfoBox'
-import { Box, Grid, GridCol, Stack } from '@mantine/core'
-import { useState } from 'react'
-import { MODULE_DATA } from './mockData'
+import { useModules } from '@/hooks/useModules'
+import { Box, Grid, GridCol, Loader, Stack } from '@mantine/core'
 
 export default function Home() {
-  const [modules, setModules] = useState(MODULE_DATA)
+  const { isLoading, data: modules } = useModules(1)
 
-  // TODO: Verificar possibilidade da tela maior ficar por mais tempo (breakpoint sm)
+  if (isLoading) {
+    return <Loader />
+  } else if (!modules) {
+    return null // Não deve acontecer
+  }
+
   return (
     <>
       <Box hiddenFrom="md">

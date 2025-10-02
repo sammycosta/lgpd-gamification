@@ -1,5 +1,5 @@
 export interface Module {
-  id: string | number
+  id: number
   name: string
   icon?: React.ReactNode
   points: number
