@@ -51,7 +51,8 @@ export const qnaDetails = sqliteTable(
   {
     activityId: integer("activity_id")
       .references(() => activities.id)
-      .primaryKey(), // Garante herança 1:1
+      .primaryKey()
+      .notNull(), // Garante herança 1:1
     question: text("question").notNull(),
     isMultiple: integer("is_multiple", { mode: "boolean" })
       .notNull()
