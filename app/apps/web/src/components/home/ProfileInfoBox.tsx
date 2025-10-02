@@ -1,4 +1,4 @@
-import { trpc } from '@/utils/trpc'
+import { useUserInfo } from '@/hooks/useUserInfo'
 import {
   ActionIcon,
   Avatar,
@@ -13,17 +13,13 @@ import {
   ThemeIcon,
   Tooltip
 } from '@mantine/core'
-import { useQuery } from '@tanstack/react-query'
 import { CircleStar, Star } from 'lucide-react'
 
 export default function ProfileInfoBox({ small }: { small?: boolean }) {
-  // TODO: Tratar chamada para um contexto ou service, e tratar erros e loading etc
-  const userInfoQuery = useQuery(
-    trpc.user.getUserInfo.queryOptions({ userId: 1 })
-  )
+  const { data: user, isLoading } = useUserInfo(1)
 
   // TODO: possivelmente melhorar isso aqui
-  if (userInfoQuery.isLoading) {
+  if (isLoading) {
     return (
       <>
         <Skeleton height={50} circle mb="xl" />
@@ -33,8 +29,6 @@ export default function ProfileInfoBox({ small }: { small?: boolean }) {
       </>
     )
   }
-
-  const user = userInfoQuery.data
 
   if (!user) return null
 
