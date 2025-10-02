@@ -21,26 +21,27 @@ import Link from 'next/link'
 import ProgressBar from '../ui/ProgressBar'
 
 interface ModuleCardProps {
-  id: string | number // Deve vir da estrutura e ser chave pra redirecionar para atividades, etc.
+  id: number
   name: string
   icon?: React.ReactNode
   points: number
   maxPoints: number
   locked: boolean
+  progressPercentage: number
 }
 
 export default function ModuleCard({
+  id,
   name,
   icon,
   points,
   maxPoints,
   locked,
-  id
+  progressPercentage
 }: ModuleCardProps) {
   const theme = useMantineTheme()
   const biggerThanXs = useMediaQuery(`(min-width: ${theme.breakpoints.xs})`)
 
-  const progressPercentage = (points / maxPoints) * 100
   const iconComponent = icon || (
     <BookOpenText
       size={100}

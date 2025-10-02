@@ -9,5 +9,6 @@ export async function getModules(userId: number) {
     points: points ?? 0,
     maxPoints,
     locked: userModulesId == null,
+    progressPercentage: (points ?? 0 / maxPoints) * 100,
   }));
 }

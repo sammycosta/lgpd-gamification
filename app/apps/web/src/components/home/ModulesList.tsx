@@ -7,20 +7,12 @@ interface ModulesListProps {
 }
 
 export default function ModulesList({ modules }: ModulesListProps) {
-  // TODO: Rever melhoria pra isso, talvez receber dados necessários da estrutura do servidor.
-  const firstLockedIndex = modules.findIndex((m) => m.locked)
-  const activeStep =
-    firstLockedIndex === -1 ? modules.length - 1 : firstLockedIndex - 1
-
   return (
     <Stack gap={0} align="center">
       {modules.map((module, index) => (
         <Box key={module.id} w="100%">
+          <LinePath active={!module.locked} visible={index != 0} />
           <ModuleCard {...module} />
-          <LinePath
-            active={index <= activeStep}
-            visible={index < modules.length - 1}
-          />
         </Box>
       ))}
     </Stack>

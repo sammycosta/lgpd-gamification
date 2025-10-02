@@ -5,6 +5,7 @@ export interface Module {
   points: number
   maxPoints: number
   locked: boolean
+  progressPercentage: number
 }
 
 export enum ActivityType {
