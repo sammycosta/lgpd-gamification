@@ -3,7 +3,7 @@ import { modules } from "@/db/schema";
 import { userModules } from "@/db/schema/userModule";
 import { and, eq } from "drizzle-orm";
 
-export async function getModulesByUserId(userId: number) {
+function baseModuleQueryByUserId(userId: number) {
   return db
     .select({
       id: modules.id,
@@ -17,7 +17,12 @@ export async function getModulesByUserId(userId: number) {
     .leftJoin(
       userModules,
       and(eq(userModules.moduleId, modules.id), eq(userModules.userId, userId))
-    )
-    .orderBy(modules.id)
-    .all();
+    );
+}
+export async function getModulesByUserId(userId: number) {
+  return baseModuleQueryByUserId(userId).orderBy(modules.id).all();
+}
+
+export async function getModuleById(userId: number, moduleId: number) {
+  return baseModuleQueryByUserId(userId).where(eq(modules.id, moduleId)).get();
 }

@@ -1,5 +1,5 @@
 import { useConfetti } from '@/hooks/useConfetti'
-import type { ActivityFeedbackStatus, QeAMultipleActivity } from '@/types/api'
+import type { ActivityFeedbackStatus, QnAActivity } from '@/types/api'
 import { Checkbox, Group, Stack, Text } from '@mantine/core'
 import { useState } from 'react'
 import ActivityControls from './ActivityControls'
@@ -7,20 +7,20 @@ import QuestionTitle from './QuestionTitle'
 import classes from './style.module.css'
 
 interface QeAMultipleViewProps {
-  activity: QeAMultipleActivity
+  activity: QnAActivity
   goToNextActivity?: () => void
   onSubmit?: (option: number[]) => void
 }
 
 export default function QeAMultipleView(props: QeAMultipleViewProps) {
   const { activity, goToNextActivity, onSubmit } = props
-  const { question, options, answer } = activity.data
+  const { question, options, answers } = activity.data
   const [value, setValue] = useState<string[]>([])
   const [status, setStatus] = useState<ActivityFeedbackStatus>('idle')
 
   const checkAnswer = () => {
     const isCorrect =
-      value.sort().join(',') === answer.map(String).sort().join(',')
+      value.sort().join(',') === answers.map(String).sort().join(',')
     setStatus(isCorrect ? 'correct' : 'wrong')
     onSubmit?.(value.map(Number))
   }

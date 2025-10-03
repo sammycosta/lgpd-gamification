@@ -9,14 +9,13 @@ export interface Module {
 }
 
 export enum ActivityType {
-  QEA,
-  QEAMultiple
+  QNA = 1
 }
 
 export enum ActivityStatus {
   TODO,
   WRONG,
-  RIGHT
+  CORRECT
 }
 
 //TODO: Depois ver se troco pra enum proprio ou reutilizo o enum de cima
@@ -27,32 +26,26 @@ export interface BaseActivity {
   name: string
   status: ActivityStatus
   moduleId: number
+  points: number
 }
 
-export interface QEA {
+export interface QNA {
   question: string
   options: {
     id: number
     text: string
   }[]
-  answer: number
+  answers: number[]
+  isMultiple: boolean
 }
 
-export interface QEAMultiple extends Omit<QEA, 'answer'> {
-  answer: number[]
+// Posso separar para mais tipos depois
+export type QnAActivity = BaseActivity & {
+  type: ActivityType.QNA
+  data: QNA
 }
 
-export type QeAActivity = BaseActivity & {
-  type: ActivityType.QEA
-  data: QEA
-}
-
-export type QeAMultipleActivity = BaseActivity & {
-  type: ActivityType.QEAMultiple
-  data: QEAMultiple
-}
-
-export type Activity = QeAActivity | QeAMultipleActivity
+export type Activity = QnAActivity
 
 export type BadgeType = 'gold' | 'silver' | 'bronze'
 

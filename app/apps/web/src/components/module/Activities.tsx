@@ -1,6 +1,6 @@
 'use client'
 
-import { ATIVIDADE_BY_MODULE_INDEX_DATA } from '@/app/mockData'
+import { useActivities } from '@/hooks/useActivities'
 import { ActivityStatus, ActivityType, type Activity } from '@/types/api'
 import {
   Button,
@@ -8,6 +8,7 @@ import {
   CloseButton,
   Flex,
   Group,
+  Loader,
   Stack,
   ThemeIcon,
   useMantineTheme
@@ -22,20 +23,20 @@ interface ActivitiesProps {
 }
 
 export default function Activities({ moduleId }: ActivitiesProps) {
+  const { isLoading, data: activities } = useActivities(1, moduleId)
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(
     null
   )
   const theme = useMantineTheme()
 
-  const activiesData = ATIVIDADE_BY_MODULE_INDEX_DATA[moduleId]
-
-  if (!activiesData) {
-    //TODO: Fazer visão bonita.
+  if (isLoading) {
+    return <Loader />
+  } else if (!activities) {
     return <div>Sem atividades para esse módulo por enquanto!</div>
   }
 
   const ActivityStyle = {
-    [ActivityStatus.RIGHT]: {
+    [ActivityStatus.CORRECT]: {
       icon: <CircleCheck />,
       iconColor: 'green',
       buttonVariant: 'light',
@@ -73,7 +74,7 @@ export default function Activities({ moduleId }: ActivitiesProps) {
 
   return (
     <Stack mt="lg">
-      {activiesData.map((activity, index) => {
+      {activities.map((activity, index) => {
         const { icon, iconColor, buttonVariant, buttonColor } =
           ActivityStyle[activity.status]
 
@@ -103,10 +104,13 @@ export default function Activities({ moduleId }: ActivitiesProps) {
 
 const ActivityContentSwitch = ({ activity }: { activity: Activity }) => {
   switch (activity.type) {
-    case ActivityType.QEA:
-      return <QeAView activity={activity} /> //Ver depois de passar só data
-    case ActivityType.QEAMultiple:
-      return <QeAMultipleView activity={activity} />
+    case ActivityType.QNA:
+      // Ver depois se é possível passar só data.
+      return activity.data.isMultiple ? (
+        <QeAMultipleView activity={activity} />
+      ) : (
+        <QeAView activity={activity} />
+      )
     default:
       return <div>invalid type</div>
   }

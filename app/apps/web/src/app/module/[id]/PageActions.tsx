@@ -10,11 +10,11 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 
-export default function PageActions({ id }: { id: string }) {
+export default function PageActions({ id }: { id: number }) {
   const urls = {
     RECOURSES_PAGE: { pathname: `/resources/${id}` },
-    PREVIOUS_MODULE: { pathname: `/module/${Number(id) - 1}` },
-    NEXT_MODULE: { pathname: `/module/${Number(id) + 1}` }
+    PREVIOUS_MODULE: { pathname: `/module/${id - 1}` },
+    NEXT_MODULE: { pathname: `/module/${id + 1}` }
   }
 
   // TODO: Verificação de existência de módulos anteriores e próximos.

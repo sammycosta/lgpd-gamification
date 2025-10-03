@@ -37,7 +37,9 @@ export const activities = sqliteTable(
     moduleId: integer("module_id")
       .references(() => modules.id)
       .notNull(),
-    typeId: integer("type_id").references(() => activityTypes.id),
+    typeId: integer("type_id")
+      .references(() => activityTypes.id)
+      .notNull(),
     points: integer("points").notNull().default(10),
   },
   (table) => [
