@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { db, DrizzleClient } from "@/db";
 import { modules } from "@/db/schema";
 import { userModules } from "@/db/schema/userModule";
 import { and, eq } from "drizzle-orm";
@@ -25,7 +25,6 @@ export async function getModulesByUserId(userId: number) {
 
 export async function getModuleById(userId: number, moduleId: number) {
   const dependentModules = alias(modules, "dependentModules");
-
   return db
     .select({
       id: modules.id,
@@ -43,6 +42,39 @@ export async function getModuleById(userId: number, moduleId: number) {
       and(eq(userModules.moduleId, modules.id), eq(userModules.userId, userId))
     )
     .leftJoin(
+      dependentModules,
+      eq(dependentModules.requiredModuleId, modules.id)
+    )
+    .get();
+}
+
+export async function updateUserModulePoints(
+  userModulesId: number,
+  points: number,
+  dbClient: DrizzleClient = db
+) {
+  return await dbClient
+    .update(userModules)
+    .set({ points })
+    .where(eq(userModules.id, userModulesId))
+    .run();
+}
+
+export async function createUserModule(
+  userId: number,
+  moduleId: number,
+  dbClient: DrizzleClient = db
+) {
+  return await dbClient.insert(userModules).values({ userId, moduleId }).run();
+}
+
+export async function getDependentModule(moduleId: number) {
+  const dependentModules = alias(modules, "dependentModules");
+  return await db
+    .select({ id: dependentModules.id })
+    .from(modules)
+    .where(eq(modules.id, moduleId))
+    .innerJoin(
       dependentModules,
       eq(dependentModules.requiredModuleId, modules.id)
     )

@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { db, DrizzleClient } from "@/db";
 import { avatars, badgeTypes, titles, userBadges, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
@@ -27,4 +27,13 @@ export async function getUserBadgesById(userId: number) {
     .innerJoin(badgeTypes, eq(userBadges.typeId, badgeTypes.id))
     .where(eq(userBadges.userId, userId))
     .all();
+}
+
+// TODO: usar enum pra tipo bronze
+export async function createUserBadge(
+  userId: number,
+  moduleId: number,
+  dbClient: DrizzleClient = db
+) {
+  dbClient.insert(userBadges).values({ userId, moduleId, typeId: 1 }).run();
 }

@@ -1,4 +1,9 @@
-import { getUserBadgesById, getUserById } from "@/repositories/user";
+import { DrizzleClient } from "@/db";
+import {
+  createUserBadge,
+  getUserBadgesById,
+  getUserById,
+} from "@/repositories/user";
 
 export async function getUserInfo(userId: number) {
   const userInfo = await getUserById(userId);
@@ -59,4 +64,24 @@ function calculateLevel(points: number) {
   }
 
   return currentLevel;
+}
+
+// TODO
+export async function grantUserBadges(
+  userId: number,
+  moduleId: number,
+  oldModuleProgress: number,
+  newModuleProgress: number,
+  dbClient: DrizzleClient
+) {
+  // Lembrete: só mantenho a de nível mais alto.
+  if (oldModuleProgress < 0.7 && newModuleProgress >= 0.7) {
+    createUserBadge(userId, moduleId, dbClient);
+  } else if (oldModuleProgress < 0.85 && newModuleProgress >= 0.85) {
+    // BUSCAR BADGE
+    // UPDATE BADGE
+  } else if (oldModuleProgress < 1 && newModuleProgress == 1) {
+    // BUSCAR BADGE
+    // UPDATE BADGE
+  }
 }

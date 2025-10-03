@@ -72,7 +72,6 @@ export default function PageActions(props: PageActionsProps) {
               <EllipsisVertical size={20} />
             </ActionIcon>
           </Menu.Target>
-
           <Menu.Dropdown>
             <Menu.Item
               component={Link}

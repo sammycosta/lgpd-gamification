@@ -1,7 +1,14 @@
+import { db } from "@/db";
 import {
+  createUserActivity,
   getActivitiesByModuleId,
+  getActivityById,
   getQnaOptionsByActivityIds,
+  getUserActivity,
+  updateUserActivity,
 } from "@/repositories/activity";
+import { TRPCError } from "@trpc/server";
+import { updateModuleProgress } from "./moduleService";
 
 const QNA = 1; //FAZER ENUM
 
@@ -64,5 +71,40 @@ export async function getActivities(userId: number, moduleId: number) {
       ...baseActivity,
       data,
     }; // Ter uns tipos mais adequados aqui depois.
+  });
+}
+
+export async function submitActivityResult(
+  userId: number,
+  activityId: number,
+  isCorrect: boolean
+) {
+  const activity = await getActivityById(activityId);
+
+  if (!activity) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "Atividade não existe.",
+    });
+  }
+
+  const userActivity = await getUserActivity(userId, activityId);
+
+  if (userActivity && userActivity.isCorrect) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "Não é possível alterar atividades já corretas.",
+    });
+  }
+
+  return db.transaction(async (tx) => {
+    if (!userActivity) {
+      await createUserActivity(userId, activityId, isCorrect, tx);
+    } else {
+      await updateUserActivity(userActivity.id, isCorrect, tx);
+    }
+    if (isCorrect) {
+      await updateModuleProgress(userId, activity, tx);
+    }
   });
 }
