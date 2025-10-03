@@ -30,7 +30,14 @@ export async function getModules(userId: number) {
 export async function getModule(userId: number, moduleId: number) {
   const module = await getModuleById(userId, moduleId);
   if (module) {
-    return mapModule(module);
+    const baseModule = mapModule(module);
+
+    console.log(module);
+    return {
+      ...baseModule,
+      previousModuleId: module.requiredModuleId,
+      nextModuleId: module.dependentModuleId,
+    };
   }
   throw new TRPCError({ code: "NOT_FOUND", message: "Módulo não encontrado." });
 }

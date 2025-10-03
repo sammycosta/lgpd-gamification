@@ -20,17 +20,30 @@ export default function ModuleClient({ moduleId }: { moduleId: number }) {
     return <div>Módulo bloqueado</div>
   }
 
+  const {
+    previousModuleId,
+    nextModuleId,
+    progressPercentage,
+    points,
+    maxPoints
+  } = module
+
   return (
     <div>
-      <PageActions id={moduleId} />
+      <PageActions
+        moduleId={moduleId}
+        previousModuleId={previousModuleId}
+        nextModuleId={nextModuleId}
+        progressPercentage={progressPercentage}
+      />
       <Title order={1} mt="md" mb="md">
         {module.name}
       </Title>
       {/* Possivelmente evoluir a visão da barra de progresso nessa página. */}
       {/* Text sempre parece vir com a progressbar, talvez unir? */}
-      <ProgressBar progressPercentage={module.progressPercentage} checkSmall />
+      <ProgressBar progressPercentage={progressPercentage} checkSmall />
       <Text fz="xs" c="dimmed" mt={4}>
-        {`${module.points} / ${module.maxPoints} pontos`}
+        {`${points} / ${maxPoints} pontos`}
       </Text>
       <Activities moduleId={moduleId} />
     </div>

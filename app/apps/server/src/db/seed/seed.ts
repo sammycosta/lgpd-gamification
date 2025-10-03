@@ -54,7 +54,7 @@ async function insertModules() {
       .values({ name, maxPoints, requiredModuleId: previousModuleId })
       .returning({ id: modules.id });
 
-    previousModuleId = newModule.id;
+    previousModuleId = newModule.id; // Rever depois essa lógica, porque parece não estar dando certo.
   });
 }
 
