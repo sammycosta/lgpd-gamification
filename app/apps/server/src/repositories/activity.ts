@@ -3,6 +3,7 @@ import { activities, qnaDetails, qnaOptions } from "@/db/schema";
 import { userActivities } from "@/db/schema/userModule";
 import { and, eq, inArray } from "drizzle-orm";
 
+// Provavelmente não vale puxar isCorrect pro front, pois o back valida isso.
 export async function getActivitiesByModuleId(
   userId: number,
   moduleId: number
@@ -32,6 +33,22 @@ export async function getActivitiesByModuleId(
     .all();
 }
 
+export async function getQnaDetailsByActivityId(activityId: number) {
+  return db
+    .select({ isMultiple: qnaDetails.isMultiple })
+    .from(qnaDetails)
+    .where(eq(qnaDetails.activityId, activityId))
+    .get();
+}
+
+export async function getCorrectQnaOptionsByActivityId(activityId: number) {
+  return db
+    .select({ id: qnaOptions.id })
+    .from(qnaOptions)
+    .where(and(eq(qnaOptions.activityId, activityId), qnaOptions.isCorrect))
+    .all();
+}
+
 export async function getQnaOptionsByActivityIds(activityIds: number[]) {
   const rows = await db
     .select({
@@ -55,7 +72,12 @@ export async function getQnaOptionsByActivityIds(activityIds: number[]) {
 
 export async function getActivityById(activityId: number) {
   return await db
-    .select({ moduleId: activities.moduleId, points: activities.points })
+    .select({
+      id: activities.id,
+      moduleId: activities.moduleId,
+      points: activities.points,
+      typeId: activities.typeId,
+    })
     .from(activities)
     .where(eq(activities.id, activityId))
     .get();

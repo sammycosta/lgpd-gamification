@@ -2,6 +2,8 @@ import { db } from "@/db";
 import {
   getActivitiesByModuleId,
   getActivityById,
+  getCorrectQnaOptionsByActivityId,
+  getQnaDetailsByActivityId,
   getQnaOptionsByActivityIds,
 } from "@/repositories/activity";
 import {
@@ -9,6 +11,7 @@ import {
   getUserActivity,
   updateUserActivity,
 } from "@/repositories/userActivity";
+import { arraysEqualIgnoreOrder } from "@/util/array";
 import { TRPCError } from "@trpc/server";
 import { updateModuleProgress } from "./moduleService";
 import { updateUserProgress } from "./userService";
@@ -80,7 +83,7 @@ export async function getActivities(userId: number, moduleId: number) {
 export async function submitActivityResult(
   userId: number,
   activityId: number,
-  isCorrect: boolean
+  answer: unknown
 ) {
   const activity = await getActivityById(activityId);
 
@@ -91,7 +94,28 @@ export async function submitActivityResult(
     });
   }
 
-  const userActivity = await getUserActivity(userId, activityId);
+  let isCorrect = false;
+
+  switch (activity.typeId) {
+    case QNA:
+      isCorrect = await checkQnAAnswer(activityId, answer);
+      break;
+    default:
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Tipo de atividade não suportado",
+      });
+  }
+
+  await recordActivityResult(userId, activity, isCorrect);
+}
+
+async function recordActivityResult(
+  userId: number,
+  activity: { id: number; moduleId: number; points: number },
+  isCorrect: boolean
+) {
+  const userActivity = await getUserActivity(userId, activity.id);
 
   if (userActivity && userActivity.isCorrect) {
     throw new TRPCError({
@@ -102,7 +126,7 @@ export async function submitActivityResult(
 
   return db.transaction(async (tx) => {
     if (!userActivity) {
-      await createUserActivity(userId, activityId, isCorrect, tx);
+      await createUserActivity(userId, activity.id, isCorrect, tx);
     } else {
       await updateUserActivity(userActivity.id, isCorrect, tx);
     }
@@ -111,4 +135,49 @@ export async function submitActivityResult(
       await updateUserProgress(userId, activity.points, tx);
     }
   });
+}
+
+// TODO: organizar melhor as validações e arquivos separados.
+async function checkQnAAnswer(activityId: number, answer: unknown) {
+  const qnaDetails = await getQnaDetailsByActivityId(activityId);
+  const correctQnaOptions = await getCorrectQnaOptionsByActivityId(activityId);
+  const correctOptions = correctQnaOptions.map((value) => value.id);
+
+  if (!qnaDetails || correctOptions.length == 0) {
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: "Não foi possível encontrar respostas corretas para a questão.",
+    });
+  }
+
+  if (qnaDetails.isMultiple) {
+    const invalidType =
+      !Array.isArray(answer) || answer.some((item) => typeof item !== "number");
+
+    if (invalidType) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Resposta de múltipla escolha deve ser um array de IDs.",
+      });
+    }
+
+    return arraysEqualIgnoreOrder(answer as number[], correctOptions);
+  }
+
+  if (typeof answer !== "number") {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "Resposta de escolha única deve ser um ID numérico.",
+    });
+  }
+
+  if (correctOptions.length !== 1) {
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message:
+        "Erro de dados: Questão de escolha única tem múltiplas respostas corretas no DB.",
+    });
+  }
+
+  return answer === correctOptions[0];
 }

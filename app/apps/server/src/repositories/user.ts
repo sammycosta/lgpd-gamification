@@ -30,5 +30,9 @@ export async function updateUserPoints(
   points: number,
   dbClient: DrizzleClient = db
 ) {
-  return db.update(users).set({ points }).where(eq(users.id, userId)).run();
+  return dbClient
+    .update(users)
+    .set({ points })
+    .where(eq(users.id, userId))
+    .run();
 }

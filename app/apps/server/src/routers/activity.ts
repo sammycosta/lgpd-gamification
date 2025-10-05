@@ -14,15 +14,11 @@ export const activityRouter = router({
       z.object({
         userId: z.number().int().positive(),
         activityId: z.number().int().positive(),
-        isCorrect: z.boolean(),
+        answer: z.unknown(),
       })
     )
     .mutation(async ({ input }) => {
-      await submitActivityResult(
-        input.userId,
-        input.activityId,
-        input.isCorrect
-      );
+      await submitActivityResult(input.userId, input.activityId, input.answer);
 
       // Mutators que alteram dados geralmente retornam void ou um status de sucesso
       // TODO: Possivelmente enviar que status mudaram, pois aí faço os avisos na tela!
