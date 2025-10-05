@@ -1,21 +1,14 @@
 import { db, DrizzleClient } from "@/db";
 import {
   createUserModule,
-  getDependentModule,
   getModuleById,
   getModulesByUserId,
   updateUserModulePoints,
 } from "@/repositories/module";
+import { Module } from "@/types/entities";
 import { TRPCError } from "@trpc/server";
 import { grantUserBadges } from "./userService";
-
-interface Module {
-  id: number;
-  name: string;
-  points: number | null;
-  maxPoints: number;
-  userModulesId: number | null;
-}
+import { validateModuleAccess } from "./validation/moduleGuards";
 
 function mapModule({ id, name, points, maxPoints, userModulesId }: Module) {
   return {
@@ -39,8 +32,6 @@ export async function getModule(userId: number, moduleId: number) {
   const module = await getModuleById(userId, moduleId);
   if (module) {
     const baseModule = mapModule(module);
-
-    console.log(module);
     return {
       ...baseModule,
       previousModuleId: module.requiredModuleId,
@@ -55,40 +46,22 @@ export async function updateModuleProgress(
   activity: { moduleId: number; points: number },
   dbClient: DrizzleClient = db
 ) {
-  const module = await getModuleById(userId, activity.moduleId);
+  const moduleId = activity.moduleId;
+  const module = await getModuleById(userId, moduleId);
+  const userModuleData = validateModuleAccess(module, moduleId);
 
-  if (!module) {
-    throw new TRPCError({
-      code: "NOT_FOUND",
-      message: "Módulo não encontrado.",
-    });
-  }
-  const {
-    id: moduleId,
-    userModulesId,
-    points: currentPoints,
-    maxPoints,
-  } = module;
+  const { userModulesId, currentPoints, maxPoints, dependentModuleId } =
+    userModuleData;
 
-  if (!userModulesId) {
-    throw new TRPCError({
-      code: "FORBIDDEN",
-      message: "Acesso negado: Módulo bloqueado para o usuário.",
-    });
-  }
-
-  const newPoints = currentPoints! + activity.points;
+  const newPoints = currentPoints + activity.points;
   await updateUserModulePoints(userModulesId, newPoints, dbClient);
 
-  const oldModuleProgress = currentPoints! / maxPoints;
+  const oldModuleProgress = currentPoints / maxPoints;
   const newModuleProgress = newPoints / maxPoints;
 
-  // Rever se tem jeito melhor de fazer essa lógica
-  if (oldModuleProgress < 0.7 && newModuleProgress >= 0.7) {
-    const dependentModule = await getDependentModule(moduleId);
-    if (dependentModule) {
-      await createUserModule(userId, dependentModule.id);
-    }
+  const unlockedModule = oldModuleProgress < 0.7 && newModuleProgress >= 0.7;
+  if (dependentModuleId && unlockedModule) {
+    await createUserModule(userId, dependentModuleId);
   }
 
   await grantUserBadges(
@@ -98,6 +71,4 @@ export async function updateModuleProgress(
     newModuleProgress,
     dbClient
   );
-
-  // TODO: aumenta pontos no user?
 }

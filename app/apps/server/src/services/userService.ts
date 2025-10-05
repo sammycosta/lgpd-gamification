@@ -1,9 +1,16 @@
 import { DrizzleClient } from "@/db";
 import {
-  createUserBadge,
-  getUserBadgesById,
   getUserById,
+  getUserPointsById,
+  updateUserPoints,
 } from "@/repositories/user";
+import {
+  createUserBadge,
+  deleteUserBadge,
+  getUserBadgeById,
+  getUserBadgesById,
+} from "@/repositories/userBadge";
+import { BadgeTypes } from "../types/entities";
 
 export async function getUserInfo(userId: number) {
   const userInfo = await getUserById(userId);
@@ -66,7 +73,20 @@ function calculateLevel(points: number) {
   return currentLevel;
 }
 
-// TODO
+const BADGE_THRESHOLDS = [
+  { threshold: 1.0, type: BadgeTypes.GOLD },
+  { threshold: 0.85, type: BadgeTypes.SILVER },
+  { threshold: 0.7, type: BadgeTypes.BRONZE },
+];
+
+function getHighestAchievedBadge(newProgress: number): BadgeTypes | undefined {
+  for (const rule of BADGE_THRESHOLDS) {
+    if (newProgress >= rule.threshold) {
+      return rule.type;
+    }
+  }
+}
+
 export async function grantUserBadges(
   userId: number,
   moduleId: number,
@@ -74,14 +94,26 @@ export async function grantUserBadges(
   newModuleProgress: number,
   dbClient: DrizzleClient
 ) {
-  // Lembrete: só mantenho a de nível mais alto.
-  if (oldModuleProgress < 0.7 && newModuleProgress >= 0.7) {
-    createUserBadge(userId, moduleId, dbClient);
-  } else if (oldModuleProgress < 0.85 && newModuleProgress >= 0.85) {
-    // BUSCAR BADGE
-    // UPDATE BADGE
-  } else if (oldModuleProgress < 1 && newModuleProgress == 1) {
-    // BUSCAR BADGE
-    // UPDATE BADGE
+  if (newModuleProgress > oldModuleProgress) {
+    const highestAchievedType = getHighestAchievedBadge(newModuleProgress);
+
+    if (highestAchievedType) {
+      const currentBadge = await getUserBadgeById(userId, moduleId);
+
+      if (currentBadge) {
+        await deleteUserBadge(currentBadge.id);
+      }
+      await createUserBadge(userId, moduleId, highestAchievedType, dbClient);
+    }
   }
+}
+
+export async function updateUserProgress(
+  userId: number,
+  incrementPoints: number,
+  dbClient: DrizzleClient
+) {
+  const user = await getUserPointsById(userId);
+  const newPoints = user!.points + incrementPoints;
+  await updateUserPoints(userId, newPoints, dbClient);
 }

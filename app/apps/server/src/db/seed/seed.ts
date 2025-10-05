@@ -1,3 +1,4 @@
+import { BadgeTypes } from "@/types/entities";
 import { db } from "..";
 import {
   activities,
@@ -111,9 +112,9 @@ async function insertMockUser() {
 
   // Zerar quando fizer lógica de obtenção de badges.
   await db.insert(userBadges).values([
-    { userId: user.id, moduleId: 1, typeId: 3 },
-    { userId: user.id, moduleId: 2, typeId: 2 },
-    { userId: user.id, moduleId: 3, typeId: 1 },
+    { userId: user.id, moduleId: 1, typeId: BadgeTypes.GOLD },
+    { userId: user.id, moduleId: 2, typeId: BadgeTypes.SILVER },
+    { userId: user.id, moduleId: 3, typeId: BadgeTypes.BRONZE },
   ]);
 
   // Relações com módulos: apenas módulos non-locked desde o começo.

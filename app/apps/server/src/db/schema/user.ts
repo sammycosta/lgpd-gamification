@@ -1,3 +1,4 @@
+import { BadgeTypes } from "@/types/entities";
 import {
   index,
   integer,
@@ -52,6 +53,7 @@ export const userBadges = sqliteTable(
       .references(() => modules.id)
       .notNull(),
     typeId: integer("type_id")
+      .$type<BadgeTypes>()
       .references(() => badgeTypes.id)
       .notNull(),
   },

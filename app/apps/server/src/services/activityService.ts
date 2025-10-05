@@ -1,14 +1,17 @@
 import { db } from "@/db";
 import {
-  createUserActivity,
   getActivitiesByModuleId,
   getActivityById,
   getQnaOptionsByActivityIds,
+} from "@/repositories/activity";
+import {
+  createUserActivity,
   getUserActivity,
   updateUserActivity,
-} from "@/repositories/activity";
+} from "@/repositories/userActivity";
 import { TRPCError } from "@trpc/server";
 import { updateModuleProgress } from "./moduleService";
+import { updateUserProgress } from "./userService";
 
 const QNA = 1; //FAZER ENUM
 
@@ -105,6 +108,7 @@ export async function submitActivityResult(
     }
     if (isCorrect) {
       await updateModuleProgress(userId, activity, tx);
+      await updateUserProgress(userId, activity.points, tx);
     }
   });
 }

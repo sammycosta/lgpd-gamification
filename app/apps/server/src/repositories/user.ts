@@ -1,5 +1,5 @@
 import { db, DrizzleClient } from "@/db";
-import { avatars, badgeTypes, titles, userBadges, users } from "@/db/schema";
+import { avatars, titles, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export async function getUserById(userId: number) {
@@ -17,23 +17,18 @@ export async function getUserById(userId: number) {
     .get();
 }
 
-export async function getUserBadgesById(userId: number) {
+export async function getUserPointsById(userId: number) {
   return db
-    .select({
-      moduleId: userBadges.moduleId,
-      type: badgeTypes.name,
-    })
-    .from(userBadges)
-    .innerJoin(badgeTypes, eq(userBadges.typeId, badgeTypes.id))
-    .where(eq(userBadges.userId, userId))
-    .all();
+    .select({ points: users.points })
+    .from(users)
+    .where(eq(users.id, userId))
+    .get();
 }
 
-// TODO: usar enum pra tipo bronze
-export async function createUserBadge(
+export async function updateUserPoints(
   userId: number,
-  moduleId: number,
+  points: number,
   dbClient: DrizzleClient = db
 ) {
-  dbClient.insert(userBadges).values({ userId, moduleId, typeId: 1 }).run();
+  return db.update(users).set({ points }).where(eq(users.id, userId)).run();
 }
