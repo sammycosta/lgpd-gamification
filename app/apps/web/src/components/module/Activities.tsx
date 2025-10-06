@@ -18,7 +18,7 @@ export default function Activities({ moduleId }: ActivitiesProps) {
 
   if (isLoading) {
     return <Loader />
-  } else if (!activities) {
+  } else if (!activities || activities.length == 0) {
     return <div>Sem atividades para esse módulo por enquanto!</div>
   }
 
