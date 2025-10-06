@@ -1,8 +1,9 @@
 import { invalidateUseModule } from '@/hooks/useModules'
 import { ActivityType, type Activity, type ActivityFeedbackStatus } from '@/types/api'
 import { trpc } from '@/utils/trpc'
-import { Card, CloseButton, Flex } from '@mantine/core'
+import { Button, Card, Flex } from '@mantine/core'
 import { useMutation } from '@tanstack/react-query'
+import { ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
 import { invalidateUseActivities } from '../../hooks/useActivities'
 import QeAMultipleView from './QeAMultipleView'
@@ -11,9 +12,10 @@ import QeAView from './QeAView'
 interface ActivityFormProps {
   activity: Activity
   closeForm: () => void
+  goToNextActivity?: () => void
 }
 export default function ActivityForm(props: ActivityFormProps) {
-  const { activity, closeForm } = props
+  const { activity, closeForm, goToNextActivity } = props
   const { id, type, data } = activity
 
   const [status, setStatus] = useState<ActivityFeedbackStatus>('idle')
@@ -50,19 +52,33 @@ export default function ActivityForm(props: ActivityFormProps) {
     closeForm()
   }
 
-  // Talvez puxar algumas coisas internas dos componente para fora, se se repetirem
   return (
     <Card mt="lg" radius="md" withBorder>
-      <Card.Section>
-        <Flex justify="flex-end">
-          <CloseButton aria-label="Fechar atividade" onClick={handleCloseForm} />
-        </Flex>
-      </Card.Section>
+      <Flex mb="xs">
+        <Button
+          onClick={closeForm}
+          variant="subtle"
+          leftSection={<ArrowLeft size={16} />}
+          color="gray"
+        >
+          Voltar à lista de atividades
+        </Button>
+      </Flex>
       {ActivityType.QNA === type && !data.isMultiple && (
-        <QeAView activity={activity} onSubmit={handleSubmit} status={status} />
+        <QeAView
+          activity={activity}
+          onSubmit={handleSubmit}
+          status={status}
+          goToNextActivity={goToNextActivity}
+        />
       )}
       {ActivityType.QNA === type && data.isMultiple && (
-        <QeAMultipleView activity={activity} onSubmit={handleSubmit} status={status} />
+        <QeAMultipleView
+          activity={activity}
+          onSubmit={handleSubmit}
+          status={status}
+          goToNextActivity={goToNextActivity}
+        />
       )}
     </Card>
   )

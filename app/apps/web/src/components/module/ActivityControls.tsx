@@ -25,12 +25,7 @@ export default function ActivityControls(props: ActivityControlsProps) {
           Não foi dessa vez. Tente novamente!
           <Text fz="sm">
             Você pode consultar os&nbsp;
-            <Anchor
-              component={Link}
-              href={{ pathname: `/resources/${moduleId}` }}
-              fz="sm"
-              fw={600}
-            >
+            <Anchor component={Link} href={{ pathname: `/resources/${moduleId}` }} fz="sm" fw={600}>
               materiais de apoio
             </Anchor>
             .
@@ -40,15 +35,17 @@ export default function ActivityControls(props: ActivityControlsProps) {
       <Group mt="md" justify="flex-end" gap="sm">
         {(status === 'idle' || status === 'wrong') && (
           <>
-            <Button variant="transparent" onClick={onNext}>
-              Pular
-            </Button>
+            {onNext && (
+              <Button variant="transparent" onClick={onNext}>
+                Pular
+              </Button>
+            )}
             <Button onClick={onVerify} disabled={!hasAnswer}>
               Verificar
             </Button>
           </>
         )}
-        {status === 'correct' && <Button onClick={onNext}>Continuar</Button>}
+        {status === 'correct' && onNext && <Button onClick={onNext}>Continuar</Button>}
       </Group>
     </>
   )

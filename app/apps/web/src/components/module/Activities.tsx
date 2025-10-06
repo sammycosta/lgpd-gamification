@@ -11,9 +11,14 @@ interface ActivitiesProps {
   moduleId: number
 }
 
+interface SelectedActivity {
+  activity: Activity
+  index: number
+}
+
 export default function Activities({ moduleId }: ActivitiesProps) {
   const { isLoading, data: activities } = useActivities(1, moduleId)
-  const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null)
+  const [selectedActivity, setSelectedActivity] = useState<SelectedActivity | null>(null)
   const theme = useMantineTheme()
 
   if (isLoading) {
@@ -44,7 +49,25 @@ export default function Activities({ moduleId }: ActivitiesProps) {
   }
 
   if (selectedActivity) {
-    return <ActivityForm activity={selectedActivity} closeForm={() => setSelectedActivity(null)} />
+    const { activity, index } = selectedActivity
+
+    const hasNextActivity = index + 1 < activities.length
+
+    const goToNextActivity = hasNextActivity
+      ? () => {
+          const nextIndex = index + 1
+          const nextActivity = activities[nextIndex]
+          setSelectedActivity({ activity: nextActivity, index: nextIndex })
+        }
+      : undefined
+
+    return (
+      <ActivityForm
+        activity={activity}
+        closeForm={() => setSelectedActivity(null)}
+        goToNextActivity={goToNextActivity}
+      />
+    )
   }
 
   return (
@@ -52,7 +75,7 @@ export default function Activities({ moduleId }: ActivitiesProps) {
       {activities.map((activity, index) => {
         const { icon, iconColor, buttonVariant, buttonColor } = ActivityStyle[activity.status]
 
-        const onClick = () => setSelectedActivity(activity)
+        const onClick = () => setSelectedActivity({ activity, index })
 
         return (
           <Group wrap="nowrap" gap="xs" key={index}>
