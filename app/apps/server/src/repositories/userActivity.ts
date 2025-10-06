@@ -1,5 +1,5 @@
 import { db, DrizzleClient } from "@/db";
-import { userActivities } from "@/db/schema/userModule";
+import { userActivities } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 
 export async function getUserActivity(userId: number, activityId: number) {

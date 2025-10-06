@@ -1,6 +1,5 @@
 import { db, DrizzleClient } from "@/db";
-import { modules } from "@/db/schema";
-import { userModules } from "@/db/schema/userModule";
+import { modules, userModules } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import { alias } from "drizzle-orm/sqlite-core";
 

@@ -1,6 +1,10 @@
 import { db } from "@/db";
-import { activities, qnaDetails, qnaOptions } from "@/db/schema";
-import { userActivities } from "@/db/schema/userModule";
+import {
+  activities,
+  qnaDetails,
+  qnaOptions,
+  userActivities,
+} from "@/db/schema";
 import { and, eq, inArray } from "drizzle-orm";
 
 export async function getActivitiesByModuleId(
