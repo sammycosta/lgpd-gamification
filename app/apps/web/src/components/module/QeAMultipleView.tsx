@@ -9,25 +9,16 @@ import classes from './style.module.css'
 interface QeAMultipleViewProps {
   activity: QnAActivity
   goToNextActivity?: () => void
-  onSubmit?: (option: number[]) => void
+  onSubmit: (option: number[]) => void
+  status: ActivityFeedbackStatus
 }
 
 export default function QeAMultipleView(props: QeAMultipleViewProps) {
-  const { activity, goToNextActivity, onSubmit } = props
-  const { question, options, answers } = activity.data
+  const { activity, goToNextActivity, onSubmit, status } = props
+  const { question, options } = activity.data
   const [value, setValue] = useState<string[]>([])
-  const [status, setStatus] = useState<ActivityFeedbackStatus>('idle')
 
-  const checkAnswer = () => {
-    const isCorrect = value.sort().join(',') === answers.map(String).sort().join(',')
-    setStatus(isCorrect ? 'correct' : 'wrong')
-
-    // A corretuda atualmente só será validada no front, o que não é muito legal.
-    //  Na verdade, é interessante que seja só no back, nao?
-    // Então o front não precisaria receber realmente quais são as corretas.
-    // eu receberia no back as RESPOSTAS. Reformular isso e o backend (get/submit!)
-    onSubmit?.(value.map(Number))
-  }
+  const checkAnswer = () => onSubmit(value.map(Number))
 
   useConfetti(status === 'correct')
 

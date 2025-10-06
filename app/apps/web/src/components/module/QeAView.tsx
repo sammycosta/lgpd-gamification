@@ -9,20 +9,16 @@ import classes from './style.module.css'
 interface QeAViewProps {
   activity: QnAActivity
   goToNextActivity?: () => void
-  onSubmit?: (option: number) => void
+  onSubmit: (option: number) => void
+  status: ActivityFeedbackStatus
 }
 
 export default function QeAView(props: QeAViewProps) {
-  const { activity, goToNextActivity, onSubmit } = props
-  const { question, options, answers } = activity.data
+  const { activity, goToNextActivity, onSubmit, status } = props
+  const { question, options } = activity.data
   const [value, setValue] = useState<string | null>(null)
-  const [status, setStatus] = useState<ActivityFeedbackStatus>('idle')
-  const [answer] = answers
 
-  const checkAnswer = () => {
-    setStatus(value === String(answer) ? 'correct' : 'wrong')
-    onSubmit?.(Number(value))
-  }
+  const checkAnswer = () => onSubmit(Number(value))
 
   useConfetti(status === 'correct')
 
@@ -37,12 +33,7 @@ export default function QeAView(props: QeAViewProps) {
       >
         <Stack pt="md" gap="xs">
           {options.map(({ id, text }) => (
-            <Radio.Card
-              className={classes['answer-card']}
-              radius="md"
-              value={String(id)}
-              key={id}
-            >
+            <Radio.Card className={classes['answer-card']} radius="md" value={String(id)} key={id}>
               <Group wrap="nowrap" align="flex-start">
                 <Radio.Indicator />
                 <div>

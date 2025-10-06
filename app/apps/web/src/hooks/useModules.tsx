@@ -1,4 +1,4 @@
-import { trpc } from '@/utils/trpc'
+import { queryClient, trpc } from '@/utils/trpc'
 import { useQuery } from '@tanstack/react-query'
 
 export function useModules(userId: number) {
@@ -14,4 +14,14 @@ export function useModule(userId: number, moduleId: number) {
       }
     )
   )
+}
+
+// TODO: Entender o local certo dessas funções de invalidação.
+export function invalidateUseModule(userId: number, moduleId: number) {
+  return queryClient.invalidateQueries({
+    queryKey: [
+      ['module', 'getModule'],
+      { input: { moduleId: moduleId, userId: userId }, type: 'query' }
+    ]
+  })
 }

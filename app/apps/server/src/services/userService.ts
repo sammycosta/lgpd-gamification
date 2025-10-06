@@ -101,7 +101,7 @@ export async function grantUserBadges(
       const currentBadge = await getUserBadgeById(userId, moduleId);
 
       if (currentBadge) {
-        await deleteUserBadge(currentBadge.id);
+        await deleteUserBadge(currentBadge.id, dbClient);
       }
       await createUserBadge(userId, moduleId, highestAchievedType, dbClient);
     }

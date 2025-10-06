@@ -3,7 +3,6 @@ import { activities, qnaDetails, qnaOptions } from "@/db/schema";
 import { userActivities } from "@/db/schema/userModule";
 import { and, eq, inArray } from "drizzle-orm";
 
-// Provavelmente não vale puxar isCorrect pro front, pois o back valida isso.
 export async function getActivitiesByModuleId(
   userId: number,
   moduleId: number
@@ -55,7 +54,6 @@ export async function getQnaOptionsByActivityIds(activityIds: number[]) {
       id: qnaOptions.id,
       activityId: qnaOptions.activityId,
       text: qnaOptions.text,
-      isCorrect: qnaOptions.isCorrect,
     })
     .from(qnaOptions)
     .where(inArray(qnaOptions.activityId, activityIds))

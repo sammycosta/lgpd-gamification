@@ -108,6 +108,7 @@ export async function submitActivityResult(
   }
 
   await recordActivityResult(userId, activity, isCorrect);
+  return isCorrect;
 }
 
 async function recordActivityResult(

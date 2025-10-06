@@ -1,4 +1,3 @@
-import { BadgeTypes } from "@/types/entities";
 import { db } from "..";
 import {
   activities,
@@ -9,7 +8,6 @@ import {
   qnaDetails,
   qnaOptions,
   titles,
-  userBadges,
   users,
 } from "../schema";
 import { userModules } from "../schema/userModule";
@@ -49,14 +47,17 @@ async function insertModules() {
   // maxPoints é calculado como a soma dos pontos das atividades dos módulos, manter consistente quando inserir os dados reais.
   // possivelmente criar os objetos de atividades ANTES, calcular e inserir tudo na ordem correta do db!
   const maxPoints = 40;
-  moduleNames.forEach(async (name) => {
-    const [newModule] = await db
+
+  for (const name of moduleNames) {
+    const [newModule]: {
+      id: number;
+    }[] = await db
       .insert(modules)
       .values({ name, maxPoints, requiredModuleId: previousModuleId })
       .returning({ id: modules.id });
 
-    previousModuleId = newModule.id; // Rever depois essa lógica, porque parece não estar dando certo.
-  });
+    previousModuleId = newModule.id;
+  }
 }
 
 async function insertActivities() {
@@ -104,18 +105,18 @@ async function insertMockUser() {
     .insert(users)
     .values({
       name: "Samantha Costa",
-      points: 1560, // Zerar quando fizer lógica de pontos do usuário.
+      points: 0, // Zerar quando fizer lógica de pontos do usuário.
       avatarId: 1,
       titleId: 1,
     })
     .returning({ id: users.id });
 
   // Zerar quando fizer lógica de obtenção de badges.
-  await db.insert(userBadges).values([
-    { userId: user.id, moduleId: 1, typeId: BadgeTypes.GOLD },
-    { userId: user.id, moduleId: 2, typeId: BadgeTypes.SILVER },
-    { userId: user.id, moduleId: 3, typeId: BadgeTypes.BRONZE },
-  ]);
+  // await db.insert(userBadges).values([
+  //   { userId: user.id, moduleId: 1, typeId: BadgeTypes.GOLD },
+  //   { userId: user.id, moduleId: 2, typeId: BadgeTypes.SILVER },
+  //   { userId: user.id, moduleId: 3, typeId: BadgeTypes.BRONZE },
+  // ]);
 
   // Relações com módulos: apenas módulos non-locked desde o começo.
   await db.insert(userModules).values({ userId: user.id, moduleId: 1 });

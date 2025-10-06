@@ -61,7 +61,8 @@ export async function updateModuleProgress(
 
   const unlockedModule = oldModuleProgress < 0.7 && newModuleProgress >= 0.7;
   if (dependentModuleId && unlockedModule) {
-    await createUserModule(userId, dependentModuleId);
+    console.log("vai criar", userId, dependentModuleId);
+    await createUserModule(userId, dependentModuleId, dbClient);
   }
 
   await grantUserBadges(
