@@ -12,7 +12,7 @@ import {
 import { ActivityTypes } from "@/types/entities";
 import { ActivitiesQnaInfo, QnaData } from "@/types/service";
 import { updateModuleProgress } from "../module/moduleService";
-import { updateUserProgress } from "../userService";
+import { updateUserProgress } from "../user/userService";
 import { checkers } from "./check";
 import { mapActivityStatus, mapQnaData } from "./mappers";
 import {

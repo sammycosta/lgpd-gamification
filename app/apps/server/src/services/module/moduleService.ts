@@ -5,7 +5,7 @@ import {
   getModulesByUserId,
   updateUserModulePoints,
 } from "@/repositories/module";
-import { grantUserBadges } from "../userService";
+import { grantUserBadges } from "../user/userService";
 import { mapModule } from "./mappers";
 import { validateModuleAccess, validateModuleExists } from "./validators";
 

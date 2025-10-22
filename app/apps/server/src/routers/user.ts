@@ -1,5 +1,5 @@
 import { publicProcedure, router } from "@/lib/trpc";
-import { getUserInfo } from "@/services/userService";
+import { getUserInfo } from "@/services/user/userService";
 import z from "zod";
 
 export const userRouter = router({
