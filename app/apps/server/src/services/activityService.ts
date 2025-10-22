@@ -11,31 +11,28 @@ import {
   getUserActivity,
   updateUserActivity,
 } from "@/repositories/userActivity";
+import { ActivityStatus } from "@/types/api";
+import { ActivityTypes } from "@/types/entities";
+import { QnaData, QnaOptionsByActivityId } from "@/types/service";
 import { arraysEqualIgnoreOrder } from "@/util/array";
 import { TRPCError } from "@trpc/server";
+import { ActivitiesQnaInfo } from "../types/service";
 import { updateModuleProgress } from "./moduleService";
 import { updateUserProgress } from "./userService";
-
-const QNA = 1; //FAZER ENUM
-
-// mesmo do front, organizar depois
-export enum ActivityStatus {
-  TODO,
-  WRONG,
-  CORRECT,
-}
 
 function mapActivityStatus(isCorrect: boolean | null): ActivityStatus {
   if (isCorrect === null) return ActivityStatus.TODO;
   return isCorrect ? ActivityStatus.CORRECT : ActivityStatus.WRONG;
 }
 
-// TODO: Tipar corretamente
-function mapQnaData(activity: any, qnaOptionsMap: any) {
+function mapQnaData(
+  activity: ActivitiesQnaInfo,
+  qnaOptionsMap: QnaOptionsByActivityId
+): QnaData {
   const rawOptions = qnaOptionsMap[activity.id] || [];
   const answers: number[] = [];
 
-  const options = rawOptions.map((option: any) => {
+  const options = rawOptions.map((option) => {
     const { isCorrect, activityId, ...rest } = option;
     if (isCorrect) {
       answers.push(option.id);
@@ -54,7 +51,7 @@ function mapQnaData(activity: any, qnaOptionsMap: any) {
 export async function getActivities(userId: number, moduleId: number) {
   const activities = await getActivitiesByModuleId(userId, moduleId);
   const qnaActivityIds = activities
-    .filter(({ typeId }) => typeId == QNA)
+    .filter(({ typeId }) => typeId == ActivityTypes.QNA)
     .map(({ id }) => id);
   const qnaOptions = await getQnaOptionsByActivityIds(qnaActivityIds);
 
@@ -67,15 +64,15 @@ export async function getActivities(userId: number, moduleId: number) {
       moduleId,
       type: activity.typeId,
     };
-    let data: any = {};
+    let specificData: QnaData | {} = {};
 
-    if (activity.typeId == QNA) {
-      data = mapQnaData(activity, qnaOptions);
+    if (activity.typeId == ActivityTypes.QNA) {
+      specificData = mapQnaData(activity as ActivitiesQnaInfo, qnaOptions);
     } // Possibilidade de mapear para mais tipos de atividade.
 
     return {
       ...baseActivity,
-      data,
+      data: specificData,
     }; // Ter uns tipos mais adequados aqui depois.
   });
 }
@@ -97,7 +94,7 @@ export async function submitActivityResult(
   let isCorrect = false;
 
   switch (activity.typeId) {
-    case QNA:
+    case ActivityTypes.QNA:
       isCorrect = await checkQnAAnswer(activityId, answer);
       break;
     default:

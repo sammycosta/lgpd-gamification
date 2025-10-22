@@ -1,3 +1,9 @@
+import { ActivityTypes } from "@/types/entities";
+import {
+  ActivityToInsert,
+  QnaActivity,
+  QnaMultipleActivity,
+} from "@/types/seed";
 import { db } from "..";
 import {
   activities,
@@ -8,14 +14,14 @@ import {
   qnaDetails,
   qnaOptions,
   titles,
+  userModules,
   users,
 } from "../schema";
-import { userModules } from "../schema/userModule";
 import { introducaoLGPDActivities } from "./activities/introducaoLGPD";
 
-// TODO: Cleanup toda vez que rodar seed? Atualmente, limpo local.db
 async function seed() {
-  // fixo, ir separando em arquivos/funções
+  // TODO: Cleanup toda vez que rodar seed? Atualmente, limpo local.db
+  // DADOS FIXOS
   await db.insert(avatars).values([{ filePath: "avatars/avatar_1.svg" }]);
   await db.insert(titles).values([{ name: "Aprendiz dos dados pessoais" }]);
   await insertModules();
@@ -24,7 +30,8 @@ async function seed() {
     .insert(badgeTypes)
     .values([{ name: "bronze" }, { name: "silver" }, { name: "gold" }]);
 
-  insertMockUser();
+  // DADOS MOCK
+  await insertMockUser();
 }
 
 seed().catch((err) => {
@@ -61,13 +68,11 @@ async function insertModules() {
 }
 
 async function insertActivities() {
-  // Acredito que não vou separar QNA e QNAMultiple AQUI. No backend separo pelo isMultiple;
   await db.insert(activityTypes).values({ name: "QNA" });
   introducaoLGPDActivities.forEach((activity) => insertActivity(activity, 1));
 }
 
-// TODO: Tipar corretamente
-async function insertActivity(activity: any, moduleId: number) {
+async function insertActivity(activity: ActivityToInsert, moduleId: number) {
   {
     const { name, type, points } = activity;
     const [newActivity] = await db
@@ -80,20 +85,22 @@ async function insertActivity(activity: any, moduleId: number) {
       })
       .returning({ id: activities.id });
 
-    // qna. fazer enum depois, com switch case.
-    if (activity.type == 1) {
-      const { question, isMultiple, options, answers, answer } = activity;
+    if (activity.type == ActivityTypes.QNA) {
+      const { question, isMultiple, options } = activity;
 
       await db.insert(qnaDetails).values({
         activityId: newActivity.id,
         question,
         isMultiple,
       });
+
       await db.insert(qnaOptions).values(
-        options.map((option: any) => ({
+        options.map((option) => ({
           activityId: newActivity.id,
           text: option,
-          isCorrect: isMultiple ? answers?.includes(option) : option === answer,
+          isCorrect: isMultiple
+            ? (activity as QnaMultipleActivity).answers.includes(option)
+            : option === (activity as QnaActivity).answer,
         }))
       );
     }
@@ -105,19 +112,12 @@ async function insertMockUser() {
     .insert(users)
     .values({
       name: "Samantha Costa",
-      points: 0, // Zerar quando fizer lógica de pontos do usuário.
+      points: 0,
       avatarId: 1,
       titleId: 1,
     })
     .returning({ id: users.id });
 
-  // Zerar quando fizer lógica de obtenção de badges.
-  // await db.insert(userBadges).values([
-  //   { userId: user.id, moduleId: 1, typeId: BadgeTypes.GOLD },
-  //   { userId: user.id, moduleId: 2, typeId: BadgeTypes.SILVER },
-  //   { userId: user.id, moduleId: 3, typeId: BadgeTypes.BRONZE },
-  // ]);
-
-  // Relações com módulos: apenas módulos non-locked desde o começo.
+  // Módulos desbloqueados por padrão
   await db.insert(userModules).values({ userId: user.id, moduleId: 1 });
 }

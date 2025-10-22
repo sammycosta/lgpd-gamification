@@ -6,7 +6,9 @@ export enum BadgeTypes {
   GOLD = 3,
 }
 
-// TODO: Activities type
+export enum ActivityTypes {
+  QNA = 1,
+}
 
 export interface Module {
   id: number;
@@ -14,4 +16,11 @@ export interface Module {
   points: number | null;
   maxPoints: number;
   userModulesId: number | null;
+}
+
+export interface QnaOption {
+  id: number;
+  activityId: number;
+  text: string;
+  isCorrect: boolean;
 }
