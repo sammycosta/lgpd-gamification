@@ -1,10 +1,15 @@
 import { invalidateUseModule } from '@/hooks/useModules'
-import { ActivityType, type Activity, type ActivityFeedbackStatus } from '@/types/api'
+import {
+  ActivityStatus,
+  ActivityType,
+  type Activity,
+  type ActivityFeedbackStatus
+} from '@/types/api'
 import { trpc } from '@/utils/trpc'
 import { Button, Card, Flex } from '@mantine/core'
 import { useMutation } from '@tanstack/react-query'
 import { ArrowLeft } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { invalidateUseActivities } from '../../hooks/useActivities'
 import QeAMultipleView from './QeAMultipleView'
 import QeAView from './QeAView'
@@ -14,6 +19,7 @@ interface ActivityFormProps {
   closeForm: () => void
   goToNextActivity?: () => void
 }
+
 export default function ActivityForm(props: ActivityFormProps) {
   const { activity, closeForm, goToNextActivity } = props
   const { id, type, data } = activity
@@ -52,11 +58,19 @@ export default function ActivityForm(props: ActivityFormProps) {
     closeForm()
   }
 
+  const resetStatus = () => setStatus('idle')
+
+  useEffect(() => {
+    if (ActivityStatus.CORRECT === activity.status) {
+      setStatus('alreadyCorrect')
+    }
+  }, [])
+
   return (
     <Card mt="lg" radius="md" withBorder>
       <Flex mb="xs">
         <Button
-          onClick={closeForm}
+          onClick={handleCloseForm}
           variant="subtle"
           leftSection={<ArrowLeft size={16} />}
           color="gray"
@@ -70,6 +84,7 @@ export default function ActivityForm(props: ActivityFormProps) {
           onSubmit={handleSubmit}
           status={status}
           goToNextActivity={goToNextActivity}
+          resetStatus={resetStatus}
         />
       )}
       {ActivityType.QNA === type && data.isMultiple && (
@@ -78,6 +93,7 @@ export default function ActivityForm(props: ActivityFormProps) {
           onSubmit={handleSubmit}
           status={status}
           goToNextActivity={goToNextActivity}
+          resetStatus={resetStatus}
         />
       )}
     </Card>

@@ -19,7 +19,7 @@ export enum ActivityStatus {
 }
 
 //TODO: Depois ver se troco pra enum proprio ou reutilizo o enum de cima
-export type ActivityFeedbackStatus = 'idle' | 'correct' | 'wrong'
+export type ActivityFeedbackStatus = 'idle' | 'correct' | 'wrong' | 'alreadyCorrect'
 
 export interface BaseActivity {
   id: number

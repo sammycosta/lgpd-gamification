@@ -58,6 +58,7 @@ export async function getQnaOptionsByActivityIds(activityIds: number[]) {
       id: qnaOptions.id,
       activityId: qnaOptions.activityId,
       text: qnaOptions.text,
+      isCorrect: qnaOptions.isCorrect,
     })
     .from(qnaOptions)
     .where(inArray(qnaOptions.activityId, activityIds))

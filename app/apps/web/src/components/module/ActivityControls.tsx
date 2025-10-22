@@ -13,9 +13,12 @@ interface ActivityControlsProps {
 
 export default function ActivityControls(props: ActivityControlsProps) {
   const { status, onNext, onVerify, hasAnswer, moduleId } = props
+
+  const isCorrect = status === 'correct' || status === 'alreadyCorrect'
+
   return (
     <>
-      {status === 'correct' && (
+      {isCorrect && (
         <Alert mt="md" color="green" icon={<CircleCheck />} title="Correto!">
           Excelente! Você acertou.
         </Alert>
@@ -45,7 +48,7 @@ export default function ActivityControls(props: ActivityControlsProps) {
             </Button>
           </>
         )}
-        {status === 'correct' && onNext && <Button onClick={onNext}>Continuar</Button>}
+        {isCorrect && onNext && <Button onClick={onNext}>Continuar</Button>}
       </Group>
     </>
   )

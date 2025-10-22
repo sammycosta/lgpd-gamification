@@ -1,11 +1,26 @@
 .answer-card {
   position: relative;
   padding: var(--mantine-spacing-md);
-  transition: border-color 150ms ease;
 
   &[data-checked] {
     border-color: var(--mantine-primary-color-filled);
   }
+
+  }
+
+.correct-state {
+  cursor: not-allowed;
+  opacity: 0.5;
+
+  &[data-checked] {
+    border-color: var(--mantine-color-green-6);
+    opacity: 1;
+    cursor: auto;
+ }
+}
+
+.hover-card {
+  transition: border-color 150ms ease;
 
   @mixin hover {
     @mixin light {
@@ -16,4 +31,10 @@
       background-color: var(--mantine-color-dark-6);
     }
   }
+}
+
+.wrong-state {
+  &[data-checked] {
+    border-color: var(--mantine-color-red-6);
+ }
 }
