@@ -2,7 +2,7 @@ import { publicProcedure, router } from "@/lib/trpc";
 import {
   getActivities,
   submitActivityResult,
-} from "@/services/activityService";
+} from "@/services/activity/activityService";
 import z from "zod";
 
 export const activityRouter = router({
