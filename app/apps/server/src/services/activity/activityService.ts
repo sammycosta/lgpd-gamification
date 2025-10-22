@@ -2,6 +2,7 @@ import { db } from "@/db";
 import {
   getActivitiesByModuleId,
   getActivityById,
+  getMatchingPairsByActivityIds,
   getQnaOptionsByActivityIds,
 } from "@/repositories/activity";
 import {
@@ -10,11 +11,16 @@ import {
   updateUserActivity,
 } from "@/repositories/userActivity";
 import { ActivityTypes } from "@/types/entities";
-import { ActivitiesQnaInfo, QnaData } from "@/types/service";
+import {
+  ActivitiesInfoBase,
+  ActivitiesQnaInfo,
+  MatchingData,
+  QnaData,
+} from "@/types/service";
 import { updateModuleProgress } from "../module/moduleService";
 import { updateUserProgress } from "../user/userService";
 import { checkers } from "./check";
-import { mapActivityStatus, mapQnaData } from "./mappers";
+import { mapActivityStatus, mapMatchingData, mapQnaData } from "./mappers";
 import {
   validateActivityExists,
   validateSupportedActivityType,
@@ -23,29 +29,38 @@ import {
 
 export async function getActivities(userId: number, moduleId: number) {
   const activities = await getActivitiesByModuleId(userId, moduleId);
+
   const qnaActivityIds = activities
     .filter(({ typeId }) => typeId == ActivityTypes.QNA)
     .map(({ id }) => id);
   const qnaOptions = await getQnaOptionsByActivityIds(qnaActivityIds);
 
+  const matchingActivityIds = activities
+    .filter(({ typeId }) => typeId == ActivityTypes.MATCHING)
+    .map(({ id }) => id);
+  const matchingPairs = await getMatchingPairsByActivityIds(
+    matchingActivityIds
+  );
+
   return activities.map((activity) => {
-    const baseActivity = {
+    let data: QnaData | MatchingData | undefined;
+    switch (activity.typeId) {
+      case ActivityTypes.QNA:
+        data = mapQnaData(activity as ActivitiesQnaInfo, qnaOptions);
+        break;
+      case ActivityTypes.MATCHING:
+        data = mapMatchingData(activity as ActivitiesInfoBase, matchingPairs);
+        break;
+    }
+
+    return {
       id: activity.id,
       name: activity.name,
       status: mapActivityStatus(activity.isCorrect),
       points: activity.points,
       moduleId,
       type: activity.typeId,
-    };
-    let specificData: QnaData | {} = {};
-
-    if (activity.typeId == ActivityTypes.QNA) {
-      specificData = mapQnaData(activity as ActivitiesQnaInfo, qnaOptions);
-    } // Possibilidade de mapear para mais tipos de atividade.
-
-    return {
-      ...baseActivity,
-      data: specificData,
+      data,
     };
   });
 }

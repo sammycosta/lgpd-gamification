@@ -1,10 +1,15 @@
 import {
   getCorrectQnaOptionsByActivityId,
+  getMatchingPairsByActivityId,
   getQnaDetailsByActivityId,
 } from "@/repositories/activity";
 import { ActivityTypes } from "@/types/entities";
 import { arraysEqualIgnoreOrder } from "@/util/array";
-import { validateQnaAnswerType, validateQnaCorrectOptions } from "./validators";
+import {
+  validateMatchingAnswerType,
+  validateQnaAnswerType,
+  validateQnaCorrectOptions,
+} from "./validators";
 
 async function checkQnAAnswer(activityId: number, answer: unknown) {
   const qnaDetails = await getQnaDetailsByActivityId(activityId);
@@ -21,8 +26,18 @@ async function checkQnAAnswer(activityId: number, answer: unknown) {
   return answer === correctOptions[0];
 }
 
+async function checkMatchingAnswer(activityId: number, answer: unknown) {
+  const matchingPairs = await getMatchingPairsByActivityId(activityId);
+
+  validateMatchingAnswerType(answer);
+
+  // TODO: Testar se verifica corretamente para esse caso também; Deve sim.
+  return arraysEqualIgnoreOrder(answer, matchingPairs);
+}
+
 type CheckerFn = (activityId: number, answer: unknown) => Promise<boolean>;
 
 export const checkers: Record<ActivityTypes, CheckerFn> = {
   [ActivityTypes.QNA]: checkQnAAnswer,
+  [ActivityTypes.MATCHING]: checkMatchingAnswer,
 };

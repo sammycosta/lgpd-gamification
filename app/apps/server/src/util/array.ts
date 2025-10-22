@@ -1,6 +1,6 @@
 export const arraysEqualIgnoreOrder = (
-  arr1: number[],
-  arr2: number[]
+  arr1: unknown[],
+  arr2: unknown[]
 ): boolean => {
   if (arr1.length !== arr2.length) {
     return false;

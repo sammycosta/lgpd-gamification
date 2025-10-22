@@ -9,7 +9,8 @@ export interface Module {
 }
 
 export enum ActivityType {
-  QNA = 1
+  QNA = 1,
+  MATCHING = 2
 }
 
 export enum ActivityStatus {

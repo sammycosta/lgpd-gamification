@@ -77,3 +77,16 @@ export const qnaOptions = sqliteTable(
   },
   (table) => [index("qna_options_activity_id_index").on(table.activityId)]
 );
+
+export const matchingPairs = sqliteTable(
+  "matching_pairs",
+  {
+    id: integer("id").primaryKey(),
+    activityId: integer("activity_id")
+      .references(() => activities.id)
+      .notNull(),
+    concept: text("concept").notNull(),
+    definition: text("definition").notNull(),
+  },
+  (table) => [index("matching_pairs_activity_id_idx").on(table.activityId)]
+);

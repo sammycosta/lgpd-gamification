@@ -1,4 +1,5 @@
 import { ActivityTypes } from "@/types/entities";
+import { SimpleMatchingPair } from "@/types/service";
 import { TRPCError } from "@trpc/server";
 
 export function validateActivityExists(activity: any): asserts activity {
@@ -72,6 +73,35 @@ export function validateQnaCorrectOptions(
       code: "INTERNAL_SERVER_ERROR",
       message:
         "Erro de dados: Questão de escolha única tem múltiplas respostas corretas no DB.",
+    });
+  }
+}
+
+// MATCHING VALIDATIONS
+
+export function validateMatchingAnswerType(
+  answer: unknown
+): asserts answer is SimpleMatchingPair[] {
+  if (!Array.isArray(answer)) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "Resposta de matching deve ser um array de pares.",
+    });
+  }
+
+  if (
+    answer.some(
+      (item) =>
+        typeof item !== "object" ||
+        item === null ||
+        typeof (item as any).concept !== "string" ||
+        typeof (item as any).definition !== "string"
+    )
+  ) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message:
+        "Cada item do array deve ser um objeto com 'concept' e 'definition' do tipo string.",
     });
   }
 }

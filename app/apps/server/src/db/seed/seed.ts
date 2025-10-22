@@ -68,7 +68,9 @@ async function insertModules() {
 }
 
 async function insertActivities() {
-  await db.insert(activityTypes).values({ name: "QNA" });
+  await db
+    .insert(activityTypes)
+    .values([{ name: "QNA" }, { name: "Matching" }]);
   introducaoLGPDActivities.forEach((activity) => insertActivity(activity, 1));
 }
 

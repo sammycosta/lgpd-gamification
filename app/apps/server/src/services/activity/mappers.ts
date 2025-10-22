@@ -1,6 +1,8 @@
 import { ActivityStatus } from "@/types/api";
 import {
+  ActivitiesInfoBase,
   ActivitiesQnaInfo,
+  MatchingPairsByActivityId,
   QnaData,
   QnaOptionsByActivityId,
 } from "@/types/service";
@@ -30,5 +32,28 @@ export function mapQnaData(
     options,
     answers,
     isMultiple: activity.isMultiple,
+  };
+}
+
+export function mapMatchingData(
+  activity: ActivitiesInfoBase,
+  matchingPairsMap: MatchingPairsByActivityId
+) {
+  const rawMatchingPairs = matchingPairsMap[activity.id] || [];
+  const concepts: string[] = [];
+  const definitions: string[] = [];
+
+  const matchingPairs = rawMatchingPairs.map((matchingPair) => {
+    // Removendo ID, restaurar se no futuro eu ver necessidade
+    const { id, activityId, ...rest } = matchingPair;
+    concepts.push(matchingPair.concept);
+    definitions.push(matchingPair.definition);
+    return rest;
+  });
+
+  return {
+    concepts,
+    definitions,
+    matchingPairs,
   };
 }

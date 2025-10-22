@@ -1,4 +1,4 @@
-import { QnaOption } from "./entities";
+import { MatchingPair, QnaOption } from "./entities";
 
 export interface ActivitiesInfoBase {
   id: number;
@@ -20,4 +20,17 @@ export interface QnaData {
   options: { id: number; text: string }[];
   answers: number[];
   isMultiple: boolean;
+}
+
+export type MatchingPairsByActivityId = Record<number, MatchingPair[]>;
+
+export interface SimpleMatchingPair {
+  concept: string;
+  definition: string;
+}
+
+export interface MatchingData {
+  concepts: string[];
+  definitions: string[];
+  matchingPairs: SimpleMatchingPair[];
 }

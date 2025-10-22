@@ -8,6 +8,7 @@ export enum BadgeTypes {
 
 export enum ActivityTypes {
   QNA = 1,
+  MATCHING = 2,
 }
 
 export interface Module {
@@ -23,4 +24,11 @@ export interface QnaOption {
   activityId: number;
   text: string;
   isCorrect: boolean;
+}
+
+export interface MatchingPair {
+  id: number;
+  activityId: number;
+  concept: string;
+  definition: string;
 }
