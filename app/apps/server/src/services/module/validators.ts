@@ -33,3 +33,12 @@ export function validateModuleAccess(
     dependentModuleId: module.dependentModuleId,
   };
 }
+
+export function validateModuleExists(module: unknown): asserts module {
+  if (!module) {
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "Módulo não encontrado.",
+    });
+  }
+}

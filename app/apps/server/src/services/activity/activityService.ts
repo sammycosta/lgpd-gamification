@@ -11,7 +11,7 @@ import {
 } from "@/repositories/userActivity";
 import { ActivityTypes } from "@/types/entities";
 import { ActivitiesQnaInfo, QnaData } from "@/types/service";
-import { updateModuleProgress } from "../moduleService";
+import { updateModuleProgress } from "../module/moduleService";
 import { updateUserProgress } from "../userService";
 import { checkers } from "./check";
 import { mapActivityStatus, mapQnaData } from "./mappers";

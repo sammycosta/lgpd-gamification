@@ -5,23 +5,9 @@ import {
   getModulesByUserId,
   updateUserModulePoints,
 } from "@/repositories/module";
-import { Module } from "@/types/entities";
-import { TRPCError } from "@trpc/server";
-import { grantUserBadges } from "./userService";
-import { validateModuleAccess } from "./validation/moduleGuards";
-
-function mapModule({ id, name, points, maxPoints, userModulesId }: Module) {
-  return {
-    id,
-    name,
-    icon: null, //INSERIR FUTURAMENTE
-    points: points ?? 0,
-    maxPoints,
-    locked: userModulesId == null,
-    progressPercentage:
-      maxPoints > 0 && points ? (points / maxPoints) * 100 : 0,
-  };
-}
+import { grantUserBadges } from "../userService";
+import { mapModule } from "./mappers";
+import { validateModuleAccess, validateModuleExists } from "./validators";
 
 export async function getModules(userId: number) {
   const modules = await getModulesByUserId(userId);
@@ -30,15 +16,14 @@ export async function getModules(userId: number) {
 
 export async function getModule(userId: number, moduleId: number) {
   const module = await getModuleById(userId, moduleId);
-  if (module) {
-    const baseModule = mapModule(module);
-    return {
-      ...baseModule,
-      previousModuleId: module.requiredModuleId,
-      nextModuleId: module.dependentModuleId,
-    };
-  }
-  throw new TRPCError({ code: "NOT_FOUND", message: "Módulo não encontrado." });
+  validateModuleExists(module);
+
+  const baseModule = mapModule(module);
+  return {
+    ...baseModule,
+    previousModuleId: module.requiredModuleId,
+    nextModuleId: module.dependentModuleId,
+  };
 }
 
 export async function updateModuleProgress(
@@ -59,9 +44,9 @@ export async function updateModuleProgress(
   const oldModuleProgress = currentPoints / maxPoints;
   const newModuleProgress = newPoints / maxPoints;
 
-  const unlockedModule = oldModuleProgress < 0.7 && newModuleProgress >= 0.7;
-  if (dependentModuleId && unlockedModule) {
-    console.log("vai criar", userId, dependentModuleId);
+  const shouldUnlockModule =
+    oldModuleProgress < 0.7 && newModuleProgress >= 0.7;
+  if (dependentModuleId && shouldUnlockModule) {
     await createUserModule(userId, dependentModuleId, dbClient);
   }
 
