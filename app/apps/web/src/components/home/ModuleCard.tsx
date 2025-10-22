@@ -11,12 +11,7 @@ import {
   useMantineTheme
 } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
-import {
-  BookOpenText,
-  LockKeyhole,
-  NotebookText,
-  PlayCircle
-} from 'lucide-react'
+import { BookOpenText, LockKeyhole, NotebookText, PlayCircle } from 'lucide-react'
 import Link from 'next/link'
 import ProgressBar from '../ui/ProgressBar'
 
@@ -52,15 +47,10 @@ export default function ModuleCard({
 
   return (
     <Card padding="md" radius="sm" withBorder>
-      <Group
-        justify="space-between"
-        align="center"
-        wrap="nowrap"
-        gap={biggerThanXs ? 'lg' : 'xs'}
-      >
+      <Group justify="space-between" align="center" wrap="nowrap" gap={biggerThanXs ? 'lg' : 'xs'}>
         <Box pos="relative">{iconComponent}</Box>
         <Box w="100%">
-          <Text fw={500} fz="lg" mb={4}>
+          <Text fw={500} ff="Outfit, sans-serif" fz="lg" mb={4}>
             {name}
           </Text>
           <Group gap="xs" align="center" w="100%" visibleFrom="xs">
@@ -81,33 +71,17 @@ export default function ModuleCard({
         <Group align="center" w="100%">
           <ProgressBar progressPercentage={progressPercentage} checkSmall />
         </Group>
-        <Text
-          fz="xs"
-          c="dimmed"
-          mt={4}
-        >{`${points} / ${maxPoints} pontos`}</Text>
+        <Text fz="xs" c="dimmed" mt={4}>{`${points} / ${maxPoints} pontos`}</Text>
       </Box>
     </Card>
   )
 }
 
-const ActionButtons = ({
-  locked,
-  id
-}: {
-  locked: boolean
-  id: string | number
-}) => {
+const ActionButtons = ({ locked, id }: { locked: boolean; id: string | number }) => {
   return (
     <>
       {locked ? (
-        <Popover
-          width={320}
-          position="bottom"
-          withArrow
-          shadow="md"
-          arrowSize={15}
-        >
+        <Popover width={320} position="bottom" withArrow shadow="md" arrowSize={15}>
           <Popover.Target>
             <Button
               variant="filled"
@@ -131,8 +105,7 @@ const ActionButtons = ({
                 <LockKeyhole />
               </ThemeIcon>
               <Text size="sm" style={{ textAlign: 'center' }}>
-                Alcance ao menos <b>70%</b> do módulo anterior para desbloquear
-                atividades
+                Alcance ao menos <b>70%</b> do módulo anterior para desbloquear atividades
               </Text>
             </Group>
           </Popover.Dropdown>

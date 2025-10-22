@@ -15,7 +15,7 @@ export default async function ResourcesPage({ params }: ResourcesPageProps) {
   return (
     <>
       <ButtonGoBack />
-      <Group mt="md">
+      <Group mt="md" mb="md">
         <Badge variant="light" size="lg" leftSection={<NotebookText size={16} />} radius="sm">
           Materiais de Apoio
         </Badge>

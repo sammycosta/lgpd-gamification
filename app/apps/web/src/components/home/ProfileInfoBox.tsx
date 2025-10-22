@@ -52,12 +52,7 @@ export default function ProfileInfoBox({ small }: { small?: boolean }) {
       <Stack gap="sm" p="xs">
         <Group justify="space-between" wrap="nowrap">
           <Group gap="sm" wrap="nowrap">
-            <Avatar
-              src={`/${avatarPath}`}
-              alt="Avatar do usuário"
-              size={64}
-              radius="xl"
-            />
+            <Avatar src={`/${avatarPath}`} alt="Avatar do usuário" size={64} radius="xl" />
             <Stack gap={0}>
               <Text fw={700} fz="lg">
                 {name}
@@ -84,12 +79,7 @@ export default function ProfileInfoBox({ small }: { small?: boolean }) {
         <Group gap="xs" wrap="nowrap">
           {badges?.slice(0, 4).map((badge, index) => (
             <Tooltip key={index} label={`Módulo ${badge.moduleId}`} withArrow>
-              <ThemeIcon
-                size={40}
-                radius="xl"
-                variant="light"
-                color={badgeColor(badge.type)}
-              >
+              <ThemeIcon size={40} radius="xl" variant="light" color={badgeColor(badge.type)}>
                 <CircleStar size={24} />
               </ThemeIcon>
             </Tooltip>
@@ -110,12 +100,7 @@ export default function ProfileInfoBox({ small }: { small?: boolean }) {
   return (
     <Box bg="var(--mantine-color-body)">
       <Stack align="center" gap="xs" mb="xl">
-        <Avatar
-          src={`/${avatarPath}`}
-          alt="Avatar do usuário"
-          size={120}
-          radius="xl"
-        />
+        <Avatar src={`/${avatarPath}`} alt="Avatar do usuário" size={120} radius="xl" />
         <Text fw={700} fz="xl">
           {name}
         </Text>
@@ -156,21 +141,11 @@ export default function ProfileInfoBox({ small }: { small?: boolean }) {
 
           <Group gap="sm">
             {badges?.map((badge, index) => {
-              const title =
-                badge.type.charAt(0).toUpperCase() + badge.type.slice(1)
+              const title = badge.type.charAt(0).toUpperCase() + badge.type.slice(1)
               return (
-                <Tooltip
-                  key={index}
-                  label={`Módulo ${badge.moduleId}: ${title}`}
-                  withArrow
-                >
+                <Tooltip key={index} label={`Módulo ${badge.moduleId}: ${title}`} withArrow>
                   <Stack align="center" gap={4} w={70}>
-                    <ThemeIcon
-                      size={64}
-                      radius="xl"
-                      variant="light"
-                      color={badgeColor(badge.type)}
-                    >
+                    <ThemeIcon size={64} radius="xl" variant="light" color={badgeColor(badge.type)}>
                       <CircleStar size={48} />
                     </ThemeIcon>
                     <Text fz="xs" c="dimmed" ta="center">

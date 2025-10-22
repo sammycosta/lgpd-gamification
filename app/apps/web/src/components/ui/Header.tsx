@@ -1,13 +1,5 @@
 'use client'
-import {
-  ActionIcon,
-  Avatar,
-  Container,
-  Group,
-  Loader,
-  Text,
-  Tooltip
-} from '@mantine/core'
+import { ActionIcon, Avatar, Container, Group, Loader, Text, Tooltip } from '@mantine/core'
 import { LogOut, Puzzle } from 'lucide-react'
 import Link from 'next/link'
 import { useUserInfo } from '../../hooks/useUserInfo'
@@ -20,7 +12,7 @@ export default function Header() {
       <Group h="100%" justify="space-between">
         <Group gap="xs">
           <Puzzle size={22} />
-          <Text fw={700} fz={{ base: 'md', sm: 'lg' }}>
+          <Text fw={700} fz={{ base: 'md', sm: 'lg' }} ff="Outfit, sans-serif">
             <Link href="/">LGPD Gamificada</Link>
           </Text>
         </Group>

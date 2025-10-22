@@ -25,14 +25,18 @@ export default function RootLayout({
   return (
     <html lang="pt-br" {...mantineHtmlProps}>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Outfit&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+          rel="stylesheet"
+        />
+
         <ColorSchemeScript />
       </head>
       <body>
         <Providers>
-          <AppShell
-            header={{ height: 60 }}
-            padding={{ base: 'sm', xs: 'lg', md: 'xl' }}
-          >
+          <AppShell header={{ height: 60 }} padding={{ base: 'sm', xs: 'lg', md: 'xl' }}>
             <AppShellHeader>
               <Header />
             </AppShellHeader>
