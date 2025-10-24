@@ -38,3 +38,37 @@
     border-color: var(--mantine-color-red-6);
  }
 }
+
+.matching-card {
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+.active-matching-card {
+  background-color: var(--mantine-color-blue-light);
+  border-color: var(--mantine-color-blue-6);
+}
+.correct-matching-card {
+  background-color: var(--mantine-color-green-light);
+  border-color: var(--mantine-color-green-6);
+}
+
+.error-matching-card {
+  background-color: var(--mantine-color-red-light);
+  border-color: var(--mantine-color-red-6);
+}
+
+/* Defina esta animação (ex: em um arquivo CSS ou usando Mantine sx/styles) */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.shake-animation {
+  animation: shake 0.4s ease-in-out 2; /* 0.4s de duração, repete 2 vezes */
+}

@@ -19,7 +19,9 @@ export default function QeAView(props: QeAViewProps) {
   const { activity, goToNextActivity, onSubmit, status, resetStatus } = props
   const { question, options, answers } = activity.data as QNAData
 
-  const [value, setValue] = useState<string | null>(null)
+  const [value, setValue] = useState<string | null>(() =>
+    status === 'alreadyCorrect' ? String(answers[0]) : null
+  )
   const [wrongValue, setWrongValue] = useState<string | null>(null)
 
   const isCorrect = status === 'correct' || status === 'alreadyCorrect'
@@ -27,15 +29,15 @@ export default function QeAView(props: QeAViewProps) {
 
   const checkAnswer = () => onSubmit(Number(value))
 
+  console.log(status)
+
   useConfetti(status === 'correct')
 
   useEffect(() => {
-    if (status === 'alreadyCorrect') {
-      setValue(String(answers[0]))
-    } else if (isWrong) {
+    if (isWrong) {
       setWrongValue(value)
     }
-  }, [status])
+  }, [isWrong])
 
   useEffect(() => {
     if (isWrong && wrongValue != null) {

@@ -6,8 +6,8 @@ import Link from 'next/link'
 interface ActivityControlsProps {
   status: ActivityFeedbackStatus
   onNext?: () => void
-  onVerify: () => void
-  hasAnswer: boolean
+  onVerify?: () => void
+  hasAnswer?: boolean
   moduleId: number
 }
 
@@ -43,9 +43,11 @@ export default function ActivityControls(props: ActivityControlsProps) {
                 Pular
               </Button>
             )}
-            <Button onClick={onVerify} disabled={!hasAnswer}>
-              Verificar
-            </Button>
+            {onVerify && (
+              <Button onClick={onVerify} disabled={!hasAnswer}>
+                Verificar
+              </Button>
+            )}
           </>
         )}
         {isCorrect && onNext && <Button onClick={onNext}>Continuar</Button>}

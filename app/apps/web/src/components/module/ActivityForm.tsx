@@ -10,7 +10,7 @@ import { trpc } from '@/utils/trpc'
 import { Button, Card, Flex } from '@mantine/core'
 import { useMutation } from '@tanstack/react-query'
 import { ArrowLeft } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { invalidateUseActivities } from '../../hooks/useActivities'
 import MatchingView from './MatchingView'
 import QeAMultipleView from './QeAMultipleView'
@@ -26,7 +26,9 @@ export default function ActivityForm(props: ActivityFormProps) {
   const { activity, closeForm, goToNextActivity } = props
   const { id, type, data } = activity
 
-  const [status, setStatus] = useState<ActivityFeedbackStatus>('idle')
+  const [status, setStatus] = useState<ActivityFeedbackStatus>(() =>
+    ActivityStatus.CORRECT === activity.status ? 'alreadyCorrect' : 'idle'
+  )
   const [hasStatusChanged, setHasStatusChanged] = useState(false)
 
   const submitMutation = useMutation(
@@ -70,12 +72,6 @@ export default function ActivityForm(props: ActivityFormProps) {
         return MatchingView
     }
   })()
-
-  useEffect(() => {
-    if (ActivityStatus.CORRECT === activity.status) {
-      setStatus('alreadyCorrect')
-    }
-  }, [])
 
   return (
     <Card mt="lg" radius="md" withBorder>

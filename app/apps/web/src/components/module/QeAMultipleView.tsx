@@ -18,7 +18,10 @@ interface QeAMultipleViewProps {
 export default function QeAMultipleView(props: QeAMultipleViewProps) {
   const { activity, goToNextActivity, onSubmit, status, resetStatus } = props
   const { question, options, answers } = activity.data as QNAData
-  const [value, setValue] = useState<string[]>([])
+
+  const [value, setValue] = useState<string[]>(() =>
+    status === 'alreadyCorrect' ? answers.map(String) : []
+  )
   const [wrongValue, setWrongValue] = useState<string[]>([])
 
   const isCorrect = status === 'correct' || status === 'alreadyCorrect'
@@ -29,9 +32,7 @@ export default function QeAMultipleView(props: QeAMultipleViewProps) {
   useConfetti(status === 'correct')
 
   useEffect(() => {
-    if (status === 'alreadyCorrect') {
-      setValue(answers.map(String))
-    } else if (isWrong) {
+    if (isWrong) {
       setWrongValue(value.filter((answer) => !answers.includes(Number(answer))))
     }
   }, [status])
