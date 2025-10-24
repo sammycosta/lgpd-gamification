@@ -1,15 +1,17 @@
 // Tipos auxiliares para inserção de dados
 
+import { SimpleMatchingPair } from "./service";
+
 interface BaseActivity {
   name: string;
   type: number;
+  points: number;
 }
 
-interface BaseQnaActivity extends BaseActivity {
+export interface BaseQnaActivity extends BaseActivity {
   isMultiple: boolean;
   question: string;
   options: string[];
-  points: number;
 }
 
 export interface QnaActivity extends BaseQnaActivity {
@@ -20,4 +22,11 @@ export interface QnaMultipleActivity extends BaseQnaActivity {
   answers: string[];
 }
 
-export type ActivityToInsert = QnaActivity | QnaMultipleActivity;
+export interface MatchingActivity extends BaseActivity {
+  matchingPairs: SimpleMatchingPair[];
+}
+
+export type ActivityToInsert =
+  | QnaActivity
+  | QnaMultipleActivity
+  | MatchingActivity;

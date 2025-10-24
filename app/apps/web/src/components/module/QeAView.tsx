@@ -1,5 +1,5 @@
 import { useConfetti } from '@/hooks/useConfetti'
-import { type ActivityFeedbackStatus, type QnAActivity } from '@/types/api'
+import { type Activity, type ActivityFeedbackStatus, type QNAData } from '@/types/api'
 import { Group, Radio, Stack, Text } from '@mantine/core'
 import cx from 'clsx'
 import { useEffect, useState } from 'react'
@@ -8,7 +8,7 @@ import QuestionTitle from './QuestionTitle'
 import classes from './style.module.css'
 
 interface QeAViewProps {
-  activity: QnAActivity
+  activity: Activity
   goToNextActivity?: () => void
   onSubmit: (option: number) => void
   status: ActivityFeedbackStatus
@@ -17,7 +17,7 @@ interface QeAViewProps {
 
 export default function QeAView(props: QeAViewProps) {
   const { activity, goToNextActivity, onSubmit, status, resetStatus } = props
-  const { question, options, answers } = activity.data
+  const { question, options, answers } = activity.data as QNAData
 
   const [value, setValue] = useState<string | null>(null)
   const [wrongValue, setWrongValue] = useState<string | null>(null)

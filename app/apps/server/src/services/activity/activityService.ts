@@ -42,27 +42,32 @@ export async function getActivities(userId: number, moduleId: number) {
     matchingActivityIds
   );
 
-  return activities.map((activity) => {
-    let data: QnaData | MatchingData | undefined;
-    switch (activity.typeId) {
-      case ActivityTypes.QNA:
-        data = mapQnaData(activity as ActivitiesQnaInfo, qnaOptions);
-        break;
-      case ActivityTypes.MATCHING:
-        data = mapMatchingData(activity as ActivitiesInfoBase, matchingPairs);
-        break;
-    }
+  return activities
+    .map((activity) => {
+      let data: QnaData | MatchingData;
 
-    return {
-      id: activity.id,
-      name: activity.name,
-      status: mapActivityStatus(activity.isCorrect),
-      points: activity.points,
-      moduleId,
-      type: activity.typeId,
-      data,
-    };
-  });
+      switch (activity.typeId) {
+        case ActivityTypes.QNA:
+          data = mapQnaData(activity as ActivitiesQnaInfo, qnaOptions);
+          break;
+        case ActivityTypes.MATCHING:
+          data = mapMatchingData(activity as ActivitiesInfoBase, matchingPairs);
+          break;
+        default:
+          return undefined;
+      }
+
+      return {
+        id: activity.id,
+        name: activity.name,
+        status: mapActivityStatus(activity.isCorrect),
+        points: activity.points,
+        moduleId,
+        type: activity.typeId,
+        data,
+      };
+    })
+    .filter((item) => item !== undefined);
 }
 
 export async function submitActivityResult(

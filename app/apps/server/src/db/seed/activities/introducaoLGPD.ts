@@ -40,4 +40,15 @@ export const introducaoLGPDActivities: ActivityToInsert[] = [
     answers: ["C", "B"],
     points: 10,
   },
+  {
+    name: "Pergunta Matching",
+    type: ActivityTypes.MATCHING,
+    matchingPairs: [
+      { concept: "A", definition: "a" },
+      { concept: "B", definition: "b" },
+      { concept: "C", definition: "c" },
+      { concept: "D", definition: "d" },
+    ],
+    points: 10,
+  },
 ];

@@ -8,7 +8,7 @@ export interface Module {
   progressPercentage: number
 }
 
-export enum ActivityType {
+export enum ActivityTypes {
   QNA = 1,
   MATCHING = 2
 }
@@ -22,15 +22,7 @@ export enum ActivityStatus {
 //TODO: Depois ver se troco pra enum proprio ou reutilizo o enum de cima
 export type ActivityFeedbackStatus = 'idle' | 'correct' | 'wrong' | 'alreadyCorrect'
 
-export interface BaseActivity {
-  id: number
-  name: string
-  status: ActivityStatus
-  moduleId: number
-  points: number
-}
-
-export interface QNA {
+export interface QNAData {
   question: string
   options: {
     id: number
@@ -40,13 +32,26 @@ export interface QNA {
   isMultiple: boolean
 }
 
-// Posso separar para mais tipos depois
-export type QnAActivity = BaseActivity & {
-  type: ActivityType.QNA
-  data: QNA
+export interface MatchingPair {
+  concept: string
+  definition: string
 }
 
-export type Activity = QnAActivity
+export interface MatchingData {
+  concepts: string[]
+  definitions: string[]
+  matchingPairs: MatchingPair[]
+}
+
+export interface Activity {
+  id: number
+  name: string
+  status: ActivityStatus
+  moduleId: number
+  points: number
+  type: ActivityTypes
+  data: QNAData | MatchingData
+}
 
 export type BadgeType = 'gold' | 'silver' | 'bronze'
 

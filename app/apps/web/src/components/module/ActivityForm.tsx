@@ -1,9 +1,10 @@
 import { invalidateUseModule } from '@/hooks/useModules'
 import {
   ActivityStatus,
-  ActivityType,
+  ActivityTypes,
   type Activity,
-  type ActivityFeedbackStatus
+  type ActivityFeedbackStatus,
+  type QNAData
 } from '@/types/api'
 import { trpc } from '@/utils/trpc'
 import { Button, Card, Flex } from '@mantine/core'
@@ -11,6 +12,7 @@ import { useMutation } from '@tanstack/react-query'
 import { ArrowLeft } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { invalidateUseActivities } from '../../hooks/useActivities'
+import MatchingView from './MatchingView'
 import QeAMultipleView from './QeAMultipleView'
 import QeAView from './QeAView'
 
@@ -60,6 +62,15 @@ export default function ActivityForm(props: ActivityFormProps) {
 
   const resetStatus = () => setStatus('idle')
 
+  const ActivityView = (() => {
+    switch (type) {
+      case ActivityTypes.QNA:
+        return (data as QNAData).isMultiple ? QeAMultipleView : QeAView
+      case ActivityTypes.MATCHING:
+        return MatchingView
+    }
+  })()
+
   useEffect(() => {
     if (ActivityStatus.CORRECT === activity.status) {
       setStatus('alreadyCorrect')
@@ -78,24 +89,13 @@ export default function ActivityForm(props: ActivityFormProps) {
           Voltar à lista de atividades
         </Button>
       </Flex>
-      {ActivityType.QNA === type && !data.isMultiple && (
-        <QeAView
-          activity={activity}
-          onSubmit={handleSubmit}
-          status={status}
-          goToNextActivity={goToNextActivity}
-          resetStatus={resetStatus}
-        />
-      )}
-      {ActivityType.QNA === type && data.isMultiple && (
-        <QeAMultipleView
-          activity={activity}
-          onSubmit={handleSubmit}
-          status={status}
-          goToNextActivity={goToNextActivity}
-          resetStatus={resetStatus}
-        />
-      )}
+      <ActivityView
+        activity={activity}
+        onSubmit={handleSubmit}
+        status={status}
+        goToNextActivity={goToNextActivity}
+        resetStatus={resetStatus}
+      />
     </Card>
   )
 }

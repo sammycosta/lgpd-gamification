@@ -1,6 +1,8 @@
 import { ActivityTypes } from "@/types/entities";
 import {
   ActivityToInsert,
+  BaseQnaActivity,
+  MatchingActivity,
   QnaActivity,
   QnaMultipleActivity,
 } from "@/types/seed";
@@ -10,6 +12,7 @@ import {
   activityTypes,
   avatars,
   badgeTypes,
+  matchingPairs,
   modules,
   qnaDetails,
   qnaOptions,
@@ -88,7 +91,7 @@ async function insertActivity(activity: ActivityToInsert, moduleId: number) {
       .returning({ id: activities.id });
 
     if (activity.type == ActivityTypes.QNA) {
-      const { question, isMultiple, options } = activity;
+      const { question, isMultiple, options } = activity as BaseQnaActivity;
 
       await db.insert(qnaDetails).values({
         activityId: newActivity.id,
@@ -103,6 +106,16 @@ async function insertActivity(activity: ActivityToInsert, moduleId: number) {
           isCorrect: isMultiple
             ? (activity as QnaMultipleActivity).answers.includes(option)
             : option === (activity as QnaActivity).answer,
+        }))
+      );
+    } else if (activity.type == ActivityTypes.MATCHING) {
+      const matchingPairsToInsert = (activity as MatchingActivity)
+        .matchingPairs;
+
+      await db.insert(matchingPairs).values(
+        matchingPairsToInsert.map((pair) => ({
+          activityId: newActivity.id,
+          ...pair,
         }))
       );
     }
