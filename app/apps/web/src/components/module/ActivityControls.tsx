@@ -9,10 +9,11 @@ interface ActivityControlsProps {
   onVerify?: () => void
   hasAnswer?: boolean
   moduleId: number
+  correctText?: React.ReactNode
 }
 
 export default function ActivityControls(props: ActivityControlsProps) {
-  const { status, onNext, onVerify, hasAnswer, moduleId } = props
+  const { status, onNext, onVerify, hasAnswer, moduleId, correctText } = props
 
   const isCorrect = status === 'correct' || status === 'alreadyCorrect'
 
@@ -21,6 +22,7 @@ export default function ActivityControls(props: ActivityControlsProps) {
       {isCorrect && (
         <Alert mt="md" color="green" icon={<CircleCheck />} title="Correto!">
           Excelente! Você acertou.
+          {correctText && correctText}
         </Alert>
       )}
       {status === 'wrong' && (

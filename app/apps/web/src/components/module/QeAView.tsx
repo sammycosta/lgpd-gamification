@@ -29,8 +29,6 @@ export default function QeAView(props: QeAViewProps) {
 
   const checkAnswer = () => onSubmit(Number(value))
 
-  console.log(status)
-
   useConfetti(status === 'correct')
 
   useEffect(() => {

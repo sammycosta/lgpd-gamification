@@ -31,7 +31,6 @@ async function checkMatchingAnswer(activityId: number, answer: unknown) {
 
   validateMatchingAnswerType(answer);
 
-  // TODO: Testar se verifica corretamente para esse caso também; Deve sim.
   return arraysEqualIgnoreOrder(answer, matchingPairs);
 }
 

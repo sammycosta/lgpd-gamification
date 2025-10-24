@@ -55,6 +55,7 @@
 .correct-matching-card {
   background-color: var(--mantine-color-green-light);
   border-color: var(--mantine-color-green-6);
+  cursor: auto;
 }
 
 .error-matching-card {

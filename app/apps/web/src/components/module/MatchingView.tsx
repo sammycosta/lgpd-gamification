@@ -6,8 +6,9 @@ import {
   type MatchingPair
 } from '@/types/api'
 import { shuffle } from '@/utils/array'
-import { Card, Grid, Text } from '@mantine/core'
+import { Alert, Card, Grid, Stack, Text } from '@mantine/core'
 import cx from 'clsx'
+import { PlugZap } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import ActivityControls from './ActivityControls'
 import classes from './style.module.css'
@@ -20,18 +21,18 @@ interface MatchingViewProps {
   resetStatus: () => void
 }
 
-// Dependendo dos dados que vou precisar usar, posso simplificar backend;
 export default function MatchingView(props: MatchingViewProps) {
-  const { activity, goToNextActivity, onSubmit, status, resetStatus } = props
+  const { activity, goToNextActivity, onSubmit, status } = props
   const { concepts, definitions, matchingPairs } = activity.data as MatchingData
 
+  // TODO: Fazer isso no backend
+  const shuffledItems = useMemo(() => shuffle([...concepts, ...definitions]), [])
   const [selectedItems, setSelectedItems] = useState<string[]>([])
   const [correctItems, setCorrectItems] = useState<string[]>(() =>
     status === 'alreadyCorrect' ? shuffledItems : []
   )
   const [isWrong, setIsWrong] = useState(false)
 
-  const shuffledItems = useMemo(() => shuffle([...concepts, ...definitions]), [])
   const isCorrect = status === 'correct' || status === 'alreadyCorrect'
 
   const handleItemClick = (itemContent: string) => {
@@ -68,6 +69,7 @@ export default function MatchingView(props: MatchingViewProps) {
   useConfetti(status === 'correct')
 
   useEffect(() => {
+    // TODO: Algum Loading?
     if (!isCorrect && correctItems.length == shuffledItems.length) {
       onSubmit(matchingPairs)
     }
@@ -75,6 +77,19 @@ export default function MatchingView(props: MatchingViewProps) {
 
   return (
     <>
+      <Alert
+        icon={<PlugZap />}
+        color="blue"
+        radius="md"
+        variant="light"
+        mb="md"
+        title={
+          <Text size="md" fw={700}>
+            Combine cada conceito com sua definição correta tocando nos <i>cards</i>.
+          </Text>
+        }
+      />
+
       <Grid>
         {shuffledItems.map((item) => {
           const isActive = selectedItems.includes(item)
@@ -93,8 +108,12 @@ export default function MatchingView(props: MatchingViewProps) {
           )
         })}
       </Grid>
-
-      <ActivityControls status={status} onNext={goToNextActivity} moduleId={activity.moduleId} />
+      <ActivityControls
+        status={status}
+        onNext={goToNextActivity}
+        moduleId={activity.moduleId}
+        correctText={<MatchingPairsReview matchingPairs={matchingPairs} />}
+      />
     </>
   )
 }
@@ -108,6 +127,7 @@ interface ClickableItemProps {
 }
 
 function ClickableItem({ content, isActive, isCorrect, isError, onClick }: ClickableItemProps) {
+  const handleClick = isCorrect ? () => {} : onClick
   return (
     <Card
       className={cx(classes['matching-card'], {
@@ -120,11 +140,23 @@ function ClickableItem({ content, isActive, isCorrect, isError, onClick }: Click
       withBorder
       padding="lg"
       radius="md"
-      onClick={onClick}
+      onClick={handleClick}
     >
       <Text size="md" ta="center">
         {content}
       </Text>
     </Card>
+  )
+}
+
+function MatchingPairsReview({ matchingPairs }: { matchingPairs: MatchingPair[] }) {
+  return (
+    <Stack mt="md">
+      {matchingPairs.map((pair) => (
+        <Text key={pair.concept} size="sm">
+          <strong>{pair.concept}</strong> → {pair.definition}
+        </Text>
+      ))}
+    </Stack>
   )
 }
