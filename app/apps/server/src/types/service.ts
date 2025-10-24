@@ -30,7 +30,6 @@ export interface SimpleMatchingPair {
 }
 
 export interface MatchingData {
-  concepts: string[];
-  definitions: string[];
+  shuffledItems: string[];
   matchingPairs: SimpleMatchingPair[];
 }

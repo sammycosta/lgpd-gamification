@@ -5,11 +5,10 @@ import {
   type MatchingData,
   type MatchingPair
 } from '@/types/api'
-import { shuffle } from '@/utils/array'
 import { Alert, Card, Grid, Stack, Text } from '@mantine/core'
 import cx from 'clsx'
 import { PlugZap } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import ActivityControls from './ActivityControls'
 import classes from './style.module.css'
 
@@ -23,10 +22,8 @@ interface MatchingViewProps {
 
 export default function MatchingView(props: MatchingViewProps) {
   const { activity, goToNextActivity, onSubmit, status } = props
-  const { concepts, definitions, matchingPairs } = activity.data as MatchingData
+  const { shuffledItems, matchingPairs } = activity.data as MatchingData
 
-  // TODO: Fazer isso no backend
-  const shuffledItems = useMemo(() => shuffle([...concepts, ...definitions]), [])
   const [selectedItems, setSelectedItems] = useState<string[]>([])
   const [correctItems, setCorrectItems] = useState<string[]>(() =>
     status === 'alreadyCorrect' ? shuffledItems : []
@@ -40,6 +37,7 @@ export default function MatchingView(props: MatchingViewProps) {
 
     if (selectedItems.includes(itemContent)) {
       setSelectedItems(selectedItems.filter((item) => item !== itemContent))
+      return
     }
 
     if (selectedItems.length == 1) {
@@ -89,7 +87,6 @@ export default function MatchingView(props: MatchingViewProps) {
           </Text>
         }
       />
-
       <Grid>
         {shuffledItems.map((item) => {
           const isActive = selectedItems.includes(item)
@@ -131,8 +128,8 @@ function ClickableItem({ content, isActive, isCorrect, isError, onClick }: Click
   return (
     <Card
       className={cx(classes['matching-card'], {
-        [classes['active-matching-card']]: isActive,
         [classes['hover-card']]: !isActive && !isCorrect && !isError,
+        [classes['active-matching-card']]: isActive,
         [classes['correct-matching-card']]: isCorrect,
         [classes['error-matching-card']]: isError,
         [classes['shake-animation']]: isError

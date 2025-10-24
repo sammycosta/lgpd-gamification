@@ -38,8 +38,7 @@ export interface MatchingPair {
 }
 
 export interface MatchingData {
-  concepts: string[]
-  definitions: string[]
+  shuffledItems: string[]
   matchingPairs: MatchingPair[]
 }
 

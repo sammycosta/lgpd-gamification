@@ -6,6 +6,7 @@ import {
   QnaData,
   QnaOptionsByActivityId,
 } from "@/types/service";
+import { shuffle } from "@/util/array";
 
 export function mapActivityStatus(isCorrect: boolean | null): ActivityStatus {
   if (isCorrect === null) return ActivityStatus.TODO;
@@ -40,20 +41,16 @@ export function mapMatchingData(
   matchingPairsMap: MatchingPairsByActivityId
 ) {
   const rawMatchingPairs = matchingPairsMap[activity.id] || [];
-  const concepts: string[] = [];
-  const definitions: string[] = [];
+  const items: string[] = [];
 
   const matchingPairs = rawMatchingPairs.map((matchingPair) => {
-    // Removendo ID, restaurar se no futuro eu ver necessidade
     const { id, activityId, ...rest } = matchingPair;
-    concepts.push(matchingPair.concept);
-    definitions.push(matchingPair.definition);
+    items.push(matchingPair.concept, matchingPair.definition);
     return rest;
   });
 
   return {
-    concepts,
-    definitions,
+    shuffledItems: shuffle(items),
     matchingPairs,
   };
 }
