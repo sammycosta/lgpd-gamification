@@ -1,6 +1,6 @@
 'use client'
 
-import { useActivities } from '@/hooks/useActivities'
+import { invalidateUseActivities, useActivities } from '@/hooks/useActivities'
 import { ActivityStatus, type Activity } from '@/types/api'
 import { Button, Group, Loader, Stack, ThemeIcon, useMantineTheme } from '@mantine/core'
 import { CircleCheck, CircleDashed, CircleX } from 'lucide-react'
@@ -19,7 +19,16 @@ interface SelectedActivity {
 export default function Activities({ moduleId }: ActivitiesProps) {
   const { isLoading, data: activities } = useActivities(1, moduleId)
   const [selectedActivity, setSelectedActivity] = useState<SelectedActivity | null>(null)
+  const [activitiesInfoChanged, setActivitiesInfoChanged] = useState(false)
+
   const theme = useMantineTheme()
+
+  const closeForm = () => {
+    if (activitiesInfoChanged) {
+      invalidateUseActivities(1, moduleId)
+    }
+    setSelectedActivity(null)
+  }
 
   if (isLoading) {
     return <Loader />
@@ -58,14 +67,17 @@ export default function Activities({ moduleId }: ActivitiesProps) {
           const nextIndex = index + 1
           const nextActivity = activities[nextIndex]
           setSelectedActivity({ activity: nextActivity, index: nextIndex })
+          return nextActivity
         }
       : undefined
 
     return (
       <ActivityForm
+        key={activity.id}
         activity={activity}
-        closeForm={() => setSelectedActivity(null)}
+        closeForm={closeForm}
         goToNextActivity={goToNextActivity}
+        setActivitiesInfoChanged={setActivitiesInfoChanged}
       />
     )
   }

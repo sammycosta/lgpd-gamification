@@ -1,6 +1,7 @@
 import ButtonGoBack from '@/components/ui/ButtonGoBack'
 import { Badge, Group } from '@mantine/core'
 import { NotebookText } from 'lucide-react'
+import ConceitosBasicosContent from './ConceitosBasicosContent'
 import IntroducaoLGPDContent from './IntroducaoLGPDContent'
 
 interface ResourcesPageProps {
@@ -29,6 +30,8 @@ const Content = ({ moduleId }: { moduleId: number }) => {
   switch (moduleId) {
     case 1:
       return <IntroducaoLGPDContent />
+    case 2:
+      return <ConceitosBasicosContent />
     default:
       return <div>Conteúdo não encontrado!</div>
   }

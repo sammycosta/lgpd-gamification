@@ -11,7 +11,6 @@ import { Button, Card, Flex } from '@mantine/core'
 import { useMutation } from '@tanstack/react-query'
 import { ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
-import { invalidateUseActivities } from '../../hooks/useActivities'
 import MatchingView from './MatchingView'
 import QeAMultipleView from './QeAMultipleView'
 import QeAView from './QeAView'
@@ -19,17 +18,17 @@ import QeAView from './QeAView'
 interface ActivityFormProps {
   activity: Activity
   closeForm: () => void
-  goToNextActivity?: () => void
+  goToNextActivity?: () => Activity
+  setActivitiesInfoChanged: (changed: boolean) => void
 }
 
 export default function ActivityForm(props: ActivityFormProps) {
-  const { activity, closeForm, goToNextActivity } = props
+  const { activity, closeForm, goToNextActivity, setActivitiesInfoChanged } = props
   const { id, type, data } = activity
 
   const [status, setStatus] = useState<ActivityFeedbackStatus>(() =>
     ActivityStatus.CORRECT === activity.status ? 'alreadyCorrect' : 'idle'
   )
-  const [hasStatusChanged, setHasStatusChanged] = useState(false)
 
   const submitMutation = useMutation(
     trpc.activity.submitResult.mutationOptions({
@@ -39,7 +38,7 @@ export default function ActivityForm(props: ActivityFormProps) {
           invalidateUseModule(1, activity.moduleId)
         }
         setStatus(isCorrect ? 'correct' : 'wrong')
-        setHasStatusChanged(true)
+        setActivitiesInfoChanged(true)
       },
       onError: (error) => {
         // Opcional: Lógica de erro (ex: mostrar mensagem de erro na tela)
@@ -54,13 +53,6 @@ export default function ActivityForm(props: ActivityFormProps) {
       activityId: id,
       answer
     })
-
-  const handleCloseForm = () => {
-    if (hasStatusChanged) {
-      invalidateUseActivities(1, activity.moduleId)
-    }
-    closeForm()
-  }
 
   const resetStatus = () => setStatus('idle')
 
@@ -77,7 +69,7 @@ export default function ActivityForm(props: ActivityFormProps) {
     <Card mt="lg" radius="md" withBorder>
       <Flex mb="xs">
         <Button
-          onClick={handleCloseForm}
+          onClick={closeForm}
           variant="subtle"
           leftSection={<ArrowLeft size={16} />}
           color="gray"
