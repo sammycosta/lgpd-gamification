@@ -23,6 +23,11 @@ import {
 import { conceitosBasicosActivities } from "./activities/conceitosBasicos";
 import { introducaoLGPDActivities } from "./activities/introducaoLGPD";
 
+const moduleIdToActivities: Record<number, ActivityToInsert[]> = {
+  1: introducaoLGPDActivities,
+  2: conceitosBasicosActivities,
+};
+
 async function seed() {
   // TODO: Cleanup toda vez que rodar seed? Atualmente, limpo local.db
   // DADOS FIXOS
@@ -43,6 +48,8 @@ seed().catch((err) => {
 });
 
 async function insertModules() {
+  // Considera ordem linear de desbloqueio
+
   const moduleNames = [
     "Introdução à LGPD",
     "Conceitos Básicos",
@@ -55,11 +62,12 @@ async function insertModules() {
 
   let previousModuleId: number | null = null;
 
-  // maxPoints é calculado como a soma dos pontos das atividades dos módulos, manter consistente quando inserir os dados reais.
-  // possivelmente criar os objetos de atividades ANTES, calcular e inserir tudo na ordem correta do db!
-  const maxPoints = 40;
-
   for (const name of moduleNames) {
+    const activities = moduleIdToActivities[(previousModuleId ?? 0) + 1];
+    const maxPoints: number = activities
+      ? activities.reduce((acc, current) => acc + current.points, 0)
+      : 0;
+
     const [newModule]: {
       id: number;
     }[] = await db
@@ -75,8 +83,12 @@ async function insertActivities() {
   await db
     .insert(activityTypes)
     .values([{ name: "QNA" }, { name: "Matching" }]);
-  introducaoLGPDActivities.forEach((activity) => insertActivity(activity, 1));
-  conceitosBasicosActivities.forEach((activity) => insertActivity(activity, 2));
+
+  for (const [moduleId, activities] of Object.entries(moduleIdToActivities)) {
+    activities.forEach((activity) =>
+      insertActivity(activity, Number(moduleId))
+    );
+  }
 }
 
 async function insertActivity(activity: ActivityToInsert, moduleId: number) {
