@@ -187,12 +187,9 @@ export default function IntroducaoLGPDContent() {
           dia profissional.
         </p>
 
-        <Title order={3}>Leituras e materiais recomendados</Title>
-
+        <Title order={3}>Referências e materiais recomendados</Title>
         <Text c="dimmed" mb="sm">
-          Aprofunde o que aprendeu neste módulo consultando materiais confiáveis e de fácil leitura.
-          Esses recursos ajudam a compreender melhor a aplicação prática da LGPD e a importância da
-          proteção de dados no desenvolvimento de sistemas.
+          Aprofunde o que aprendeu neste módulo consultando materiais confiáveis.
         </Text>
 
         <List spacing="sm" icon={<Book size={18} />}>
@@ -207,7 +204,6 @@ export default function IntroducaoLGPDContent() {
               Texto completo da lei no portal do Planalto, referência oficial para consulta.
             </Text>
           </ListItem>
-
           <ListItem>
             <Link
               href="https://www.gov.br/anpd/pt-br/assuntos/titular-de-dados-1/direito-dos-titulares"

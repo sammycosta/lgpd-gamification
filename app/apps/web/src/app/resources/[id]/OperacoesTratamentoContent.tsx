@@ -1,4 +1,5 @@
-import { Button, Group, List, ListItem, Title, Typography } from '@mantine/core'
+import { Button, Group, List, ListItem, Text, Title, Typography } from '@mantine/core'
+import { Book } from 'lucide-react'
 import Link from 'next/link'
 
 // TODO: Deixar conteúdo mais lúdico no futuro
@@ -222,7 +223,44 @@ export default function OperacoesTratamentoContent() {
           toda atividade de tratamento segundo a LGPD, e como aplicá-los na prática para garantir
           segurança, transparência e responsabilidade no uso das informações.
         </p>
-        {/* TODO: Leituras e materiais recomendados */}
+        <Title order={3}>Referências e materiais recomendados</Title>
+        <Text c="dimmed" mb="sm">
+          Aprofunde o que aprendeu neste módulo consultando materiais confiáveis.
+        </Text>
+
+        <List spacing="sm" icon={<Book size={18} />}>
+          <ListItem>
+            <Link
+              href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/L13709.htm"
+              target="_blank"
+            >
+              Lei nº 13.709/2018 – Lei Geral de Proteção de Dados Pessoais (LGPD)
+            </Link>
+            <Text size="sm" c="dimmed">
+              Texto completo da lei no portal do Planalto, referência oficial para consulta.
+            </Text>
+          </ListItem>
+          <ListItem>
+            <Link
+              href="https://www.gov.br/esporte/pt-br/acesso-a-informacao/lgpd/glossario-de-termos-tecnicos-da-lgpd"
+              target="_blank"
+            >
+              Glossário de Termos Técnicos da LGPD
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link
+              href="https://www.gov.br/governodigital/pt-br/privacidade-e-seguranca/guias/guia_lgpd.pdf"
+              target="_blank"
+            >
+              Guia de Boas Práticas para Implementação da LGPD
+            </Link>
+            <Text size="sm" c="dimmed">
+              Documento do Governo com o objetivo de fornecer orientações de boas práticas para as
+              operações de tratamento de dados pessoais conforme previsto a LGPD.
+            </Text>
+          </ListItem>
+        </List>
       </Typography>
       <Group mt="lg" justify="flex-end">
         <Button

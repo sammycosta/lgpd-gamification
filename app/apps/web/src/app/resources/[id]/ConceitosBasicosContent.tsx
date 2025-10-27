@@ -1,4 +1,5 @@
-import { Button, Code, Group, List, ListItem, Title, Typography } from '@mantine/core'
+import { Button, Code, Group, List, ListItem, Text, Title, Typography } from '@mantine/core'
+import { Book } from 'lucide-react'
 import Link from 'next/link'
 
 // TODO: Deixar conteúdo mais lúdico no futuro
@@ -113,7 +114,32 @@ export default function ConceitosBasicosContent() {
           cuidados devem ser adotados para manter a conformidade com a LGPD.
         </p>
 
-        {/* TODO: Leituras e materiais recomendados */}
+        <Title order={3}>Referências e materiais recomendados</Title>
+        <Text c="dimmed" mb="sm">
+          Aprofunde o que aprendeu neste módulo consultando materiais confiáveis.
+        </Text>
+
+        <List spacing="sm" icon={<Book size={18} />}>
+          <ListItem>
+            <Link
+              href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/L13709.htm"
+              target="_blank"
+            >
+              Lei nº 13.709/2018 – Lei Geral de Proteção de Dados Pessoais (LGPD)
+            </Link>
+            <Text size="sm" c="dimmed">
+              Texto completo da lei no portal do Planalto, referência oficial para consulta.
+            </Text>
+          </ListItem>
+          <ListItem>
+            <Link
+              href="https://www.gov.br/esporte/pt-br/acesso-a-informacao/lgpd/classificacao-dos-dados"
+              target="_blank"
+            >
+              Classificação dos Dados
+            </Link>
+          </ListItem>
+        </List>
       </Typography>
       <Group mt="lg" justify="flex-end">
         <Button
