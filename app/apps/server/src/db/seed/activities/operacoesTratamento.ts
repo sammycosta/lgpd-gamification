@@ -213,14 +213,8 @@ export const operacoesTratamentoActivities: ActivityToInsert[] = [
     isMultiple: false,
     question:
       "A ação de empregar ou aproveitar dados pessoais de clientes para atingir a finalidade de enviar e-mails promocionais autorizados pelo titular é a operação de:",
-    options: [
-      "Produção (criação de bens, serviços ou relatórios)",
-      "Utilização (ato de empregar ou aproveitar dados para atingir uma finalidade legítima)",
-      "Avaliação (análise para gerar informação ou embasar uma decisão)",
-      "Comunicação (transmissão de políticas e ações)",
-    ],
-    answer:
-      "Utilização (ato de empregar ou aproveitar dados para atingir uma finalidade legítima)",
+    options: ["Produção", "Utilização", "Avaliação", "Comunicação"],
+    answer: "Utilização",
     points: 10,
   },
   {
