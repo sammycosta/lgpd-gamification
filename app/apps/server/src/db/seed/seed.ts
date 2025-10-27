@@ -22,10 +22,12 @@ import {
 } from "../schema";
 import { conceitosBasicosActivities } from "./activities/conceitosBasicos";
 import { introducaoLGPDActivities } from "./activities/introducaoLGPD";
+import { operacoesTratamentoActivities } from "./activities/operacoesTratamento";
 
 const moduleIdToActivities: Record<number, ActivityToInsert[]> = {
   1: introducaoLGPDActivities,
   2: conceitosBasicosActivities,
+  3: operacoesTratamentoActivities,
 };
 
 async function seed() {

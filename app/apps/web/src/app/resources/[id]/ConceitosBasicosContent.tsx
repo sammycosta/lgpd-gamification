@@ -112,6 +112,8 @@ export default function ConceitosBasicosContent() {
           entendendo, na prática, como essas atividades acontecem dentro de sistemas e quais
           cuidados devem ser adotados para manter a conformidade com a LGPD.
         </p>
+
+        {/* TODO: Leituras e materiais recomendados */}
       </Typography>
       <Group mt="lg" justify="flex-end">
         <Button

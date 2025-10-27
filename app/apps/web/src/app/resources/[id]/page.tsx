@@ -3,6 +3,7 @@ import { Badge, Group } from '@mantine/core'
 import { NotebookText } from 'lucide-react'
 import ConceitosBasicosContent from './ConceitosBasicosContent'
 import IntroducaoLGPDContent from './IntroducaoLGPDContent'
+import OperacoesTratamentoContent from './OperacoesTratamentoContent'
 
 interface ResourcesPageProps {
   params: Promise<{ id: string }>
@@ -32,6 +33,8 @@ const Content = ({ moduleId }: { moduleId: number }) => {
       return <IntroducaoLGPDContent />
     case 2:
       return <ConceitosBasicosContent />
+    case 3:
+      return <OperacoesTratamentoContent />
     default:
       return <div>Conteúdo não encontrado!</div>
   }
