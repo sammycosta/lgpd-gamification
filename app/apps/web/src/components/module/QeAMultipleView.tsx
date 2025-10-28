@@ -61,7 +61,7 @@ export default function QeAMultipleView(props: QeAMultipleViewProps) {
                 [classes['hover-card']]: !isCorrect,
                 [classes['wrong-state']]: wrongValue.includes(String(id))
               })}
-              radius="md"
+              radius="lg"
               value={String(id)}
               key={id}
             >

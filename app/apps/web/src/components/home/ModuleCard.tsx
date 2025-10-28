@@ -8,17 +8,28 @@ import {
   Text,
   ThemeIcon,
   Tooltip,
-  useMantineTheme
+  useMantineTheme,
+  type MantineTheme
 } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
-import { BookOpenText, LockKeyhole, NotebookText, PlayCircle } from 'lucide-react'
+import {
+  Book,
+  Database,
+  FolderSearch,
+  LockKeyhole,
+  NotebookText,
+  PlayCircle,
+  Repeat,
+  Scale,
+  Settings,
+  ShieldUser
+} from 'lucide-react'
 import Link from 'next/link'
 import ProgressBar from '../ui/ProgressBar'
 
 interface ModuleCardProps {
   id: number
   name: string
-  icon?: React.ReactNode
   points: number
   maxPoints: number
   locked: boolean
@@ -28,7 +39,6 @@ interface ModuleCardProps {
 export default function ModuleCard({
   id,
   name,
-  icon,
   points,
   maxPoints,
   locked,
@@ -37,20 +47,23 @@ export default function ModuleCard({
   const theme = useMantineTheme()
   const biggerThanXs = useMediaQuery(`(min-width: ${theme.breakpoints.xs})`)
 
-  const iconComponent = icon || (
-    <BookOpenText
-      size={100}
-      strokeWidth={1}
-      color={locked ? 'gray' : 'black'} // Fazer isso pros dinâmicos também no futuro.
-    />
-  )
+  const iconProps = moduleIconProps(theme)[id]
 
   return (
-    <Card padding="md" radius="sm" withBorder>
+    <Card padding="md" radius="lg" withBorder>
       <Group justify="space-between" align="center" wrap="nowrap" gap={biggerThanXs ? 'lg' : 'xs'}>
-        <Box pos="relative">{iconComponent}</Box>
+        <Box>
+          <ThemeIcon
+            h={100}
+            w={100}
+            color={locked ? theme.colors.gray[6] : iconProps.color}
+            radius="lg"
+          >
+            <iconProps.icon size={85} color="white" strokeWidth={1} />
+          </ThemeIcon>
+        </Box>
         <Box w="100%">
-          <Text fw={500} ff="Outfit, sans-serif" fz="lg" mb={4}>
+          <Text fw={500} ff="Outfit, sans-serif" fz={{ base: 'lg', sm: 'xl' }} mb={4}>
             {name}
           </Text>
           <Group gap="xs" align="center" w="100%" visibleFrom="xs">
@@ -145,3 +158,35 @@ const ActionButtons = ({ locked, id }: { locked: boolean; id: string | number })
     </>
   )
 }
+
+// TODO: Mover
+export const moduleIconProps = (theme: MantineTheme): Record<number, any> => ({
+  1: {
+    icon: ShieldUser, // Introdução à LGPD
+    color: theme.colors.green[4]
+  },
+  2: {
+    icon: Book, // Conceitos Básicos
+    color: theme.colors.blue[4]
+  },
+  3: {
+    icon: Settings, // Operações de Tratamento
+    color: theme.colors.orange[4]
+  },
+  4: {
+    icon: Scale, // Princípios de Tratamento
+    color: theme.colors.violet[4]
+  },
+  5: {
+    icon: FolderSearch, // Inventário de Dados I
+    color: theme.colors.teal[4]
+  },
+  6: {
+    icon: Database, // Inventário de Dados II
+    color: theme.colors.cyan[4]
+  },
+  7: {
+    icon: Repeat, // Ciclo de Vida do Dado
+    color: theme.colors.grape[4]
+  }
+})

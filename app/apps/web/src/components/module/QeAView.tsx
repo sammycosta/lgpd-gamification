@@ -61,7 +61,7 @@ export default function QeAView(props: QeAViewProps) {
                 [classes['hover-card']]: !isCorrect,
                 [classes['wrong-state']]: String(id) === wrongValue
               })}
-              radius="md"
+              radius="lg"
               value={String(id)}
               key={id}
             >

@@ -1,11 +1,5 @@
 'use client'
-import {
-  Box,
-  Group,
-  Progress,
-  useMantineTheme,
-  type MantineStyleProp
-} from '@mantine/core'
+import { Box, Group, Progress, useMantineTheme, type MantineStyleProp } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { Star } from 'lucide-react'
 
@@ -44,23 +38,11 @@ export default function ProgressBar({
 
   return (
     <Box pr="sm" style={styles.wrapper}>
-      <Progress size="xl" value={progressPercentage} striped />
+      <Progress size="xl" value={progressPercentage} striped color="green" />
       <Group style={styles.iconWrapper}>
-        <StarGoal
-          type="bronze"
-          progressPercentage={progressPercentage}
-          small={small}
-        />
-        <StarGoal
-          type="silver"
-          progressPercentage={progressPercentage}
-          small={small}
-        />
-        <StarGoal
-          type="gold"
-          progressPercentage={progressPercentage}
-          small={small}
-        />
+        <StarGoal type="bronze" progressPercentage={progressPercentage} small={small} />
+        <StarGoal type="silver" progressPercentage={progressPercentage} small={small} />
+        <StarGoal type="gold" progressPercentage={progressPercentage} small={small} />
       </Group>
     </Box>
   )

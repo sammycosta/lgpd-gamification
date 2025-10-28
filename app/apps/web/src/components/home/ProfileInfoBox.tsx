@@ -106,23 +106,18 @@ export default function ProfileInfoBox({ small }: { small?: boolean }) {
         </Text>
         <TitleBadge title={title} />
       </Stack>
-      <Card withBorder>
+      <Card withBorder radius="lg">
         <Stack gap="lg">
           <Text fw={600} fz="lg" c="dimmed">
             Progresso
           </Text>
-          <Group justify="space-between" align="flex-end" wrap="nowrap">
+          <Group justify="space-between" align="center" wrap="nowrap">
             <Text fw={700} fz={48} c="blue.7" lh={1}>
               {level}
             </Text>
-            <Stack gap={0} align="flex-end">
-              <Text fw={600} fz="md" c="blue.7">
-                NÍVEL ATUAL
-              </Text>
-              <Text fz="xs" c="dimmed">
-                Avance para mais prêmios
-              </Text>
-            </Stack>
+            <Text fw={600} fz="md" c="blue.7">
+              NÍVEL ATUAL
+            </Text>
           </Group>
           <LevelProgress
             points={points}
@@ -133,7 +128,7 @@ export default function ProfileInfoBox({ small }: { small?: boolean }) {
       </Card>
 
       {/* TODO: Melhorar visualização quando dados forem dinâmicos. Melhorar responsividade. */}
-      <Card withBorder mt="lg">
+      <Card withBorder mt="lg" radius="lg">
         <Stack gap="lg">
           <Text fw={600} fz="lg" c="dimmed">
             Emblemas ({badgeCount})
@@ -184,7 +179,7 @@ const LevelProgress = (props: LevelProgressProps) => {
           {progressToNextLevel} XP
         </Text>
       </Group>
-      <Progress value={progressPercent} color="blue" size={size} radius="sm" />
+      <Progress value={progressPercent} color="green" size={size} radius="sm" />
     </Stack>
   )
 }
@@ -196,12 +191,13 @@ interface TitleBadgeProps {
 const TitleBadge = ({ title, small }: TitleBadgeProps) => {
   return (
     <Badge
-      variant="gradient"
-      gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+      // variant="gradient"
+      // gradient={{ from: 'blue', to: 'green', deg: 90 }}
       size={small ? 'md' : 'lg'}
       radius="xl"
       leftSection={<Star size={small ? 12 : 14} />}
       fw={700}
+      color="green.8"
     >
       {title}
     </Badge>

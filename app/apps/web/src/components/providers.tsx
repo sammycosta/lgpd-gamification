@@ -10,7 +10,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     fontFamily: 'Inter, sans-serif',
     headings: {
       fontFamily: 'Outfit, sans-serif'
-    }
+    },
+    primaryShade: 7
   })
   return (
     <MantineProvider theme={customTheme}>

@@ -136,7 +136,7 @@ function ClickableItem({ content, isActive, isCorrect, isError, onClick }: Click
       })}
       withBorder
       padding="lg"
-      radius="md"
+      radius="lg"
       onClick={handleClick}
     >
       <Text size="md" ta="center">

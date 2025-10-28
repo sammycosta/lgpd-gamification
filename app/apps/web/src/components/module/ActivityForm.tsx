@@ -66,7 +66,7 @@ export default function ActivityForm(props: ActivityFormProps) {
   })()
 
   return (
-    <Card mt="lg" radius="md" withBorder>
+    <Card mt="lg" radius="lg" withBorder>
       <Flex mb="xs">
         <Button
           onClick={closeForm}

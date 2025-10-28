@@ -18,7 +18,13 @@ export default async function ResourcesPage({ params }: ResourcesPageProps) {
     <>
       <ButtonGoBack />
       <Group mt="md" mb="md">
-        <Badge variant="light" size="lg" leftSection={<NotebookText size={16} />} radius="sm">
+        <Badge
+          variant="light"
+          size="lg"
+          leftSection={<NotebookText size={16} />}
+          radius="sm"
+          color="green.9"
+        >
           Materiais de Apoio
         </Badge>
       </Group>
