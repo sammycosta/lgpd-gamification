@@ -1,5 +1,6 @@
 'use client'
 import { authClient } from '@/lib/auth-client'
+import { queryClient } from '@/utils/trpc'
 import {
   ActionIcon,
   Avatar,
@@ -15,12 +16,9 @@ import Link from 'next/link'
 import { useUserInfo } from '../../hooks/useUserInfo'
 
 export default function Header() {
-  const { data: user, isLoading } = useUserInfo()
-  const theme = useMantineTheme()
+  const { data: session, isPending } = authClient.useSession()
 
-  const handleLogout = async () => {
-    await authClient.signOut()
-  }
+  const theme = useMantineTheme()
 
   return (
     <Container size="xl" h="100%">
@@ -31,37 +29,45 @@ export default function Header() {
             <Link href="/">LGPD Gamificada</Link>
           </Text>
         </Group>
-
-        {isLoading ? (
-          <Loader />
-        ) : (
-          user && (
-            <Group gap="sm">
-              <Tooltip label="Meu perfil" withArrow>
-                <Avatar
-                  src={`/${user?.avatarPath}`}
-                  alt="Usuário"
-                  radius="xl"
-                  size={36}
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => console.log('Ir para o perfil')}
-                />
-              </Tooltip>
-              <Tooltip label="Sair" withArrow>
-                <ActionIcon
-                  variant="subtle"
-                  color="red"
-                  radius="xl"
-                  size={36}
-                  onClick={handleLogout}
-                >
-                  <LogOut size={20} />
-                </ActionIcon>
-              </Tooltip>
-            </Group>
-          )
-        )}
+        {isPending ? <Loader /> : session && <UserInfo />}
       </Group>
     </Container>
+  )
+}
+
+const UserInfo = () => {
+  const { data: user, isLoading } = useUserInfo()
+
+  const handleLogout = async () => {
+    await authClient.signOut()
+    queryClient.clear()
+  }
+
+  if (isLoading) {
+    return <Loader />
+  }
+
+  if (!user) {
+    return null
+  }
+
+  return (
+    <Group gap="sm">
+      <Tooltip label="Meu perfil" withArrow>
+        <Avatar
+          src={`/${user.avatarPath}`}
+          alt="Usuário"
+          radius="xl"
+          size={36}
+          style={{ cursor: 'pointer' }}
+          onClick={() => console.log('Ir para o perfil')}
+        />
+      </Tooltip>
+      <Tooltip label="Sair" withArrow>
+        <ActionIcon variant="subtle" color="red" radius="xl" size={36} onClick={handleLogout}>
+          <LogOut size={20} />
+        </ActionIcon>
+      </Tooltip>
+    </Group>
   )
 }
