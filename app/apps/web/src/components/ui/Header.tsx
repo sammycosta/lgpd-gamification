@@ -26,7 +26,7 @@ export default function Header() {
         <Group gap="xs">
           <Puzzle size={22} color={theme.colors.blue[7]} />
           <Text fw={700} fz={{ base: 'lg', sm: 'xl' }} ff="Outfit, sans-serif" c="blue.8">
-            <Link href="/">LGPD Gamificada</Link>
+            <Link href={session ? '/' : '/login'}>LGPD Gamificada</Link>
           </Text>
         </Group>
         {isPending ? <Loader /> : session && <UserInfo />}

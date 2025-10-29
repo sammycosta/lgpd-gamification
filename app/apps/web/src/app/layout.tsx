@@ -36,7 +36,14 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>
-          <AppShell header={{ height: 60 }} padding={{ base: 'sm', xs: 'lg', md: 'xl' }}>
+          <AppShell
+            header={{ height: 60 }}
+            padding={{ base: 'sm', xs: 'lg', md: 'xl' }}
+            style={{
+              background: 'linear-gradient(135deg, #f0f7ff 0%, #ffffff 50%, #f0f7ff 100%)',
+              minHeight: '100vh'
+            }}
+          >
             <AppShellHeader>
               <Header />
             </AppShellHeader>
