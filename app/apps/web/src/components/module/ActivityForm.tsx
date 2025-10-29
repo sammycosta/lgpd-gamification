@@ -35,7 +35,7 @@ export default function ActivityForm(props: ActivityFormProps) {
       onSuccess: (data) => {
         const isCorrect = data.isCorrect
         if (isCorrect) {
-          invalidateUseModule(1, activity.moduleId)
+          invalidateUseModule(activity.moduleId)
         }
         setStatus(isCorrect ? 'correct' : 'wrong')
         setActivitiesInfoChanged(true)
@@ -49,7 +49,6 @@ export default function ActivityForm(props: ActivityFormProps) {
 
   const handleSubmit = (answer: unknown) =>
     submitMutation.mutate({
-      userId: 1,
       activityId: id,
       answer
     })

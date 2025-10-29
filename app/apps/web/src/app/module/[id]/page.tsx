@@ -1,3 +1,4 @@
+import { Protected } from '@/components/wrapper/Protected'
 import ModuleClient from './ModuleClient'
 
 interface ModulePageProps {
@@ -7,5 +8,9 @@ interface ModulePageProps {
 export default async function ModulePage({ params }: ModulePageProps) {
   const { id } = await params
 
-  return <ModuleClient moduleId={Number(id)} />
+  return (
+    <Protected>
+      <ModuleClient moduleId={Number(id)} />
+    </Protected>
+  )
 }

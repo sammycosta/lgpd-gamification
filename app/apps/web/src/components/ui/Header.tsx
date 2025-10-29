@@ -1,4 +1,5 @@
 'use client'
+import { authClient } from '@/lib/auth-client'
 import {
   ActionIcon,
   Avatar,
@@ -14,8 +15,12 @@ import Link from 'next/link'
 import { useUserInfo } from '../../hooks/useUserInfo'
 
 export default function Header() {
-  const { data: user, isLoading } = useUserInfo(1)
+  const { data: user, isLoading } = useUserInfo()
   const theme = useMantineTheme()
+
+  const handleLogout = async () => {
+    await authClient.signOut()
+  }
 
   return (
     <Container size="xl" h="100%">
@@ -30,30 +35,31 @@ export default function Header() {
         {isLoading ? (
           <Loader />
         ) : (
-          <Group gap="sm">
-            <Tooltip label="Meu perfil" withArrow>
-              <Avatar
-                src={`/${user?.avatarPath}`}
-                alt="Usuário"
-                radius="xl"
-                size={36}
-                style={{ cursor: 'pointer' }}
-                onClick={() => console.log('Ir para o perfil')}
-              />
-            </Tooltip>
-
-            <Tooltip label="Sair" withArrow>
-              <ActionIcon
-                variant="subtle"
-                color="red"
-                radius="xl"
-                size={36}
-                onClick={() => console.log('Logout')}
-              >
-                <LogOut size={20} />
-              </ActionIcon>
-            </Tooltip>
-          </Group>
+          user && (
+            <Group gap="sm">
+              <Tooltip label="Meu perfil" withArrow>
+                <Avatar
+                  src={`/${user?.avatarPath}`}
+                  alt="Usuário"
+                  radius="xl"
+                  size={36}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => console.log('Ir para o perfil')}
+                />
+              </Tooltip>
+              <Tooltip label="Sair" withArrow>
+                <ActionIcon
+                  variant="subtle"
+                  color="red"
+                  radius="xl"
+                  size={36}
+                  onClick={handleLogout}
+                >
+                  <LogOut size={20} />
+                </ActionIcon>
+              </Tooltip>
+            </Group>
+          )
         )}
       </Group>
     </Container>

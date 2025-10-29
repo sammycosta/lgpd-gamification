@@ -1,12 +1,14 @@
-import { publicProcedure, router } from "@/lib/trpc";
+import { protectedProcedure, router } from "@/lib/trpc";
 import { getModule, getModules } from "@/services/module/moduleService";
 import z from "zod";
 
 export const moduleRouter = router({
-  getModules: publicProcedure
-    .input(z.object({ userId: z.number() }))
-    .query(async ({ input }) => getModules(input.userId)),
-  getModule: publicProcedure
-    .input(z.object({ userId: z.number(), moduleId: z.number() }))
-    .query(async ({ input }) => getModule(input.userId, input.moduleId)),
+  getModules: protectedProcedure.query(async ({ ctx }) =>
+    getModules(ctx.session.user.id)
+  ),
+  getModule: protectedProcedure
+    .input(z.object({ moduleId: z.number() }))
+    .query(async ({ ctx, input }) =>
+      getModule(ctx.session.user.id, input.moduleId)
+    ),
 });

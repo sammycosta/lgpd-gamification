@@ -1,4 +1,5 @@
-import { DrizzleClient } from "@/db";
+import { db, DrizzleClient } from "@/db";
+import { userModules, users } from "@/db/schema";
 import {
   getUserById,
   getUserPointsById,
@@ -10,6 +11,8 @@ import {
   getUserBadgeById,
   getUserBadgesById,
 } from "@/repositories/userBadge";
+import type { User } from "better-auth";
+import { eq } from "drizzle-orm";
 import {
   calculateLevel,
   calculateProgressPercent,
@@ -17,7 +20,7 @@ import {
   pointsRequiredByLevel,
 } from "./utils";
 
-export async function getUserInfo(userId: number) {
+export async function getUserInfo(userId: string) {
   const userInfo = await getUserById(userId);
   if (!userInfo) return null;
 
@@ -42,7 +45,7 @@ export async function getUserInfo(userId: number) {
 }
 
 export async function grantUserBadges(
-  userId: number,
+  userId: string,
   moduleId: number,
   oldProgress: number,
   newProgress: number,
@@ -62,11 +65,28 @@ export async function grantUserBadges(
 }
 
 export async function updateUserProgress(
-  userId: number,
+  userId: string,
   incrementPoints: number,
   dbClient: DrizzleClient
 ) {
   const user = await getUserPointsById(userId);
   const newPoints = user!.points + incrementPoints;
   await updateUserPoints(userId, newPoints, dbClient);
+}
+
+export async function handleNewUser(user: User) {
+  await db
+    .update(users)
+    .set({ avatarId: 1, titleId: 1 })
+    .where(eq(users.id, user.id))
+    .execute();
+
+  await db.insert(userModules).values({ userId: user.id, moduleId: 1 });
+
+  // // MOCK para me ajudar a testar atividades, deixando todos os módulos desbloqueados por padrão.
+  // await db
+  //   .insert(userModules)
+  //   .values(
+  //     [2, 3, 4, 5, 6, 7].map((num) => ({ userId: user.id, moduleId: num }))
+  //   );
 }

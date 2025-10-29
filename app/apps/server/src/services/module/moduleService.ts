@@ -9,12 +9,12 @@ import { grantUserBadges } from "../user/userService";
 import { mapModule } from "./mappers";
 import { validateModuleAccess, validateModuleExists } from "./validators";
 
-export async function getModules(userId: number) {
+export async function getModules(userId: string) {
   const modules = await getModulesByUserId(userId);
   return modules.map(mapModule);
 }
 
-export async function getModule(userId: number, moduleId: number) {
+export async function getModule(userId: string, moduleId: number) {
   const module = await getModuleById(userId, moduleId);
   validateModuleExists(module);
 
@@ -27,7 +27,7 @@ export async function getModule(userId: number, moduleId: number) {
 }
 
 export async function updateModuleProgress(
-  userId: number,
+  userId: string,
   activity: { moduleId: number; points: number },
   dbClient: DrizzleClient = db
 ) {

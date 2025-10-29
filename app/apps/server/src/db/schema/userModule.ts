@@ -1,13 +1,19 @@
-import { index, integer, sqliteTable, unique } from "drizzle-orm/sqlite-core";
+import {
+  index,
+  integer,
+  sqliteTable,
+  text,
+  unique,
+} from "drizzle-orm/sqlite-core";
+import { users } from "./auth";
 import { activities, modules } from "./module";
-import { users } from "./user";
 
 // Entidade só é criada quando módulo é desbloqueado.
 export const userModules = sqliteTable(
   "user_modules",
   {
     id: integer("id").primaryKey(),
-    userId: integer("user_id")
+    userId: text("user_id")
       .references(() => users.id)
       .notNull(),
     moduleId: integer("module_id")
@@ -30,7 +36,7 @@ export const userActivities = sqliteTable(
   "user_activities",
   {
     id: integer("id").primaryKey(),
-    userId: integer("user_id")
+    userId: text("user_id")
       .references(() => users.id)
       .notNull(),
     activityId: integer("activity_id")

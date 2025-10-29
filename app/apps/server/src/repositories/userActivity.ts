@@ -2,7 +2,7 @@ import { db, DrizzleClient } from "@/db";
 import { userActivities } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 
-export async function getUserActivity(userId: number, activityId: number) {
+export async function getUserActivity(userId: string, activityId: number) {
   return await db
     .select({ id: userActivities.id, isCorrect: userActivities.isCorrect })
     .from(userActivities)
@@ -16,7 +16,7 @@ export async function getUserActivity(userId: number, activityId: number) {
 }
 
 export async function createUserActivity(
-  userId: number,
+  userId: string,
   activityId: number,
   isCorrect: boolean,
   dbClient: DrizzleClient = db

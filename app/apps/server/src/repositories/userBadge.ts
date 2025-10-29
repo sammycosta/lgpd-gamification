@@ -3,7 +3,7 @@ import { badgeTypes, userBadges } from "@/db/schema";
 import { BadgeTypes } from "@/types/entities";
 import { and, eq } from "drizzle-orm";
 
-export async function getUserBadgesById(userId: number) {
+export async function getUserBadgesById(userId: string) {
   return db
     .select({
       moduleId: userBadges.moduleId,
@@ -14,7 +14,7 @@ export async function getUserBadgesById(userId: number) {
     .where(eq(userBadges.userId, userId))
     .all();
 }
-export async function getUserBadgeById(userId: number, moduleId: number) {
+export async function getUserBadgeById(userId: string, moduleId: number) {
   return db
     .select({ id: userBadges.id, typeId: userBadges.typeId })
     .from(userBadges)
@@ -25,7 +25,7 @@ export async function getUserBadgeById(userId: number, moduleId: number) {
 }
 
 export async function createUserBadge(
-  userId: number,
+  userId: string,
   moduleId: number,
   typeId: BadgeTypes,
   dbClient: DrizzleClient = db

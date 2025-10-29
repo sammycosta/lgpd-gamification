@@ -17,7 +17,7 @@ interface SelectedActivity {
 }
 
 export default function Activities({ moduleId }: ActivitiesProps) {
-  const { isLoading, data: activities } = useActivities(1, moduleId)
+  const { isLoading, data: activities } = useActivities(moduleId)
   const [selectedActivity, setSelectedActivity] = useState<SelectedActivity | null>(null)
   const [activitiesInfoChanged, setActivitiesInfoChanged] = useState(false)
 
@@ -25,7 +25,7 @@ export default function Activities({ moduleId }: ActivitiesProps) {
 
   const closeForm = () => {
     if (activitiesInfoChanged) {
-      invalidateUseActivities(1, moduleId)
+      invalidateUseActivities(moduleId)
     }
     setSelectedActivity(null)
   }

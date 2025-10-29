@@ -7,7 +7,7 @@ import { Loader, Text, Title } from '@mantine/core'
 import PageActions from './PageActions'
 
 export default function ModuleClient({ moduleId }: { moduleId: number }) {
-  const { isLoading, data: module, isError, error } = useModule(1, moduleId)
+  const { isLoading, data: module, isError, error } = useModule(moduleId)
 
   if (isLoading) {
     return <Loader />

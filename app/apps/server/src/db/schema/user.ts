@@ -6,6 +6,7 @@ import {
   text,
   unique,
 } from "drizzle-orm/sqlite-core";
+import { users } from "./auth";
 import { modules } from "./module";
 
 export const avatars = sqliteTable("avatars", {
@@ -18,24 +19,17 @@ export const titles = sqliteTable("titles", {
   name: text("name").notNull(),
 });
 
-export const users = sqliteTable(
-  "users",
-  {
-    id: integer("id").primaryKey(),
-    name: text("name").notNull(),
-    points: integer("points").default(0).notNull(),
-    avatarId: integer("avatar_id")
-      .references(() => avatars.id)
-      .notNull(),
-    titleId: integer("title_id")
-      .references(() => titles.id)
-      .notNull(),
-  },
-  (table) => [
-    index("users_avatar_id_idx").on(table.avatarId),
-    index("users_title_id_idx").on(table.titleId),
-  ]
-);
+// USER é definido em auth
+export const userColumns = {
+  points: integer("points").default(0).notNull(),
+  avatarId: integer("avatar_id").references(() => avatars.id),
+  titleId: integer("title_id").references(() => titles.id),
+};
+
+export const userIndexes = (table: any) => [
+  index("users_avatar_id_idx").on(table.avatarId),
+  index("users_title_id_idx").on(table.titleId),
+];
 
 export const badgeTypes = sqliteTable("badge_types", {
   id: integer("id").primaryKey(),
@@ -46,7 +40,7 @@ export const userBadges = sqliteTable(
   "user_badges",
   {
     id: integer("id").primaryKey(),
-    userId: integer("user_id")
+    userId: text("user_id")
       .references(() => users.id)
       .notNull(),
     moduleId: integer("module_id")

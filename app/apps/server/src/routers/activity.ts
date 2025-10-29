@@ -1,4 +1,4 @@
-import { publicProcedure, router } from "@/lib/trpc";
+import { protectedProcedure, router } from "@/lib/trpc";
 import {
   getActivities,
   submitActivityResult,
@@ -6,20 +6,21 @@ import {
 import z from "zod";
 
 export const activityRouter = router({
-  getActivities: publicProcedure
-    .input(z.object({ userId: z.number(), moduleId: z.number() }))
-    .query(async ({ input }) => getActivities(input.userId, input.moduleId)),
-  submitResult: publicProcedure
+  getActivities: protectedProcedure
+    .input(z.object({ moduleId: z.number() }))
+    .query(async ({ ctx, input }) =>
+      getActivities(ctx.session.user.id, input.moduleId)
+    ),
+  submitResult: protectedProcedure
     .input(
       z.object({
-        userId: z.number().int().positive(),
         activityId: z.number().int().positive(),
         answer: z.unknown(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ ctx, input }) => {
       const isCorrect = await submitActivityResult(
-        input.userId,
+        ctx.session.user.id,
         input.activityId,
         input.answer
       );

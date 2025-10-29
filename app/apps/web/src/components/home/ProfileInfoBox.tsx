@@ -16,7 +16,7 @@ import {
 import { CircleStar, Star } from 'lucide-react'
 
 export default function ProfileInfoBox({ small }: { small?: boolean }) {
-  const { data: user, isLoading } = useUserInfo(1)
+  const { data: user, isLoading } = useUserInfo()
 
   // TODO: possivelmente melhorar isso aqui
   if (isLoading) {

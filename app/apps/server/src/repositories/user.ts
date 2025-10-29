@@ -2,7 +2,7 @@ import { db, DrizzleClient } from "@/db";
 import { avatars, titles, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-export async function getUserById(userId: number) {
+export async function getUserById(userId: string) {
   return db
     .select({
       name: users.name,
@@ -17,7 +17,7 @@ export async function getUserById(userId: number) {
     .get();
 }
 
-export async function getUserPointsById(userId: number) {
+export async function getUserPointsById(userId: string) {
   return db
     .select({ points: users.points })
     .from(users)
@@ -26,7 +26,7 @@ export async function getUserPointsById(userId: number) {
 }
 
 export async function updateUserPoints(
-  userId: number,
+  userId: string,
   points: number,
   dbClient: DrizzleClient = db
 ) {

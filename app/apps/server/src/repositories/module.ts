@@ -3,7 +3,7 @@ import { modules, userModules } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import { alias } from "drizzle-orm/sqlite-core";
 
-export async function getModulesByUserId(userId: number) {
+export async function getModulesByUserId(userId: string) {
   return db
     .select({
       id: modules.id,
@@ -22,7 +22,7 @@ export async function getModulesByUserId(userId: number) {
     .all();
 }
 
-export async function getModuleById(userId: number, moduleId: number) {
+export async function getModuleById(userId: string, moduleId: number) {
   const dependentModules = alias(modules, "dependentModules");
   return db
     .select({
@@ -60,7 +60,7 @@ export async function updateUserModulePoints(
 }
 
 export async function createUserModule(
-  userId: number,
+  userId: string,
   moduleId: number,
   dbClient: DrizzleClient = db
 ) {

@@ -1,4 +1,5 @@
 import ButtonGoBack from '@/components/ui/ButtonGoBack'
+import { Protected } from '@/components/wrapper/Protected'
 import { Badge, Group } from '@mantine/core'
 import { NotebookText } from 'lucide-react'
 import ConceitosBasicosContent from './ConceitosBasicosContent'
@@ -15,7 +16,7 @@ export default async function ResourcesPage({ params }: ResourcesPageProps) {
   const moduleId = Number(id)
 
   return (
-    <>
+    <Protected>
       <ButtonGoBack />
       <Group mt="md" mb="md">
         <Badge
@@ -29,7 +30,7 @@ export default async function ResourcesPage({ params }: ResourcesPageProps) {
         </Badge>
       </Group>
       <Content moduleId={moduleId} />
-    </>
+    </Protected>
   )
 }
 

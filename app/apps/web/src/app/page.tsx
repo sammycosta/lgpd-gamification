@@ -2,16 +2,24 @@
 
 import ModulesList from '@/components/home/ModulesList'
 import ProfileInfoBox from '@/components/home/ProfileInfoBox'
+import { Protected } from '@/components/wrapper/Protected'
 import { useModules } from '@/hooks/useModules'
 import { Box, Grid, GridCol, Loader, Stack } from '@mantine/core'
 
 export default function Home() {
-  const { isLoading, data: modules } = useModules(1)
+  return (
+    <Protected>
+      <HomeContent />
+    </Protected>
+  )
+}
 
-  if (isLoading) {
+const HomeContent = () => {
+  const { isLoading, data: modules } = useModules()
+
+  // TODO: Possibilidade de fazer tratativa para erros da query (único caso onde não teria modules)
+  if (isLoading || !modules) {
     return <Loader />
-  } else if (!modules) {
-    return null // Não deve acontecer
   }
 
   return (

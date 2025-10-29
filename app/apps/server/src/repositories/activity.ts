@@ -22,7 +22,7 @@ export async function getActivityById(activityId: number) {
 }
 
 export async function getActivitiesByModuleId(
-  userId: number,
+  userId: string,
   moduleId: number
 ) {
   return db

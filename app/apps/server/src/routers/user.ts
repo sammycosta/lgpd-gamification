@@ -1,9 +1,8 @@
-import { publicProcedure, router } from "@/lib/trpc";
+import { protectedProcedure, router } from "@/lib/trpc";
 import { getUserInfo } from "@/services/user/userService";
-import z from "zod";
 
 export const userRouter = router({
-  getUserInfo: publicProcedure
-    .input(z.object({ userId: z.number() }))
-    .query(async ({ input }) => getUserInfo(input.userId)),
+  getUserInfo: protectedProcedure.query(async ({ ctx }) =>
+    getUserInfo(ctx.session.user.id)
+  ),
 });

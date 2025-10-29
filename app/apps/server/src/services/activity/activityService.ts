@@ -27,7 +27,7 @@ import {
   validateUserActivityEditable,
 } from "./validators";
 
-export async function getActivities(userId: number, moduleId: number) {
+export async function getActivities(userId: string, moduleId: number) {
   const activities = await getActivitiesByModuleId(userId, moduleId);
 
   const qnaActivityIds = activities
@@ -71,7 +71,7 @@ export async function getActivities(userId: number, moduleId: number) {
 }
 
 export async function submitActivityResult(
-  userId: number,
+  userId: string,
   activityId: number,
   answer: unknown
 ) {
