@@ -13,16 +13,13 @@ export default function LoginPage() {
   const [isSigningIn, setIsSigningIn] = useState(false)
 
   const handleSignIn = async () => {
-    try {
-      setIsSigningIn(true)
-      await signIn.social({
-        provider: 'google',
-        callbackURL: process.env.NEXT_PUBLIC_WEB_URL
-      })
-    } catch (error) {
-      console.error('Erro ao fazer login:', error)
-      setIsSigningIn(false)
-    }
+    setIsSigningIn(true)
+    await signIn.social({
+      provider: 'google',
+      callbackURL: process.env.NEXT_PUBLIC_WEB_URL,
+      errorCallbackURL: process.env.NEXT_PUBLIC_WEB_URL,
+      newUserCallbackURL: process.env.NEXT_PUBLIC_WEB_URL
+    })
   }
 
   useEffect(() => {

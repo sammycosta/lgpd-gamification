@@ -63,7 +63,6 @@
   border-color: var(--mantine-color-red-6);
 }
 
-/* Defina esta animação (ex: em um arquivo CSS ou usando Mantine sx/styles) */
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   20%, 60% { transform: translateX(-6px); }
@@ -71,5 +70,5 @@
 }
 
 .shake-animation {
-  animation: shake 0.4s ease-in-out 2; /* 0.4s de duração, repete 2 vezes */
+  animation: shake 0.4s ease-in-out 2; 
 }
