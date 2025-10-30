@@ -31,7 +31,15 @@ const moduleIdToActivities: Record<number, ActivityToInsert[]> = {
 async function seed() {
   // TODO: Cleanup toda vez que rodar seed? Atualmente, limpo local.db
   // DADOS FIXOS
-  await db.insert(avatars).values([{ filePath: "avatars/avatar_1.svg" }]);
+  await db
+    .insert(avatars)
+    .values([
+      { filePath: "avatars/avatar.svg" },
+      { filePath: "avatars/avatar_1.svg" },
+      { filePath: "avatars/avatar_2.svg" },
+      { filePath: "avatars/avatar_3.svg" },
+      { filePath: "avatars/avatar_4.svg" },
+    ]);
   await db.insert(titles).values([{ name: "Aprendiz dos dados pessoais" }]);
   await insertModules();
   await insertActivities();
