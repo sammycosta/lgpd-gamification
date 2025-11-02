@@ -1,12 +1,11 @@
+import ButtonActivity from '@/components/resources/ButtonActivity'
 import ConceptBox from '@/components/resources/ConceptBox'
 import DefinitionBox from '@/components/resources/DefinitionBox'
 import NPCBubble from '@/components/resources/NPCBubble'
 import {
-  Button,
   Card,
   Grid,
   GridCol,
-  Group,
   Image,
   Indicator,
   List,
@@ -17,7 +16,6 @@ import {
 } from '@mantine/core'
 import {
   AlertCircle,
-  ArrowRight,
   ArrowRightLeft,
   Ban,
   Book,
@@ -34,7 +32,7 @@ import {
   XCircle
 } from 'lucide-react'
 import Link from 'next/link'
-import { jadeBubbles, jessicaBubbles, jessicaDoubt, oliverBubbles } from './model'
+import { jadeBubbles, jessicaDoubt, oliverBubbles } from './model'
 
 export default function IntroducaoLGPDContent() {
   return (
@@ -232,11 +230,7 @@ export default function IntroducaoLGPDContent() {
           </p>
         </Card>
 
-        <Title order={2}>Conclusão</Title>
-        <NPCBubble {...jessicaBubbles.defaultLeft}>
-          Agora que você entendeu o contexto, é hora de ver como isso se aplica na prática do
-          desenvolvimento. 👩‍💻
-        </NPCBubble>
+        <Title order={2}>Recapitulando e próximos passos</Title>
         <Text mt="lg">
           Compreender a <strong>Lei Geral de Proteção de Dados (LGPD)</strong> é essencial para
           qualquer profissional que atua com tecnologia. Entender seus princípios, direitos e
@@ -250,6 +244,11 @@ export default function IntroducaoLGPDContent() {
           são a base para aplicar a lei de forma prática no desenvolvimento de aplicações e no dia a
           dia profissional.
         </p>
+
+        <NPCBubble {...jadeBubbles.default}>
+          Você visitou os materiais de apoio do módulo de Introdução à LGPD! Agora está pronto para
+          responder as atividades e colocar em prática o que aprendeu.
+        </NPCBubble>
 
         <Title order={3}>Referências e materiais recomendados</Title>
         <Text c="dimmed" mb="sm">
@@ -281,19 +280,7 @@ export default function IntroducaoLGPDContent() {
           </ListItem>
         </List>
       </Typography>
-
-      <Group mt="lg" justify="flex-end">
-        <Button
-          size="md"
-          component={Link}
-          href={{
-            pathname: `/module/1`
-          }}
-          rightSection={<ArrowRight size={16} />}
-        >
-          Ir para as atividades do módulo
-        </Button>
-      </Group>
+      <ButtonActivity moduleId={1} />
     </>
   )
 }

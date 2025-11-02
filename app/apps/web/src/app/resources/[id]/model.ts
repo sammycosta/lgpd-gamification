@@ -56,10 +56,21 @@ const jadeBubble = createAvatar(adventurer, {
   size: 100
 })
 
+const jadeBubbleRight = createAvatar(adventurer, {
+  ...jadeBaseVisual,
+  size: 100
+})
+
 const jadeHappyBubble = createAvatar(adventurer, {
   ...jadeBaseVisual,
   eyes: ['variant19'],
   mouth: ['variant22'],
+  flip: true,
+  size: 100
+})
+
+const jessicaBubble = createAvatar(adventurer, {
+  ...jessicaBaseVisual,
   flip: true,
   size: 100
 })
@@ -109,6 +120,12 @@ export const jadeBubbles: Record<string, NPCBubble> = {
     ...baseNPCBubble.jade,
     avatarSrc: jadeBubble.toDataUri()
   },
+  defaultRight: {
+    ...baseNPCBubble.jade,
+    position: 'right',
+
+    avatarSrc: jadeBubbleRight.toDataUri()
+  },
   happy: {
     ...baseNPCBubble.jade,
     avatarSrc: jadeHappyBubble.toDataUri()
@@ -116,7 +133,11 @@ export const jadeBubbles: Record<string, NPCBubble> = {
 }
 
 export const jessicaBubbles: Record<string, NPCBubble> = {
-  defaultLeft: {
+  default: {
+    ...baseNPCBubble.jessica,
+    avatarSrc: jessicaBubble.toDataUri()
+  },
+  defaultRight: {
     ...baseNPCBubble.jessica,
     position: 'right',
     avatarSrc: jessicaBubbleRight.toDataUri()

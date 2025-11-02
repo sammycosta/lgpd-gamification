@@ -1,5 +1,5 @@
-import { Card, Group, ThemeIcon, type MantineColor } from '@mantine/core'
-import type { LucideProps } from 'lucide-react'
+import { Box, Card, Group, ThemeIcon, type MantineColor } from '@mantine/core'
+import { type LucideProps } from 'lucide-react'
 import type { ComponentType, ReactNode } from 'react'
 
 interface DefinitionBox {
@@ -14,12 +14,13 @@ export default function DefinitionBox(props: DefinitionBox) {
 
   return (
     <Card bg="gray.0" radius="sm" mb="xs" p="xs">
-      <Group gap={0} align="center">
+      <Group gap={0} align="flex-start" wrap="nowrap">
         <ThemeIcon color={color} variant="light" size="md" mr="xs">
           <Icon size={20} />
         </ThemeIcon>
-        <strong>{title}:&ensp;</strong>
-        {children}
+        <Box mt={2}>
+          <strong>{title}: </strong> {children}
+        </Box>
       </Group>
     </Card>
   )
