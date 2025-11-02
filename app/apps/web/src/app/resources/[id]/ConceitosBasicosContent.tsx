@@ -25,7 +25,9 @@ export default function ConceitosBasicosContent() {
   return (
     <>
       <Typography>
-        <Title order={1}>Conceitos Básicos</Title>
+        <Title order={1} mb="lg">
+          Conceitos Básicos
+        </Title>
         <NPCBubble {...oliverBubbles.default}>
           Agora que você já conhece o contexto da LGPD, vamos entender os conceitos fundamentais que
           sustentam toda a lei. Esses são os pilares que você precisa dominar para trabalhar com

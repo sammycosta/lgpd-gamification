@@ -69,8 +69,27 @@ const jadeHappyBubble = createAvatar(adventurer, {
   size: 100
 })
 
+export const jadeShocked = createAvatar(adventurer, {
+  ...jadeBaseVisual,
+  mouth: ['variant15']
+})
+
 const jessicaBubble = createAvatar(adventurer, {
   ...jessicaBaseVisual,
+  flip: true,
+  size: 100
+})
+
+const jessicaNeutralBubble = createAvatar(adventurer, {
+  ...jessicaBaseVisual,
+  mouth: ['variant02'],
+  flip: true,
+  size: 100
+})
+
+const jessicaTiredBubble = createAvatar(adventurer, {
+  ...jessicaBaseVisual,
+  eyebrows: ['variant07'],
   flip: true,
   size: 100
 })
@@ -141,6 +160,14 @@ export const jessicaBubbles: Record<string, NPCBubble> = {
     ...baseNPCBubble.jessica,
     position: 'right',
     avatarSrc: jessicaBubbleRight.toDataUri()
+  },
+  neutral: {
+    ...baseNPCBubble.jessica,
+    avatarSrc: jessicaNeutralBubble.toDataUri()
+  },
+  tired: {
+    ...baseNPCBubble.jessica,
+    avatarSrc: jessicaTiredBubble.toDataUri()
   }
 }
 
