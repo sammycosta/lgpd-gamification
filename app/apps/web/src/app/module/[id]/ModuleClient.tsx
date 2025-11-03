@@ -5,6 +5,8 @@ import ProgressBar from '@/components/ui/ProgressBar'
 import { useModule } from '@/hooks/useModules'
 import { thumbsHappy } from '@/utils/npc/avatar'
 import { Box, Card, Image, Loader, Stack, Text, Title } from '@mantine/core'
+import { notifications } from '@mantine/notifications'
+import { useEffect } from 'react'
 import PageActions from './PageActions'
 
 export default function ModuleClient({ moduleId }: { moduleId: number }) {
@@ -22,6 +24,12 @@ export default function ModuleClient({ moduleId }: { moduleId: number }) {
   }
 
   const { previousModuleId, nextModuleId, progressPercentage, points, maxPoints } = module
+
+  useEffect(() => {
+    return () => {
+      notifications.clean()
+    }
+  }, [])
 
   return (
     <div>

@@ -19,6 +19,12 @@ export enum ActivityStatus {
   CORRECT
 }
 
+export enum BadgeTypes {
+  BRONZE = 1,
+  SILVER = 2,
+  GOLD = 3
+}
+
 //TODO: Depois ver se troco pra enum proprio ou reutilizo o enum de cima
 export type ActivityFeedbackStatus = 'idle' | 'correct' | 'wrong' | 'alreadyCorrect'
 

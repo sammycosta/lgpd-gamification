@@ -7,13 +7,15 @@ import {
   type QNAData
 } from '@/types/api'
 import { trpc } from '@/utils/trpc'
-import { Button, Card, Flex } from '@mantine/core'
+import { Avatar, Button, Card, Flex } from '@mantine/core'
+import { notifications } from '@mantine/notifications'
 import { useMutation } from '@tanstack/react-query'
 import { ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
 import MatchingView from './MatchingView'
 import QeAMultipleView from './QeAMultipleView'
 import QeAView from './QeAView'
+import { notificationByBadgeType, type BadgeNotification } from './model'
 
 interface ActivityFormProps {
   activity: Activity
@@ -30,12 +32,25 @@ export default function ActivityForm(props: ActivityFormProps) {
     ActivityStatus.CORRECT === activity.status ? 'alreadyCorrect' : 'idle'
   )
 
+  const handleShowNotification = (notification: BadgeNotification) => {
+    notifications.show({
+      title: notification.title,
+      message: notification.message,
+      icon: <Avatar src={notification.src} />,
+      autoClose: false,
+      withBorder: true,
+      radius: 'lg'
+    })
+  }
+
   const submitMutation = useMutation(
     trpc.activity.submitResult.mutationOptions({
-      onSuccess: (data) => {
-        const isCorrect = data.isCorrect
+      onSuccess: ({ isCorrect, achievedBadge }) => {
         if (isCorrect) {
           invalidateUseModule(activity.moduleId)
+        }
+        if (achievedBadge) {
+          handleShowNotification(notificationByBadgeType[achievedBadge])
         }
         setStatus(isCorrect ? 'correct' : 'wrong')
         setActivitiesInfoChanged(true)

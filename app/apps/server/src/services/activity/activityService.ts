@@ -10,7 +10,7 @@ import {
   getUserActivity,
   updateUserActivity,
 } from "@/repositories/userActivity";
-import { ActivityTypes } from "@/types/entities";
+import { ActivityTypes, BadgeTypes } from "@/types/entities";
 import {
   ActivitiesInfoBase,
   ActivitiesQnaInfo,
@@ -85,6 +85,8 @@ export async function submitActivityResult(
 
   validateUserActivityEditable(userActivity);
 
+  let achievedBadge: BadgeTypes | undefined;
+
   await db.transaction(async (tx) => {
     if (!userActivity) {
       await createUserActivity(userId, activity.id, isCorrect, tx);
@@ -92,10 +94,11 @@ export async function submitActivityResult(
       await updateUserActivity(userActivity.id, isCorrect, tx);
     }
     if (isCorrect) {
-      await updateModuleProgress(userId, activity, tx);
+      achievedBadge = await updateModuleProgress(userId, activity, tx);
       await updateUserProgress(userId, activity.points, tx);
+      // TODO: (Futuro?) Notificar Level UP
     }
   });
 
-  return isCorrect;
+  return { isCorrect, achievedBadge };
 }

@@ -59,3 +59,17 @@ export const thumbsHappy = createAvatar(thumbs, {
   seed: 'Aidan',
   backgroundColor: []
 })
+
+export const thumbsNeutralHappy = createAvatar(thumbs, {
+  seed: 'Eden',
+  backgroundColor: []
+})
+
+export const thumbsCyanHappy = createAvatar(thumbs, {
+  seed: 'Jameson'
+})
+
+export const thumbsOrangeHappy = createAvatar(thumbs, {
+  seed: 'Sophia',
+  backgroundColor: []
+})

@@ -50,7 +50,7 @@ export async function updateModuleProgress(
     await createUserModule(userId, dependentModuleId, dbClient);
   }
 
-  await grantUserBadges(
+  return await grantUserBadges(
     userId,
     moduleId,
     oldModuleProgress,

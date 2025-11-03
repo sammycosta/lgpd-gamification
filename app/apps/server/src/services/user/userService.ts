@@ -44,6 +44,7 @@ export async function getUserInfo(userId: string) {
   };
 }
 
+// retornar daqui
 export async function grantUserBadges(
   userId: string,
   moduleId: number,
@@ -62,6 +63,8 @@ export async function grantUserBadges(
     await deleteUserBadge(currentBadge.id, dbClient);
   }
   await createUserBadge(userId, moduleId, highestAchievedType, dbClient);
+
+  return highestAchievedType;
 }
 
 export async function updateUserProgress(

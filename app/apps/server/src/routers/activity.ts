@@ -19,14 +19,12 @@ export const activityRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const isCorrect = await submitActivityResult(
+      const info = await submitActivityResult(
         ctx.session.user.id,
         input.activityId,
         input.answer
       );
 
-      // Mutators que alteram dados geralmente retornam void ou um status de sucesso
-      // TODO: Possivelmente enviar que status mudaram, pois aí faço os avisos na tela!
-      return { success: true, isCorrect };
+      return { success: true, ...info };
     }),
 });
