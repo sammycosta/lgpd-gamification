@@ -1,6 +1,7 @@
 import ButtonActivity from '@/components/resources/ButtonActivity'
 import ConceptBox from '@/components/resources/ConceptBox'
 import DefinitionBox from '@/components/resources/DefinitionBox'
+import { jadeBubbles, jessicaBubbles, oliverBubbles } from '@/utils/npc/bubbles'
 import { Card, Code, List, ListItem, Text, Title, Typography } from '@mantine/core'
 import {
   AlertTriangle,
@@ -19,7 +20,6 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import NPCBubble from '../../../components/resources/NPCBubble'
-import { jadeBubbles, jessicaBubbles, oliverBubbles } from './model'
 
 export default function ConceitosBasicosContent() {
   return (

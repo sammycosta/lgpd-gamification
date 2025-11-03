@@ -1,54 +1,7 @@
 import type { NPCBubble } from '@/components/resources/NPCBubble'
 import { adventurer } from '@dicebear/collection'
-import { createAvatar, type StyleOptions } from '@dicebear/core'
-//avatares. mover pra uma pasta ? vai crescer.
-export const jadeBaseVisual: StyleOptions<adventurer.Options> = {
-  seed: 'Jade',
-  earrings: ['variant04'],
-  earringsProbability: 100,
-  eyebrows: ['variant10'],
-  eyes: ['variant01'],
-  features: [],
-  featuresProbability: 100,
-  glasses: [],
-  glassesProbability: 100,
-  hair: ['long07'],
-  hairColor: ['1c7ed6'],
-  mouth: ['variant02'],
-  skinColor: ['ecad80']
-}
-
-const jessicaBaseVisual: StyleOptions<adventurer.Options> = {
-  seed: 'Jessica',
-  earrings: [],
-  earringsProbability: 100,
-  eyebrows: ['variant14'],
-  eyes: ['variant26'],
-  features: [],
-  featuresProbability: 100,
-  glasses: ['variant05'],
-  glassesProbability: 100,
-  hair: ['long11'],
-  hairColor: ['cb6820'],
-  mouth: ['variant23'],
-  skinColor: ['9e5622']
-}
-
-const oliverBaseVisual: StyleOptions<adventurer.Options> = {
-  seed: 'Oliver',
-  earrings: [],
-  earringsProbability: 100,
-  eyebrows: ['variant13'],
-  eyes: ['variant26'],
-  features: [],
-  featuresProbability: 100,
-  glasses: ['variant04'],
-  glassesProbability: 100,
-  hair: ['short03'],
-  hairColor: ['562306'],
-  mouth: ['variant02'],
-  skinColor: ['f2d3b1']
-}
+import { createAvatar } from '@dicebear/core'
+import { jadeBaseVisual, jessicaBaseVisual, oliverBaseVisual } from './visual'
 
 const jadeBubble = createAvatar(adventurer, {
   ...jadeBaseVisual,
@@ -67,11 +20,6 @@ const jadeHappyBubble = createAvatar(adventurer, {
   mouth: ['variant22'],
   flip: true,
   size: 100
-})
-
-export const jadeShocked = createAvatar(adventurer, {
-  ...jadeBaseVisual,
-  mouth: ['variant15']
 })
 
 const jessicaBubble = createAvatar(adventurer, {
@@ -99,12 +47,6 @@ const jessicaBubbleRight = createAvatar(adventurer, {
   size: 100
 })
 
-export const jessicaDoubt = createAvatar(adventurer, {
-  ...jessicaBaseVisual,
-  eyebrows: ['variant09'],
-  mouth: ['variant09']
-})
-
 const oliverBubble = createAvatar(adventurer, {
   ...oliverBaseVisual,
   flip: true,
@@ -118,8 +60,7 @@ const oliverWorriedBubble = createAvatar(adventurer, {
   size: 100
 })
 
-// NPC'S BUBBLES
-const baseNPCBubble = {
+export const baseNPCBubble: Record<string, { name: string; bubbleColor: string }> = {
   jade: {
     name: 'Jade',
     bubbleColor: 'blue.1'
@@ -131,6 +72,10 @@ const baseNPCBubble = {
   oliver: {
     name: 'Oliver',
     bubbleColor: 'violet.1'
+  },
+  vivian: {
+    name: 'Vivian',
+    bubbleColor: 'pink.1'
   }
 }
 

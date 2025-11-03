@@ -3,7 +3,8 @@
 import Activities from '@/components/module/Activities'
 import ProgressBar from '@/components/ui/ProgressBar'
 import { useModule } from '@/hooks/useModules'
-import { Loader, Text, Title } from '@mantine/core'
+import { thumbsHappy } from '@/utils/npc/avatar'
+import { Box, Card, Image, Loader, Stack, Text, Title } from '@mantine/core'
 import PageActions from './PageActions'
 
 export default function ModuleClient({ moduleId }: { moduleId: number }) {
@@ -40,6 +41,26 @@ export default function ModuleClient({ moduleId }: { moduleId: number }) {
       <Text fz="xs" c="dimmed" mt={4}>
         {`${points} / ${maxPoints} pontos`}
       </Text>
+      {progressPercentage == 100 && (
+        <Card mt="lg" p={0} radius="lg" bg="blue.0" pos="relative" mih={100}>
+          <Box p="lg" pr={120} style={{ minHeight: 100 }}>
+            <Stack justify="center" align="center" h="100%" style={{ minHeight: 68 }}>
+              <Text ff="Outfit, sans-serif" fz="xl" c="blue.9" ta="center">
+                Parabéns, você já completou as atividades desse módulo! Que tal ir ao próximo
+                módulo?
+              </Text>
+            </Stack>
+          </Box>
+          <Image
+            src={thumbsHappy.toDataUri()}
+            w={100}
+            pos="absolute"
+            bottom={0}
+            right={0}
+            style={{ zIndex: 1 }}
+          />
+        </Card>
+      )}
       <Activities moduleId={moduleId} />
     </div>
   )

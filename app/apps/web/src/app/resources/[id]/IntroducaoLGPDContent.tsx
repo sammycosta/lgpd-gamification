@@ -2,6 +2,8 @@ import ButtonActivity from '@/components/resources/ButtonActivity'
 import ConceptBox from '@/components/resources/ConceptBox'
 import DefinitionBox from '@/components/resources/DefinitionBox'
 import NPCBubble from '@/components/resources/NPCBubble'
+import { jessicaDoubt } from '@/utils/npc/avatar'
+import { jadeBubbles, oliverBubbles } from '@/utils/npc/bubbles'
 import {
   Card,
   Grid,
@@ -32,7 +34,6 @@ import {
   XCircle
 } from 'lucide-react'
 import Link from 'next/link'
-import { jadeBubbles, jessicaDoubt, oliverBubbles } from './model'
 
 export default function IntroducaoLGPDContent() {
   return (

@@ -10,6 +10,7 @@ export interface NPCBubble {
   textColor?: MantineColor | string
   children?: React.ReactNode
   indicator?: React.ReactNode
+  w?: string
 }
 
 export default function NPCBubble({
@@ -19,7 +20,8 @@ export default function NPCBubble({
   bubbleColor,
   textColor = 'black',
   children,
-  indicator
+  indicator,
+  w = '100%'
 }: NPCBubble) {
   const isLeft = position === 'left'
   const avatarElement = (
@@ -57,13 +59,7 @@ export default function NPCBubble({
   )
 
   return (
-    <Group
-      wrap="nowrap"
-      justify={isLeft ? 'flex-start' : 'flex-end'}
-      align="center"
-      w="100%"
-      gap={0}
-    >
+    <Group wrap="nowrap" justify={isLeft ? 'flex-start' : 'flex-end'} align="center" w={w} gap={0}>
       {isLeft ? (
         <>
           {npcElement}

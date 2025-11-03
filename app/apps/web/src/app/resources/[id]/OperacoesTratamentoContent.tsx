@@ -1,6 +1,8 @@
 import ButtonActivity from '@/components/resources/ButtonActivity'
 import ConceptBox from '@/components/resources/ConceptBox'
 import DefinitionBox from '@/components/resources/DefinitionBox'
+import { jadeShocked } from '@/utils/npc/avatar'
+import { jadeBubbles, jessicaBubbles, oliverBubbles } from '@/utils/npc/bubbles'
 import {
   Card,
   Grid,
@@ -27,7 +29,6 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import NPCBubble from '../../../components/resources/NPCBubble'
-import { jadeBubbles, jadeShocked, jessicaBubbles, oliverBubbles } from './model'
 
 // TODO: Deixar conteúdo mais lúdico no futuro
 export default function OperacoesTratamentoContent() {

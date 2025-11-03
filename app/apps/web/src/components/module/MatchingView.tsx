@@ -5,9 +5,9 @@ import {
   type MatchingData,
   type MatchingPair
 } from '@/types/api'
-import { Alert, Card, Grid, Stack, Text } from '@mantine/core'
+import { Accordion, Alert, Card, Grid, Stack, Text } from '@mantine/core'
 import cx from 'clsx'
-import { PlugZap } from 'lucide-react'
+import { ListChecks, PlugZap } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import ActivityControls from './ActivityControls'
 import classes from './style.module.css'
@@ -148,12 +148,19 @@ function ClickableItem({ content, isActive, isCorrect, isError, onClick }: Click
 
 function MatchingPairsReview({ matchingPairs }: { matchingPairs: MatchingPair[] }) {
   return (
-    <Stack mt="md">
-      {matchingPairs.map((pair) => (
-        <Text key={pair.concept} size="sm">
-          <strong>{pair.concept}</strong> → {pair.definition}
-        </Text>
-      ))}
-    </Stack>
+    <Accordion variant="contained" bg="white" mt="xs">
+      <Accordion.Item value={`matching-review-n`}>
+        <Accordion.Control icon={<ListChecks color="green" />}>Revisar itens</Accordion.Control>
+        <Accordion.Panel>
+          <Stack gap={0}>
+            {matchingPairs.map((pair) => (
+              <Text key={pair.concept} size="sm">
+                <strong>{pair.concept}</strong>: {pair.definition}
+              </Text>
+            ))}
+          </Stack>
+        </Accordion.Panel>
+      </Accordion.Item>
+    </Accordion>
   )
 }
