@@ -12,6 +12,12 @@ import PageActions from './PageActions'
 export default function ModuleClient({ moduleId }: { moduleId: number }) {
   const { isLoading, data: module, isError, error } = useModule(moduleId)
 
+  useEffect(() => {
+    return () => {
+      notifications.clean()
+    }
+  }, [])
+
   if (isLoading) {
     return <Loader />
   }
@@ -24,12 +30,6 @@ export default function ModuleClient({ moduleId }: { moduleId: number }) {
   }
 
   const { previousModuleId, nextModuleId, progressPercentage, points, maxPoints } = module
-
-  useEffect(() => {
-    return () => {
-      notifications.clean()
-    }
-  }, [])
 
   return (
     <div>
@@ -54,8 +54,8 @@ export default function ModuleClient({ moduleId }: { moduleId: number }) {
           <Box p="lg" pr={120} style={{ minHeight: 100 }}>
             <Stack justify="center" align="center" h="100%" style={{ minHeight: 68 }}>
               <Text ff="Outfit, sans-serif" fz="xl" c="blue.9" ta="center">
-                Parabéns, você já completou as atividades desse módulo! Que tal ir ao próximo
-                módulo?
+                Parabéns, você já completou as atividades desse módulo!{' '}
+                {nextModuleId != null && <>Que tal ir ao próximo módulo?</>}
               </Text>
             </Stack>
           </Box>
