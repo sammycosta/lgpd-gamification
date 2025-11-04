@@ -210,7 +210,7 @@ export default function PrincipiosTratamentoContent() {
         </List>
       </Typography>
 
-      <ButtonActivity moduleId={3} />
+      <ButtonActivity moduleId={4} />
     </>
   )
 }
