@@ -5,6 +5,7 @@ import { NotebookText } from 'lucide-react'
 import ConceitosBasicosContent from './ConceitosBasicosContent'
 import IntroducaoLGPDContent from './IntroducaoLGPDContent'
 import OperacoesTratamentoContent from './OperacoesTratamentoContent'
+import PrincipiosTratamentoContent from './PrincipiosTratamentoContent'
 
 interface ResourcesPageProps {
   params: Promise<{ id: string }>
@@ -42,6 +43,8 @@ const Content = ({ moduleId }: { moduleId: number }) => {
       return <ConceitosBasicosContent />
     case 3:
       return <OperacoesTratamentoContent />
+    case 4:
+      return <PrincipiosTratamentoContent />
     default:
       return <div>Conteúdo não encontrado!</div>
   }

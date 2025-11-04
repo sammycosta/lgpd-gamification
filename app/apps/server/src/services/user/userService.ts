@@ -44,7 +44,6 @@ export async function getUserInfo(userId: string) {
   };
 }
 
-// retornar daqui
 export async function grantUserBadges(
   userId: string,
   moduleId: number,
