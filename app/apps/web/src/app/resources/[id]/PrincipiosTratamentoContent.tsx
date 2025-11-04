@@ -55,7 +55,7 @@ export default function PrincipiosTratamentoContent() {
         <Card withBorder my="lg">
           <DefinitionBox title="1. Finalidade" icon={ClipboardCheck} color="indigo">
             O tratamento deve ter uma{' '}
-            <strong>finalidade legítima, específica e informada ao titular</strong>
+            <strong>finalidade legítima, específica e informada ao titular</strong>.
             <Text size="sm" fs="italic">
               Exemplo: coletar e-mail apenas para enviar notificações do sistema, e não para
               marketing sem autorização.

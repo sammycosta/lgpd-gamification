@@ -21,11 +21,13 @@ import {
 import { conceitosBasicosActivities } from "./activities/conceitosBasicos";
 import { introducaoLGPDActivities } from "./activities/introducaoLGPD";
 import { operacoesTratamentoActivities } from "./activities/operacoesTratamento";
+import { principiosTratamentoActivities } from "./activities/principiosTratamento";
 
 const moduleIdToActivities: Record<number, ActivityToInsert[]> = {
   1: introducaoLGPDActivities,
   2: conceitosBasicosActivities,
   3: operacoesTratamentoActivities,
+  4: principiosTratamentoActivities,
 };
 
 async function seed() {

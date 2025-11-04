@@ -58,6 +58,11 @@ export async function grantUserBadges(
   if (!highestAchievedType) return;
 
   const currentBadge = await getUserBadgeById(userId, moduleId);
+
+  if (currentBadge && currentBadge.typeId === highestAchievedType) {
+    return;
+  }
+
   if (currentBadge) {
     await deleteUserBadge(currentBadge.id, dbClient);
   }
@@ -85,7 +90,7 @@ export async function handleNewUser(user: User) {
 
   await db.insert(userModules).values({ userId: user.id, moduleId: 1 });
 
-  // // MOCK para me ajudar a testar atividades, deixando todos os módulos desbloqueados por padrão.
+  // MOCK para me ajudar a testar atividades, deixando todos os módulos desbloqueados por padrão.
   // await db
   //   .insert(userModules)
   //   .values(
