@@ -19,7 +19,7 @@ export default function ConceptBox({
 }: ConceptBoxProps) {
   return (
     <Card bg={`${color}.0`} radius="md" shadow="xs" mt={mt}>
-      <Group gap={0} align="center" mb={4}>
+      <Group gap={0} align="center" mb="xs">
         <Icon color={`var(--mantine-color-${color}-9)`} />
         <Text fw={700} mb={0} tt="uppercase" size="sm" ml={8} c={`${color}.9`}>
           {title}

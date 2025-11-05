@@ -4,6 +4,7 @@ import { Badge, Group } from '@mantine/core'
 import { NotebookText } from 'lucide-react'
 import ConceitosBasicosContent from './ConceitosBasicosContent'
 import IntroducaoLGPDContent from './IntroducaoLGPDContent'
+import InventarioDadosIContent from './InventarioDadosIContent'
 import OperacoesTratamentoContent from './OperacoesTratamentoContent'
 import PrincipiosTratamentoContent from './PrincipiosTratamentoContent'
 
@@ -45,6 +46,8 @@ const Content = ({ moduleId }: { moduleId: number }) => {
       return <OperacoesTratamentoContent />
     case 4:
       return <PrincipiosTratamentoContent />
+    case 5:
+      return <InventarioDadosIContent />
     default:
       return <div>Conteúdo não encontrado!</div>
   }
