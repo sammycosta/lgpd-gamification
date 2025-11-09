@@ -5,6 +5,7 @@ import { NotebookText } from 'lucide-react'
 import ConceitosBasicosContent from './ConceitosBasicosContent'
 import IntroducaoLGPDContent from './IntroducaoLGPDContent'
 import InventarioDadosIContent from './InventarioDadosIContent'
+import InventarioDadosIIContent from './InventarioDadosIIContent'
 import OperacoesTratamentoContent from './OperacoesTratamentoContent'
 import PrincipiosTratamentoContent from './PrincipiosTratamentoContent'
 
@@ -48,6 +49,8 @@ const Content = ({ moduleId }: { moduleId: number }) => {
       return <PrincipiosTratamentoContent />
     case 5:
       return <InventarioDadosIContent />
+    case 6:
+      return <InventarioDadosIIContent />
     default:
       return <div>Conteúdo não encontrado!</div>
   }
