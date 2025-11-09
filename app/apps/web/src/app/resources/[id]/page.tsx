@@ -2,6 +2,7 @@ import ButtonGoBack from '@/components/ui/ButtonGoBack'
 import { Protected } from '@/components/wrapper/Protected'
 import { Badge, Group } from '@mantine/core'
 import { NotebookText } from 'lucide-react'
+import CicloVidaDadoContent from './CicloVidaDadoContent'
 import ConceitosBasicosContent from './ConceitosBasicosContent'
 import IntroducaoLGPDContent from './IntroducaoLGPDContent'
 import InventarioDadosIContent from './InventarioDadosIContent'
@@ -51,6 +52,8 @@ const Content = ({ moduleId }: { moduleId: number }) => {
       return <InventarioDadosIContent />
     case 6:
       return <InventarioDadosIIContent />
+    case 7:
+      return <CicloVidaDadoContent />
     default:
       return <div>Conteúdo não encontrado!</div>
   }
