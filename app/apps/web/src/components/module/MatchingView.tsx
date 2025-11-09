@@ -15,13 +15,14 @@ import classes from './style.module.css'
 interface MatchingViewProps {
   activity: Activity
   goToNextActivity?: () => void
+  goToPreviousActivity?: () => void
   onSubmit: (pairs: MatchingPair[]) => void
   status: ActivityFeedbackStatus
   resetStatus: () => void
 }
 
 export default function MatchingView(props: MatchingViewProps) {
-  const { activity, goToNextActivity, onSubmit, status } = props
+  const { activity, goToNextActivity, goToPreviousActivity, onSubmit, status } = props
   const { shuffledItems, matchingPairs } = activity.data as MatchingData
 
   const [selectedItems, setSelectedItems] = useState<string[]>([])
@@ -108,6 +109,7 @@ export default function MatchingView(props: MatchingViewProps) {
       <ActivityControls
         status={status}
         onNext={goToNextActivity}
+        onPrevious={goToPreviousActivity}
         moduleId={activity.moduleId}
         correctText={<MatchingPairsReview matchingPairs={matchingPairs} />}
       />

@@ -189,7 +189,7 @@ export const operacoesTratamentoActivities: ActivityToInsert[] = [
     points: 10,
   },
   {
-    name: "Operações de Difusão ou Comunicação",
+    name: "Múltiplas Operações de Tratamento",
     type: ActivityTypes.QNA,
     isMultiple: true,
     question:

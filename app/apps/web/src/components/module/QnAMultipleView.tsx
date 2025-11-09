@@ -1,44 +1,45 @@
 import { useConfetti } from '@/hooks/useConfetti'
-import { type Activity, type ActivityFeedbackStatus, type QNAData } from '@/types/api'
-import { Group, Radio, Stack, Text } from '@mantine/core'
+import type { Activity, ActivityFeedbackStatus, QNAData } from '@/types/api'
+import { Checkbox, Group, Stack, Text } from '@mantine/core'
 import cx from 'clsx'
 import { useEffect, useState } from 'react'
 import ActivityControls from './ActivityControls'
 import QuestionTitle from './QuestionTitle'
 import classes from './style.module.css'
 
-interface QeAViewProps {
+interface QnAMultipleViewProps {
   activity: Activity
   goToNextActivity?: () => void
-  onSubmit: (option: number) => void
+  goToPreviousActivity?: () => void
+  onSubmit: (option: number[]) => void
   status: ActivityFeedbackStatus
   resetStatus: () => void
 }
 
-export default function QeAView(props: QeAViewProps) {
-  const { activity, goToNextActivity, onSubmit, status, resetStatus } = props
+export default function QnAMultipleView(props: QnAMultipleViewProps) {
+  const { activity, goToNextActivity, goToPreviousActivity, onSubmit, status, resetStatus } = props
   const { question, options, answers } = activity.data as QNAData
 
-  const [value, setValue] = useState<string | null>(() =>
-    status === 'alreadyCorrect' ? String(answers[0]) : null
+  const [value, setValue] = useState<string[]>(() =>
+    status === 'alreadyCorrect' ? answers.map(String) : []
   )
-  const [wrongValue, setWrongValue] = useState<string | null>(null)
+  const [wrongValue, setWrongValue] = useState<string[]>([])
 
   const isCorrect = status === 'correct' || status === 'alreadyCorrect'
   const isWrong = status === 'wrong'
 
-  const checkAnswer = () => onSubmit(Number(value))
+  const checkAnswer = () => onSubmit(value.map(Number))
 
   useConfetti(status === 'correct')
 
   useEffect(() => {
     if (isWrong) {
-      setWrongValue(value)
+      setWrongValue(value.filter((answer) => !answers.includes(Number(answer))))
     }
-  }, [isWrong])
+  }, [status])
 
   useEffect(() => {
-    if (isWrong && wrongValue != null) {
+    if (isWrong && wrongValue.length != 0) {
       resetStatus()
     }
   }, [value])
@@ -46,40 +47,41 @@ export default function QeAView(props: QeAViewProps) {
   return (
     <>
       <QuestionTitle question={question} />
-      <Radio.Group
-        value={value as string}
+      <Checkbox.Group
+        value={value as string[]}
         onChange={setValue}
-        description="Escolha uma resposta"
+        description="Selecione as respostas corretas"
         mt="md"
         readOnly={isCorrect}
       >
         <Stack pt="md" gap="xs">
           {options.map(({ id, text }) => (
-            <Radio.Card
+            <Checkbox.Card
               className={cx(classes['answer-card'], {
                 [classes['correct-state']]: isCorrect,
                 [classes['hover-card']]: !isCorrect,
-                [classes['wrong-state']]: String(id) === wrongValue
+                [classes['wrong-state']]: wrongValue.includes(String(id))
               })}
               radius="lg"
               value={String(id)}
               key={id}
             >
               <Group wrap="nowrap" align="flex-start">
-                <Radio.Indicator disabled={isCorrect} />
+                <Checkbox.Indicator disabled={isCorrect} />
                 <div>
                   <Text>{text}</Text>
                 </div>
               </Group>
-            </Radio.Card>
+            </Checkbox.Card>
           ))}
         </Stack>
-      </Radio.Group>
+      </Checkbox.Group>
       <ActivityControls
         status={status}
         onVerify={checkAnswer}
         onNext={goToNextActivity}
-        hasAnswer={!!value}
+        onPrevious={goToPreviousActivity}
+        hasAnswer={value.length > 0}
         moduleId={activity.moduleId}
       />
     </>

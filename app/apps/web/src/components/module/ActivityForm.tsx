@@ -13,19 +13,21 @@ import { useMutation } from '@tanstack/react-query'
 import { ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
 import MatchingView from './MatchingView'
-import QeAMultipleView from './QeAMultipleView'
-import QeAView from './QeAView'
+import QnAMultipleView from './QnAMultipleView'
+import QnAView from './QnAView'
 import { notificationByBadgeType, type BadgeNotification } from './model'
 
 interface ActivityFormProps {
   activity: Activity
   closeForm: () => void
   goToNextActivity?: () => Activity
+  goToPreviousActivity?: () => Activity
   setActivitiesInfoChanged: (changed: boolean) => void
 }
 
 export default function ActivityForm(props: ActivityFormProps) {
-  const { activity, closeForm, goToNextActivity, setActivitiesInfoChanged } = props
+  const { activity, closeForm, goToNextActivity, goToPreviousActivity, setActivitiesInfoChanged } =
+    props
   const { id, type, data } = activity
 
   const [status, setStatus] = useState<ActivityFeedbackStatus>(() =>
@@ -73,7 +75,7 @@ export default function ActivityForm(props: ActivityFormProps) {
   const ActivityView = (() => {
     switch (type) {
       case ActivityTypes.QNA:
-        return (data as QNAData).isMultiple ? QeAMultipleView : QeAView
+        return (data as QNAData).isMultiple ? QnAMultipleView : QnAView
       case ActivityTypes.MATCHING:
         return MatchingView
     }
@@ -96,6 +98,7 @@ export default function ActivityForm(props: ActivityFormProps) {
         onSubmit={handleSubmit}
         status={status}
         goToNextActivity={goToNextActivity}
+        goToPreviousActivity={goToPreviousActivity}
         resetStatus={resetStatus}
       />
     </Card>

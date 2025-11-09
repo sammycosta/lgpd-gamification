@@ -93,7 +93,5 @@ export async function handleNewUser(user: User) {
   // MOCK para me ajudar a testar atividades, deixando todos os módulos desbloqueados por padrão.
   // await db
   //   .insert(userModules)
-  //   .values(
-  //     [2, 3, 4, 5, 6, 7].map((num) => ({ userId: user.id, moduleId: num }))
-  //   );
+  //   .values([2, 3, 4, 5].map((num) => ({ userId: user.id, moduleId: num })));
 }

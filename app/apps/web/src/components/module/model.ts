@@ -5,7 +5,7 @@ export type BadgeNotification = { title: string; message: string; src: string }
 
 export const notificationByBadgeType: Record<BadgeTypes, BadgeNotification> = {
   [BadgeTypes.BRONZE]: {
-    title: 'Parabéns! 75% das atividades concluídas! 🌟',
+    title: 'Parabéns! 70% das atividades concluídas! 🌟',
     message:
       'Você desbloqueou o próximo módulo e ganhou seu primeiro emblema 🏅 Continue assim, o próximo nível está logo ali!',
     src: thumbsNeutralHappy.toDataUri()

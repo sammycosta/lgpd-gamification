@@ -9,6 +9,7 @@ import NPCBubble from '../resources/NPCBubble'
 interface ActivityControlsProps {
   status: ActivityFeedbackStatus
   onNext?: () => void
+  onPrevious?: () => void
   onVerify?: () => void
   hasAnswer?: boolean
   moduleId: number
@@ -16,7 +17,7 @@ interface ActivityControlsProps {
 }
 
 export default function ActivityControls(props: ActivityControlsProps) {
-  const { status, onNext, onVerify, hasAnswer, moduleId, correctText } = props
+  const { status, onNext, onPrevious, onVerify, hasAnswer, moduleId, correctText } = props
 
   const isCorrect = status === 'correct' || status === 'alreadyCorrect'
   const npc = mapModuleToNpc[moduleId]
@@ -72,22 +73,31 @@ export default function ActivityControls(props: ActivityControlsProps) {
           </Group>
         </Card>
       )}
-      <Group mt="md" justify="flex-end" gap="sm">
-        {(status === 'idle' || status === 'wrong') && (
-          <>
-            {onNext && (
-              <Button variant="transparent" onClick={onNext}>
-                Pular
-              </Button>
-            )}
-            {onVerify && (
-              <Button onClick={onVerify} disabled={!hasAnswer}>
-                Verificar
-              </Button>
-            )}
-          </>
+      <Group mt="md" justify="space-between" gap="sm">
+        {onPrevious ? (
+          <Button variant="transparent" onClick={onPrevious}>
+            Voltar
+          </Button>
+        ) : (
+          <Box />
         )}
-        {isCorrect && onNext && <Button onClick={onNext}>Continuar</Button>}
+        <Group justify="flex-end" gap="sm">
+          {(status === 'idle' || status === 'wrong') && (
+            <>
+              {onNext && (
+                <Button variant="transparent" onClick={onNext}>
+                  Pular
+                </Button>
+              )}
+              {onVerify && (
+                <Button onClick={onVerify} disabled={!hasAnswer}>
+                  Verificar
+                </Button>
+              )}
+            </>
+          )}
+          {isCorrect && onNext && <Button onClick={onNext}>Continuar</Button>}
+        </Group>
       </Group>
     </>
   )

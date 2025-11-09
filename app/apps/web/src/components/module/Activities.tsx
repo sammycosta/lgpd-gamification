@@ -61,10 +61,20 @@ export default function Activities({ moduleId }: ActivitiesProps) {
     const { activity, index } = selectedActivity
 
     const hasNextActivity = index + 1 < activities.length
+    const hasPreviousActivity = index - 1 >= 0
 
     const goToNextActivity = hasNextActivity
       ? () => {
           const nextIndex = index + 1
+          const nextActivity = activities[nextIndex]
+          setSelectedActivity({ activity: nextActivity, index: nextIndex })
+          return nextActivity
+        }
+      : undefined
+
+    const goToPreviousActivity = hasPreviousActivity
+      ? () => {
+          const nextIndex = index - 1
           const nextActivity = activities[nextIndex]
           setSelectedActivity({ activity: nextActivity, index: nextIndex })
           return nextActivity
@@ -77,6 +87,7 @@ export default function Activities({ moduleId }: ActivitiesProps) {
         activity={activity}
         closeForm={closeForm}
         goToNextActivity={goToNextActivity}
+        goToPreviousActivity={goToPreviousActivity}
         setActivitiesInfoChanged={setActivitiesInfoChanged}
       />
     )
