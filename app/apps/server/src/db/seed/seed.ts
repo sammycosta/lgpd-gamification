@@ -21,6 +21,7 @@ import {
 import { conceitosBasicosActivities } from "./activities/conceitosBasicos";
 import { introducaoLGPDActivities } from "./activities/introducaoLGPD";
 import { inventarioDadosIActivities } from "./activities/inventarioDadosI";
+import { inventarioDadosIIActivities } from "./activities/inventarioDadosII";
 import { operacoesTratamentoActivities } from "./activities/operacoesTratamento";
 import { principiosTratamentoActivities } from "./activities/principiosTratamento";
 
@@ -30,6 +31,7 @@ const moduleIdToActivities: Record<number, ActivityToInsert[]> = {
   3: operacoesTratamentoActivities,
   4: principiosTratamentoActivities,
   5: inventarioDadosIActivities,
+  6: inventarioDadosIIActivities,
 };
 
 async function seed() {
