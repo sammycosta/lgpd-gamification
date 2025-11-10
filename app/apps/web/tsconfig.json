@@ -23,10 +23,10 @@
         "name": "next"
       }
     ],
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "paths": {
+      "@/*": ["./src/*"],
+      "@/db": ["../server/src/db"], 
+      "@/db/*": ["../server/src/db/*"]
     }
   },
   "include": [
@@ -39,9 +39,4 @@
   "exclude": [
     "./node_modules"
   ],
-  "references": [
-    {
-      "path": "../server"
-    }
-  ]
 }
