@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev --turbopack",
-		"build": "next build",
+		"build": "next build && bun run src/db/seed/seed.ts",
 		"start": "next start",
 		"db:local": "turso dev --db-file local.db",
 		"db:push": "drizzle-kit push",
