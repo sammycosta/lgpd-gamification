@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import { db } from "..";
 import { ActivityTypes } from "../../types/entities";
 import {
@@ -36,9 +37,22 @@ const moduleIdToActivities: Record<number, ActivityToInsert[]> = {
   7: cicloVidaDadoActivities,
 };
 
+async function checkIfDatabaseIsEmpty() {
+  const result = await db.all(sql`
+    SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';
+  `);
+
+  // Se houver alguma tabela, retorna false (ou seja, já existe algo)
+  return result.length === 0;
+}
+
 async function seed() {
-  // TODO: Cleanup toda vez que rodar seed? Atualmente, limpo local.db
-  // DADOS FIXOS
+  const isEmpty = await checkIfDatabaseIsEmpty();
+  if (!isEmpty) {
+    console.log("O banco já possui tabelas. Seed não será executada.");
+    return;
+  }
+
   await db
     .insert(avatars)
     .values([
