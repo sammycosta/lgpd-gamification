@@ -70,6 +70,7 @@ async function seed() {
 
   // DADOS MOCK
   await insertMockUser();
+  console.log("executou seed adequadamente");
 }
 
 seed().catch((err) => {
