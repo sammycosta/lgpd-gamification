@@ -47,11 +47,11 @@ async function checkIfDatabaseIsEmpty() {
 }
 
 async function seed() {
-  const isEmpty = await checkIfDatabaseIsEmpty();
-  if (!isEmpty) {
-    console.log("O banco já possui tabelas. Seed não será executada.");
-    return;
-  }
+  // const isEmpty = await checkIfDatabaseIsEmpty();
+  // if (!isEmpty) {
+  //   console.log("O banco já possui tabelas. Seed não será executada.");
+  //   return;
+  // }
 
   await db
     .insert(avatars)
