@@ -1,4 +1,3 @@
-import { sql } from "drizzle-orm";
 import { db } from "..";
 import { ActivityTypes } from "../../types/entities";
 import {
@@ -37,21 +36,20 @@ const moduleIdToActivities: Record<number, ActivityToInsert[]> = {
   7: cicloVidaDadoActivities,
 };
 
-async function checkIfDatabaseIsEmpty() {
-  const result = await db.all(sql`
-    SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';
-  `);
+async function checkIfDatabaseHasData() {
+  // Verifica se há algum avatar inserido
+  const result = await db.select().from(avatars).limit(1);
 
-  // Se houver alguma tabela, retorna false (ou seja, já existe algo)
+  // Se houver pelo menos um registro, retorna false (banco tem dados)
   return result.length === 0;
 }
 
 async function seed() {
-  // const isEmpty = await checkIfDatabaseIsEmpty();
-  // if (!isEmpty) {
-  //   console.log("O banco já possui tabelas. Seed não será executada.");
-  //   return;
-  // }
+  const isEmpty = await checkIfDatabaseHasData();
+  if (!isEmpty) {
+    console.log("O banco já possui dados. Seed não será executada.");
+    return;
+  }
 
   await db
     .insert(avatars)
