@@ -39,9 +39,9 @@
   "exclude": [
     "./node_modules"
   ],
-  "references": [
-    {
-      "path": "../server"
-    }
-  ]
+  // "references": [
+  //   {
+  //     "path": "../server"
+  //   }
+  // ]
 }
