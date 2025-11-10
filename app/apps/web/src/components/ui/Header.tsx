@@ -1,19 +1,9 @@
 'use client'
 import { authClient } from '@/lib/auth-client'
-import { queryClient } from '@/utils/trpc'
-import {
-  ActionIcon,
-  Avatar,
-  Container,
-  Group,
-  Loader,
-  Text,
-  Tooltip,
-  useMantineTheme
-} from '@mantine/core'
-import { LogOut, Puzzle } from 'lucide-react'
+import { Container, Group, Loader, Text, useMantineTheme } from '@mantine/core'
+import { Puzzle } from 'lucide-react'
 import Link from 'next/link'
-import { useUserInfo } from '../../hooks/useUserInfo'
+import { UserInfo } from './UserInfo'
 
 export default function Header() {
   const { data: session, isPending } = authClient.useSession()
@@ -32,42 +22,5 @@ export default function Header() {
         {isPending ? <Loader /> : session && <UserInfo />}
       </Group>
     </Container>
-  )
-}
-
-const UserInfo = () => {
-  const { data: user, isLoading } = useUserInfo()
-
-  const handleLogout = async () => {
-    await authClient.signOut()
-    queryClient.clear()
-  }
-
-  if (isLoading) {
-    return <Loader />
-  }
-
-  if (!user) {
-    return null
-  }
-
-  return (
-    <Group gap="sm">
-      <Tooltip label="Meu perfil" withArrow>
-        <Avatar
-          src={`/${user.avatarPath}`}
-          alt="Usuário"
-          radius="xl"
-          size={36}
-          style={{ cursor: 'pointer' }}
-          onClick={() => console.log('Ir para o perfil')}
-        />
-      </Tooltip>
-      <Tooltip label="Sair" withArrow>
-        <ActionIcon variant="subtle" color="red" radius="xl" size={36} onClick={handleLogout}>
-          <LogOut size={20} />
-        </ActionIcon>
-      </Tooltip>
-    </Group>
   )
 }

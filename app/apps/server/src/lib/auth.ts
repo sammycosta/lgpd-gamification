@@ -1,6 +1,9 @@
 import { db } from "@/db";
 import { authSchema } from "@/db/schema";
-import { handleNewUser } from "@/services/user/userService";
+import {
+  handleBeforeDeleteUser,
+  handleNewUser,
+} from "@/services/user/userService";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
@@ -30,6 +33,14 @@ export const auth = betterAuth({
       sameSite: "none",
       secure: true,
       httpOnly: true,
+    },
+  },
+  user: {
+    deleteUser: {
+      enabled: true,
+      beforeDelete: async (user) => {
+        handleBeforeDeleteUser(user.id);
+      },
     },
   },
 });

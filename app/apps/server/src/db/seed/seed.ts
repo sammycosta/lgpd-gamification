@@ -46,7 +46,6 @@ async function seed() {
       { filePath: "avatars/avatar_1.svg" },
       { filePath: "avatars/avatar_2.svg" },
       { filePath: "avatars/avatar_3.svg" },
-      { filePath: "avatars/avatar_4.svg" },
     ]);
   await db.insert(titles).values([{ name: "Aprendiz dos dados pessoais" }]);
   await insertModules();

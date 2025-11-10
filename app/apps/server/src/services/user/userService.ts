@@ -1,8 +1,14 @@
 import { db, DrizzleClient } from "@/db";
 import { userModules, users } from "@/db/schema";
 import {
+  deleteUserActivities,
+  deleteUserBadges,
+  deleteUserModules,
+  getAvatarsIds,
   getUserById,
   getUserPointsById,
+  getAvatars as repositoryGetAvatars,
+  updateUserAvatarId,
   updateUserPoints,
 } from "@/repositories/user";
 import {
@@ -11,6 +17,7 @@ import {
   getUserBadgeById,
   getUserBadgesById,
 } from "@/repositories/userBadge";
+import { TRPCError } from "@trpc/server";
 import type { User } from "better-auth";
 import { eq } from "drizzle-orm";
 import {
@@ -94,4 +101,27 @@ export async function handleNewUser(user: User) {
   // await db
   //   .insert(userModules)
   //   .values([2, 3, 4, 6, 7].map((num) => ({ userId: user.id, moduleId: num })));
+}
+
+export async function getAvatars() {
+  return await repositoryGetAvatars();
+}
+
+export async function updateUserAvatar(userId: string, avatarId: number) {
+  const avatarIds = await getAvatarsIds();
+  // TODO: Move to Specific Validator
+  if (!avatarIds || !avatarIds.some((avatar) => avatar.id === avatarId)) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "ID de Avatar Inválido",
+    });
+  }
+  await updateUserAvatarId(userId, avatarId);
+}
+
+export async function handleBeforeDeleteUser(userId: string) {
+  // TODO: Ação mais rara, mas fazer em mesma transação?
+  await deleteUserBadges(userId);
+  await deleteUserActivities(userId);
+  await deleteUserModules(userId);
 }
