@@ -1,7 +1,8 @@
-import { db, DrizzleClient } from "@/db";
-import { badgeTypes, userBadges } from "@/db/schema";
-import { BadgeTypes } from "@/types/entities";
 import { and, eq } from "drizzle-orm";
+import type { DrizzleClient } from "../db";
+import { db } from "../db";
+import { badgeTypes, userBadges } from "../db/schema";
+import { BadgeTypes } from "../types/entities";
 
 export async function getUserBadgesById(userId: string) {
   return db

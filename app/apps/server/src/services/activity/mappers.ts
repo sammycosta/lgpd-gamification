@@ -1,12 +1,12 @@
-import { ActivityStatus } from "@/types/api";
+import { ActivityStatus } from "../../types/api";
 import {
   ActivitiesInfoBase,
   ActivitiesQnaInfo,
   MatchingPairsByActivityId,
   QnaData,
   QnaOptionsByActivityId,
-} from "@/types/service";
-import { shuffle } from "@/util/array";
+} from "../../types/service";
+import { shuffle } from "../../util/array";
 
 export function mapActivityStatus(isCorrect: boolean | null): ActivityStatus {
   if (isCorrect === null) return ActivityStatus.TODO;

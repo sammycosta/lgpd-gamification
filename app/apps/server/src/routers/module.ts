@@ -1,6 +1,6 @@
-import { protectedProcedure, router } from "@/lib/trpc";
-import { getModule, getModules } from "@/services/module/moduleService";
 import z from "zod";
+import { protectedProcedure, router } from "../lib/trpc";
+import { getModule, getModules } from "../services/module/moduleService";
 
 export const moduleRouter = router({
   getModules: protectedProcedure.query(async ({ ctx }) =>

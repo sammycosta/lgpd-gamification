@@ -1,6 +1,6 @@
 // LEVEL
 
-import { BadgeTypes } from "@/types/entities";
+import { BadgeTypes } from "../../types/entities";
 
 // Segue lógica de progressão quadrática aproximada.
 export const pointsRequiredByLevel: Record<number, number> = {

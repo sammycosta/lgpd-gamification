@@ -1,4 +1,3 @@
-import { BadgeTypes } from "@/types/entities";
 import {
   index,
   integer,
@@ -6,6 +5,7 @@ import {
   text,
   unique,
 } from "drizzle-orm/sqlite-core";
+import { BadgeTypes } from "../../types/entities";
 import { users } from "./auth";
 import { modules } from "./module";
 

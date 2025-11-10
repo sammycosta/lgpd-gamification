@@ -1,9 +1,9 @@
-import { protectedProcedure, router } from "@/lib/trpc";
+import z from "zod";
+import { protectedProcedure, router } from "../lib/trpc";
 import {
   getActivities,
   submitActivityResult,
-} from "@/services/activity/activityService";
-import z from "zod";
+} from "../services/activity/activityService";
 
 export const activityRouter = router({
   getActivities: protectedProcedure

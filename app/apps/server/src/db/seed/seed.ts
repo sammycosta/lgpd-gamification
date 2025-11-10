@@ -1,12 +1,12 @@
-import { ActivityTypes } from "@/types/entities";
+import { db } from "..";
+import { ActivityTypes } from "../../types/entities";
 import {
   ActivityToInsert,
   BaseQnaActivity,
   MatchingActivity,
   QnaActivity,
   QnaMultipleActivity,
-} from "@/types/seed";
-import { db } from "..";
+} from "../../types/seed";
 import {
   activities,
   activityTypes,

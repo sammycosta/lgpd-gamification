@@ -1,5 +1,5 @@
-import { db } from "@/db";
 import type { NextRequest } from "next/server";
+import { db } from "../db";
 import { auth } from "./auth";
 
 export async function createContext(req: NextRequest) {

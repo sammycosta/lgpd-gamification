@@ -1,7 +1,8 @@
-import { db, DrizzleClient } from "@/db";
-import { modules, userModules } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import { alias } from "drizzle-orm/sqlite-core";
+import type { DrizzleClient } from "../db";
+import { db } from "../db";
+import { modules, userModules } from "../db/schema";
 
 export async function getModulesByUserId(userId: string) {
   return db

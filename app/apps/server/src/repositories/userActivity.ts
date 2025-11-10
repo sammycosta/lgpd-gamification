@@ -1,6 +1,7 @@
-import { db, DrizzleClient } from "@/db";
-import { userActivities } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
+import type { DrizzleClient } from "../db";
+import { db } from "../db";
+import { userActivities } from "../db/schema";
 
 export async function getUserActivity(userId: string, activityId: number) {
   return await db

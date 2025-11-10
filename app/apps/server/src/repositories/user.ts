@@ -1,13 +1,14 @@
-import { db, DrizzleClient } from "@/db";
+import { eq } from "drizzle-orm";
+import type { DrizzleClient } from "../db";
+import { db } from "../db";
 import {
   avatars,
   titles,
   userActivities,
-  userBadges,
   userModules,
   users,
-} from "@/db/schema";
-import { eq } from "drizzle-orm";
+} from "../db/schema";
+import { userBadges } from "../db/schema/user";
 
 export async function getUserById(userId: string) {
   return db

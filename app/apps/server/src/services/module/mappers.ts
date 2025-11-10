@@ -1,4 +1,4 @@
-import { Module } from "@/types/entities";
+import { Module } from "../../types/entities";
 
 export function mapModule({
   id,

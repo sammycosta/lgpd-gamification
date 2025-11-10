@@ -1,11 +1,11 @@
-import { db } from "@/db";
-import { authSchema } from "@/db/schema";
+import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import {
   handleBeforeDeleteUser,
   handleNewUser,
-} from "@/services/user/userService";
-import { betterAuth } from "better-auth";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
+} from "..//services/user/userService";
+import { db } from "../db";
+import { authSchema } from "../db/schema";
 
 export const auth = betterAuth({
   socialProviders: {

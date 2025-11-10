@@ -1,7 +1,5 @@
-// TODO: Rever essa organização depois.
-
-import { ActivityTypes } from "@/types/entities";
-import { ActivityToInsert } from "@/types/seed";
+import { ActivityTypes } from "../../../types/entities";
+import { ActivityToInsert } from "../../../types/seed";
 
 export const introducaoLGPDActivities: ActivityToInsert[] = [
   {

@@ -1,5 +1,5 @@
-import { getModuleById } from "@/repositories/module";
 import { TRPCError } from "@trpc/server";
+import { getModuleById } from "../../repositories/module";
 
 export function validateModuleAccess(
   module: Awaited<ReturnType<typeof getModuleById>> | null,

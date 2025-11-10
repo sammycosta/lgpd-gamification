@@ -1,22 +1,22 @@
-import { db } from "@/db";
+import { db } from "../../db";
 import {
   getActivitiesByModuleId,
   getActivityById,
   getMatchingPairsByActivityIds,
   getQnaOptionsByActivityIds,
-} from "@/repositories/activity";
+} from "../../repositories/activity";
 import {
   createUserActivity,
   getUserActivity,
   updateUserActivity,
-} from "@/repositories/userActivity";
-import { ActivityTypes, BadgeTypes } from "@/types/entities";
+} from "../../repositories/userActivity";
+import { ActivityTypes, BadgeTypes } from "../../types/entities";
 import {
   ActivitiesInfoBase,
   ActivitiesQnaInfo,
   MatchingData,
   QnaData,
-} from "@/types/service";
+} from "../../types/service";
 import { updateModuleProgress } from "../module/moduleService";
 import { updateUserProgress } from "../user/userService";
 import { checkers } from "./check";
@@ -80,7 +80,10 @@ export async function submitActivityResult(
   validateActivityExists(activity);
   validateSupportedActivityType(activity.typeId);
 
-  const isCorrect = await checkers[activity.typeId](activityId, answer);
+  const isCorrect = await checkers[activity.typeId as ActivityTypes](
+    activityId,
+    answer
+  );
   const userActivity = await getUserActivity(userId, activity.id);
 
   validateUserActivityEditable(userActivity);

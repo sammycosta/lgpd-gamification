@@ -1,12 +1,12 @@
-import { db } from "@/db";
+import { and, eq, inArray } from "drizzle-orm";
+import { db } from "../db";
 import {
   activities,
   matchingPairs,
   qnaDetails,
   qnaOptions,
   userActivities,
-} from "@/db/schema";
-import { and, eq, inArray } from "drizzle-orm";
+} from "../db/schema";
 
 export async function getActivityById(activityId: number) {
   return await db

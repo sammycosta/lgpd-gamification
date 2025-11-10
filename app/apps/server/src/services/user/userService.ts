@@ -1,5 +1,8 @@
-import { db, DrizzleClient } from "@/db";
-import { userModules, users } from "@/db/schema";
+import { TRPCError } from "@trpc/server";
+import type { User } from "better-auth";
+import { eq } from "drizzle-orm";
+import { db, DrizzleClient } from "../../db";
+import { userModules, users } from "../../db/schema";
 import {
   deleteUserActivities,
   deleteUserBadges,
@@ -10,16 +13,13 @@ import {
   getAvatars as repositoryGetAvatars,
   updateUserAvatarId,
   updateUserPoints,
-} from "@/repositories/user";
+} from "../../repositories/user";
 import {
   createUserBadge,
   deleteUserBadge,
   getUserBadgeById,
   getUserBadgesById,
-} from "@/repositories/userBadge";
-import { TRPCError } from "@trpc/server";
-import type { User } from "better-auth";
-import { eq } from "drizzle-orm";
+} from "../../repositories/userBadge";
 import {
   calculateLevel,
   calculateProgressPercent,

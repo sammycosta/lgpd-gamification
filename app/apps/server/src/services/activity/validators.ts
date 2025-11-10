@@ -1,6 +1,6 @@
-import { ActivityTypes } from "@/types/entities";
-import { SimpleMatchingPair } from "@/types/service";
 import { TRPCError } from "@trpc/server";
+import { ActivityTypes } from "../../types/entities";
+import { SimpleMatchingPair } from "../../types/service";
 
 export function validateActivityExists(activity: any): asserts activity {
   if (!activity) {

@@ -2,9 +2,9 @@ import {
   getCorrectQnaOptionsByActivityId,
   getMatchingPairsByActivityId,
   getQnaDetailsByActivityId,
-} from "@/repositories/activity";
-import { ActivityTypes } from "@/types/entities";
-import { arraysEqualIgnoreOrder } from "@/util/array";
+} from "../../repositories/activity";
+import { ActivityTypes } from "../../types/entities";
+import { arraysEqualIgnoreOrder } from "../../util/array";
 import {
   validateMatchingAnswerType,
   validateQnaAnswerType,

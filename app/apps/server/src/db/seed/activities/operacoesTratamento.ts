@@ -1,5 +1,5 @@
-import { ActivityTypes } from "@/types/entities";
-import { ActivityToInsert } from "@/types/seed";
+import { ActivityTypes } from "../../../types/entities";
+import { ActivityToInsert } from "../../../types/seed";
 
 export const operacoesTratamentoActivities: ActivityToInsert[] = [
   {
