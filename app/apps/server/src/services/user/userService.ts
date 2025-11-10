@@ -26,7 +26,7 @@ export async function getUserInfo(userId: string) {
 
   const badges = await getUserBadgesById(userId);
 
-  // TODO: Rever toda a lógica a seguir no futuro;
+  // TODO: Rever corretude dessa lógica com mais testes;
   const level = calculateLevel(userInfo.points);
   const progressPercent = calculateProgressPercent(userInfo.points);
   const requiredLevelPoints = pointsRequiredByLevel[level + 1] ?? 0;
@@ -93,5 +93,5 @@ export async function handleNewUser(user: User) {
   // MOCK para me ajudar a testar atividades, deixando todos os módulos desbloqueados por padrão.
   // await db
   //   .insert(userModules)
-  //   .values([2, 3, 4, 6].map((num) => ({ userId: user.id, moduleId: num })));
+  //   .values([2, 3, 4, 6, 7].map((num) => ({ userId: user.id, moduleId: num })));
 }

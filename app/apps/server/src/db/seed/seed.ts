@@ -18,6 +18,7 @@ import {
   qnaOptions,
   titles,
 } from "../schema";
+import { cicloVidaDadoActivities } from "./activities/cicloVidaDado";
 import { conceitosBasicosActivities } from "./activities/conceitosBasicos";
 import { introducaoLGPDActivities } from "./activities/introducaoLGPD";
 import { inventarioDadosIActivities } from "./activities/inventarioDadosI";
@@ -32,6 +33,7 @@ const moduleIdToActivities: Record<number, ActivityToInsert[]> = {
   4: principiosTratamentoActivities,
   5: inventarioDadosIActivities,
   6: inventarioDadosIIActivities,
+  7: cicloVidaDadoActivities,
 };
 
 async function seed() {

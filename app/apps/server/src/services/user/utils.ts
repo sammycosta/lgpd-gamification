@@ -2,17 +2,19 @@
 
 import { BadgeTypes } from "@/types/entities";
 
-// TODO: Testar e tratar casos do nível máximo (se eu criar limite)
-// TODO: Rever toda a lógica de progresso de níveis e exibição da barra de progresso.
-// TODO: Gerar isso aqui depois
+// Segue lógica de progressão quadrática aproximada.
 export const pointsRequiredByLevel: Record<number, number> = {
-  1: 0,
-  2: 400,
-  3: 800,
-  4: 1000,
-  5: 1500,
-  6: 2000,
-  7: 3000,
+  0: 0,
+  1: 10,
+  2: 40,
+  3: 95,
+  4: 165,
+  5: 260,
+  6: 370,
+  7: 500,
+  8: 660,
+  9: 835,
+  10: 1030,
 };
 
 export function calculateLevel(points: number) {
