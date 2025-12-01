@@ -29,13 +29,6 @@ export const auth = betterAuth({
     refresh: true,
   },
   trustedOrigins: [process.env.CORS_ORIGIN || ""],
-  advanced: {
-    defaultCookieAttributes: {
-      sameSite: "none",
-      secure: true,
-      httpOnly: true,
-    },
-  },
   user: {
     deleteUser: {
       enabled: true,
