@@ -68,7 +68,7 @@ export default function MatchingView(props: MatchingViewProps) {
   useConfetti(status === 'correct')
 
   useEffect(() => {
-    // TODO: Algum Loading?
+    // TODO: Loading caso necessário
     if (!isCorrect && correctItems.length == shuffledItems.length) {
       onSubmit(matchingPairs)
     }

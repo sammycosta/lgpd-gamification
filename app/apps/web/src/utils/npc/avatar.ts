@@ -38,7 +38,6 @@ export const oliverWorried = createAvatar(adventurer, {
   mouth: ['variant04']
 })
 
-// Mover?
 export const activityFeedback: Record<string, { correct: string; wrong: string }> = {
   jade: {
     correct: jadeHappy.toDataUri(),
@@ -48,7 +47,6 @@ export const activityFeedback: Record<string, { correct: string; wrong: string }
     correct: jessicaDefault.toDataUri(),
     wrong: jessicaUnhappy.toDataUri()
   },
-  //TODO:
   oliver: {
     correct: oliverDefault.toDataUri(),
     wrong: oliverWorried.toDataUri()

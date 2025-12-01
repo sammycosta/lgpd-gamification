@@ -13,10 +13,7 @@ interface ButtonGoBackProps {
 export default function ButtonGoBack({ url, label }: ButtonGoBackProps) {
   const router = useRouter()
 
-  // TODO: Caso essa tratativa seja mais comum, transformar em hook
-  // TODO: Ter a url da aplicação salva em alguma variável de ambiente.
-  const appDomain =
-    typeof window !== 'undefined' ? window.location.hostname : ''
+  const appDomain = typeof window !== 'undefined' ? window.location.hostname : ''
 
   const defaultGoBack = () => {
     const referrer = document.referrer
@@ -38,11 +35,7 @@ export default function ButtonGoBack({ url, label }: ButtonGoBackProps) {
   }
 
   return (
-    <Button
-      variant="subtle"
-      onClick={handleGoBack}
-      leftSection={<ArrowLeft size={16} />}
-    >
+    <Button variant="subtle" onClick={handleGoBack} leftSection={<ArrowLeft size={16} />}>
       {label ?? 'Voltar'}
     </Button>
   )

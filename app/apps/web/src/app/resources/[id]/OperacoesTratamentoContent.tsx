@@ -30,7 +30,6 @@ import {
 import Link from 'next/link'
 import NPCBubble from '../../../components/resources/NPCBubble'
 
-// TODO: Deixar conteúdo mais lúdico no futuro
 export default function OperacoesTratamentoContent() {
   return (
     <>

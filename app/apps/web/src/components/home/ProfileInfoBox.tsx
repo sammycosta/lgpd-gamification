@@ -18,7 +18,6 @@ import { CircleStar, Star } from 'lucide-react'
 export default function ProfileInfoBox({ small }: { small?: boolean }) {
   const { data: user, isLoading } = useUserInfo()
 
-  // TODO: possivelmente melhorar isso aqui
   if (isLoading) {
     return (
       <>
@@ -191,8 +190,6 @@ interface TitleBadgeProps {
 const TitleBadge = ({ title, small }: TitleBadgeProps) => {
   return (
     <Badge
-      // variant="gradient"
-      // gradient={{ from: 'blue', to: 'green', deg: 90 }}
       size={small ? 'md' : 'lg'}
       radius="xl"
       leftSection={<Star size={small ? 12 : 14} />}
