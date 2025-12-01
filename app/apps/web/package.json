@@ -8,12 +8,18 @@
 		"start": "next start"
 	},
 	"dependencies": {
+		"@dicebear/collection": "^9.2.4",
+		"@dicebear/core": "^9.2.4",
+		"@mantine/core": "^8.2.7",
+		"@mantine/hooks": "^8.3.1",
+		"@mantine/notifications": "^8.3.6",
 		"@tanstack/react-form": "^1.12.3",
 		"@tanstack/react-query": "^5.85.5",
 		"@trpc/client": "^11.5.0",
 		"@trpc/server": "^11.5.0",
 		"@trpc/tanstack-react-query": "^11.5.0",
-		"better-auth": "^1.3.34",
+		"better-auth": "^1.4.4",
+		"canvas-confetti": "^1.9.3",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"lucide-react": "^0.544.0",
@@ -23,13 +29,7 @@
 		"react-dom": "^19.0.0",
 		"tailwind-merge": "^3.3.1",
 		"tw-animate-css": "^1.3.4",
-		"zod": "^4.0.2",
-		"@dicebear/collection": "^9.2.4",
-		"@dicebear/core": "^9.2.4",
-		"@mantine/core": "^8.2.7",
-		"@mantine/hooks": "^8.3.1",
-		"@mantine/notifications": "^8.3.6",
-		"canvas-confetti": "^1.9.3"
+		"zod": "^4.0.2"
 	},
 	"devDependencies": {
 		"@tailwindcss/postcss": "^4.1.10",
