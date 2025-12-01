@@ -13,7 +13,8 @@ import {
   Menu,
   Modal,
   Text,
-  Tooltip
+  Tooltip,
+  UnstyledButton
 } from '@mantine/core'
 import { useMutation } from '@tanstack/react-query'
 import { LogOut } from 'lucide-react'
@@ -49,7 +50,9 @@ export const UserInfo = () => {
     <Group gap="sm">
       <Menu>
         <Menu.Target>
-          <Avatar src={`/${user.avatarPath}`} alt="Usuário" radius="xl" size={36} />
+          <UnstyledButton>
+            <Avatar src={`/${user.avatarPath}`} alt="Usuário" radius="xl" size={36} />
+          </UnstyledButton>
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Item onClick={openEditProfile}>Editar perfil</Menu.Item>
