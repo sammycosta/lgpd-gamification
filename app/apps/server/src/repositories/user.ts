@@ -49,7 +49,7 @@ export async function updateUserAvatarId(userId: string, avatarId: number) {
   return db.update(users).set({ avatarId }).where(eq(users.id, userId)).run();
 }
 
-// TODO: Camada repository Avatar seria bom.
+// TODO: Camada repository Avatar caso esse arquivo cresça
 export async function getAvatars() {
   return db
     .select({ id: avatars.id, filePath: avatars.filePath })

@@ -10,7 +10,6 @@ export function mapModule({
   return {
     id,
     name,
-    icon: null, //INSERIR FUTURAMENTE
     points: points ?? 0,
     maxPoints,
     locked: userModulesId == null,

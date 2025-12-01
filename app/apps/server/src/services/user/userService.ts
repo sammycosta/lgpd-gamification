@@ -32,8 +32,6 @@ export async function getUserInfo(userId: string) {
   if (!userInfo) return null;
 
   const badges = await getUserBadgesById(userId);
-
-  // TODO: Rever corretude dessa lógica com mais testes;
   const level = calculateLevel(userInfo.points);
   const progressPercent = calculateProgressPercent(userInfo.points);
   const requiredLevelPoints = pointsRequiredByLevel[level + 1] ?? 0;
@@ -96,11 +94,6 @@ export async function handleNewUser(user: User) {
     .execute();
 
   await db.insert(userModules).values({ userId: user.id, moduleId: 1 });
-
-  // MOCK para me ajudar a testar atividades, deixando todos os módulos desbloqueados por padrão.
-  // await db
-  //   .insert(userModules)
-  //   .values([2, 3, 4, 6, 7].map((num) => ({ userId: user.id, moduleId: num })));
 }
 
 export async function getAvatars() {
@@ -120,7 +113,6 @@ export async function updateUserAvatar(userId: string, avatarId: number) {
 }
 
 export async function handleBeforeDeleteUser(userId: string) {
-  // TODO: Ação mais rara, mas fazer em mesma transação?
   await deleteUserBadges(userId);
   await deleteUserActivities(userId);
   await deleteUserModules(userId);

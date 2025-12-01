@@ -66,9 +66,7 @@ async function seed() {
     .insert(badgeTypes)
     .values([{ name: "bronze" }, { name: "silver" }, { name: "gold" }]);
 
-  // DADOS MOCK
-  await insertMockUser();
-  console.log("executou seed adequadamente");
+  console.log("Executou seed adequadamente");
 }
 
 seed().catch((err) => {
@@ -162,25 +160,4 @@ async function insertActivity(activity: ActivityToInsert, moduleId: number) {
       );
     }
   }
-}
-
-async function insertMockUser() {
-  // TODO: Ver como faço isso
-  // const [user] = await db
-  //   .insert(users)
-  //   .values({
-  //     name: "Samantha Costa",
-  //     points: 0,
-  //     avatarId: 1,
-  //     titleId: 1,
-  //   })
-  //   .returning({ id: users.id });
-  // // Módulos desbloqueados por padrão
-  // await db.insert(userModules).values({ userId: user.id, moduleId: 1 });
-  // // MOCK para me ajudar a testar atividades, deixando todos os módulos desbloqueados por padrão.
-  // await db
-  //   .insert(userModules)
-  //   .values(
-  //     [2, 3, 4, 5, 6, 7].map((num) => ({ userId: user.id, moduleId: num }))
-  //   );
 }
