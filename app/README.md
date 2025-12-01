@@ -1,70 +1,104 @@
-# app
+# LGPD Gamification
 
-This project was created with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack), a modern TypeScript stack that combines Next.js, Next, TRPC, and more.
+Plataforma gamificada para ensino e conscientização sobre a Lei Geral de Proteção de Dados (LGPD).
+Desenvolvido como Trabalho de Conclusão de Curso (TCC).
 
-## Features
+> **Acesse em Produção:** [https://lgpd-gamificada.onrender.com/](https://lgpd-gamificada.onrender.com/)
+>
+> **Observação:** O projeto está hospedado no plano gratuito do Render. Por isso, pode levar **alguns minutos** para carregar inicialmente após períodos de inatividade (Cold Start dos serviços de Frontend e Backend). 
 
-- **TypeScript** - For type safety and improved developer experience
-- **Next.js** - Full-stack React framework
-- **TailwindCSS** - Utility-first CSS for rapid UI development
-- **Next.js** - Full-stack React framework
-- **tRPC** - End-to-end type-safe APIs
-- **Bun** - Runtime environment
-- **Drizzle** - TypeScript-first ORM
-- **SQLite/Turso** - Database engine
-- **Authentication** - Better-Auth
+## Tecnologias
 
-## Getting Started
+Este projeto foi **inicializado** com a **Better-T-Stack** e utiliza uma arquitetura moderna focada em TypeScript e performance:
 
-First, install the dependencies:
+- **Frontend**: Next.js 15, React 19, TailwindCSS, Mantine UI.
+- **Backend**: Next.js (API Routes), tRPC, Better-Auth.
+- **Database**: SQLite (Turso/Local), Drizzle ORM.
+- **Runtime**: Bun.
+
+## Configuração e Instalação
+
+### 1. Pré-requisitos
+
+Certifique-se de ter o [Bun](https://bun.sh/) instalado em sua máquina.
+
+### 2. Instalação
+
+Clone o repositório e instale as dependências:
 
 ```bash
 bun install
 ```
 
-## Database Setup
+### 3. Variáveis de Ambiente
 
-This project uses SQLite with Drizzle ORM.
+Você precisa configurar as variáveis de ambiente. Crie um arquivo `.env` em `apps/server` e `apps/web` baseando-se nos exemplos (`.env.example`).
 
-1. Start the local SQLite database:
+**Principais Variáveis (Server):**
+
+- `BETTER_AUTH_URL`: URL base da autenticação (Em produção, deve ser a URL do **Frontend**).
+- `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`: Credenciais do Google Cloud Console.
+- `TURSO_DATABASE_URL` / `TURSO_AUTH_TOKEN`: Credenciais do banco de dados (ou use arquivo local).
+- `CORS_ORIGIN`: URL do Frontend permitida.
+
+**Principais Variáveis (Web):**
+
+- `NEXT_PUBLIC_SERVER_URL`: URL do Backend.
+- `NEXT_PUBLIC_WEB_URL`: URL do Frontend.
+
+### 4. Banco de Dados
+
+Para rodar localmente com SQLite:
 
 ```bash
+# Inicie o banco local (em um terminal separado)
 cd apps/server && bun db:local
+
+# Aplique as migrações e o seed (dados iniciais)
+cd apps/server && bun db:push
+cd apps/server && bun db:seed
 ```
 
-2. Update your `.env` file in the `apps/server` directory with the appropriate connection details if needed.
+### 5. Rodando o Projeto
 
-3. Apply the schema to your database:
-
-```bash
-bun db:push
-```
-
-Then, run the development server:
+Na raiz do projeto:
 
 ```bash
 bun dev
 ```
 
-Open [http://localhost:3001](http://localhost:3001) in your browser to see the web application.
-The API is running at [http://localhost:3000](http://localhost:3000).
+- **Web**: http://localhost:3001
+- **Server**: http://localhost:3000
 
-## Project Structure
+## Deploy e Arquitetura
 
-```
+### Proxy Reverso (BFF)
+
+Para resolver problemas de cookies de terceiros (Third-Party Cookies) e CORS, o projeto utiliza uma arquitetura de Proxy Reverso configurada no Next.js.
+
+- O Frontend (`apps/web`) atua como um proxy para as rotas de autenticação (`/api/auth`) e API (`/trpc`).
+- Isso garante que os cookies sejam tratados como **Same-Origin** (`SameSite: Lax`), aumentando a segurança e compatibilidade com navegadores como Safari e Firefox.
+
+### Configuração em Produção (Render)
+
+Ao fazer deploy (ex: Render.com), atente-se:
+
+1. **Server**: A variável `BETTER_AUTH_URL` deve apontar para a URL do **Frontend** (ex: `https://seu-app.onrender.com`), pois é por lá que o fluxo de auth começa e termina.
+2. **Web**: A variável `NEXT_PUBLIC_SERVER_URL` deve apontar para a URL do **Backend**.
+3. **Google Console**: A "Authorized redirect URI" deve ser a do **Frontend** (`https://seu-app.onrender.com/api/auth/callback/google`).
+
+## Estrutura do Projeto
+
+```text
 app/
 ├── apps/
-│   ├── web/         # Frontend application (Next.js)
-│   └── server/      # Backend API (Next, TRPC)
+│   ├── web/         # Frontend application (Next.js + Mantine)
+│   └── server/      # Backend API (Next.js + tRPC + Better-Auth)
 ```
 
-## Available Scripts
+## Scripts Disponíveis
 
-- `bun dev`: Start all applications in development mode
-- `bun build`: Build all applications
-- `bun dev:web`: Start only the web application
-- `bun dev:server`: Start only the server
-- `bun check-types`: Check TypeScript types across all apps
-- `bun db:push`: Push schema changes to database
-- `bun db:studio`: Open database studio UI
-- `cd apps/server && bun db:local`: Start the local SQLite database
+- `bun dev`: Inicia todas as aplicações em modo de desenvolvimento.
+- `bun build`: Build de todas as aplicações.
+- `bun db:push`: Atualiza o schema do banco de dados.
+- `bun db:studio`: Abre a interface visual do Drizzle para gerenciar o banco.
