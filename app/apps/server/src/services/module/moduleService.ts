@@ -1,10 +1,12 @@
 import { db, DrizzleClient } from "../../db";
 import {
-  createUserModule,
-  getModuleById,
-  getModulesByUserId,
-  updateUserModulePoints,
+    getModuleById,
+    getModulesByUserId,
 } from "../../repositories/module";
+import {
+    createUserModule,
+    updateUserModulePoints,
+} from "../../repositories/userModule";
 import { grantUserBadges } from "../user/userService";
 import { mapModule } from "./mappers";
 import { validateModuleAccess, validateModuleExists } from "./validators";

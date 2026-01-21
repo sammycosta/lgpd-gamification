@@ -1,6 +1,5 @@
 import { and, eq } from "drizzle-orm";
 import { alias } from "drizzle-orm/sqlite-core";
-import type { DrizzleClient } from "../db";
 import { db } from "../db";
 import { modules, userModules } from "../db/schema";
 
@@ -17,7 +16,7 @@ export async function getModulesByUserId(userId: string) {
     .from(modules)
     .leftJoin(
       userModules,
-      and(eq(userModules.moduleId, modules.id), eq(userModules.userId, userId))
+      and(eq(userModules.moduleId, modules.id), eq(userModules.userId, userId)),
     )
     .orderBy(modules.id)
     .all();
@@ -39,33 +38,13 @@ export async function getModuleById(userId: string, moduleId: number) {
     .where(eq(modules.id, moduleId))
     .leftJoin(
       userModules,
-      and(eq(userModules.moduleId, modules.id), eq(userModules.userId, userId))
+      and(eq(userModules.moduleId, modules.id), eq(userModules.userId, userId)),
     )
     .leftJoin(
       dependentModules,
-      eq(dependentModules.requiredModuleId, modules.id)
+      eq(dependentModules.requiredModuleId, modules.id),
     )
     .get();
-}
-
-export async function updateUserModulePoints(
-  userModulesId: number,
-  points: number,
-  dbClient: DrizzleClient = db
-) {
-  return await dbClient
-    .update(userModules)
-    .set({ points })
-    .where(eq(userModules.id, userModulesId))
-    .run();
-}
-
-export async function createUserModule(
-  userId: string,
-  moduleId: number,
-  dbClient: DrizzleClient = db
-) {
-  return await dbClient.insert(userModules).values({ userId, moduleId }).run();
 }
 
 export async function getDependentModule(moduleId: number) {
@@ -76,7 +55,7 @@ export async function getDependentModule(moduleId: number) {
     .where(eq(modules.id, moduleId))
     .innerJoin(
       dependentModules,
-      eq(dependentModules.requiredModuleId, modules.id)
+      eq(dependentModules.requiredModuleId, modules.id),
     )
     .get();
 }
