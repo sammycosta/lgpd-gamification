@@ -1,13 +1,13 @@
 import { faker } from "@faker-js/faker";
 import { describe, expect, it } from "vitest";
 import {
-  createQnaActivity,
-  createQnaOption,
+    createQnaActivity,
+    createQnaOption,
 } from "../tests/factories/activity.factory";
 import {
-  getCorrectQnaOptionsByActivityId,
-  getQnaDetailsByActivityId,
-  getQnaOptionsByActivityIds,
+    getCorrectQnaOptionsByActivityId,
+    getQnaDetailsByActivityId,
+    getQnaOptionsByActivityIds,
 } from "./qna";
 
 describe("QNA Activity Repository - Database Integration Tests", () => {
@@ -92,6 +92,7 @@ describe("QNA Activity Repository - Database Integration Tests", () => {
         expect.objectContaining({
           id: option1.id,
           text: option1.text,
+          isCorrect: option1.isCorrect,
         }),
       );
     });

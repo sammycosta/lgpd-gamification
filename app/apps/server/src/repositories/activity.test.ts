@@ -1,13 +1,13 @@
 import { faker } from "@faker-js/faker";
 import { describe, expect, it } from "vitest";
 import {
-  createActivity,
-  createQnaActivity,
+    createActivity,
+    createQnaActivity,
 } from "../tests/factories/activity.factory";
 import { createModule } from "../tests/factories/module.factory";
 import {
-  createUser,
-  createUserActivity,
+    createUser,
+    createUserActivity,
 } from "../tests/factories/user.factory";
 import { getActivitiesByModuleId, getActivityById } from "./activity";
 
@@ -106,6 +106,22 @@ describe("Activity Repository - Database Integration Tests", () => {
       expect(results).toHaveLength(1);
       expect(results[0].id).toBe(activity.id);
       expect(results[0].isCorrect).toBeNull();
+    });
+
+    it("should return null for question and isMultiple when activity is not QNA", async () => {
+      const user = await createUser();
+      const module = await createModule();
+      // Create a generic activity (which defaults to a non-QnA type usually, or we can force it)
+      // The factory setup uses random types, but let's ensure it's not QNA if possible or just check the fields if it happens to be non-connected.
+      // Actually, createActivity makes an activity row but NO qnaDetails row unless createQnaActivity is used.
+      // So even if typeId is QNA, if no qnaDetails row exists, the left join should be null.
+      const activity = await createActivity({ moduleId: module.id });
+
+      const results = await getActivitiesByModuleId(user.id, module.id);
+
+      expect(results).toHaveLength(1);
+      expect(results[0].question).toBeNull();
+      expect(results[0].isMultiple).toBeNull();
     });
   });
 });
