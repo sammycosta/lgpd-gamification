@@ -44,7 +44,7 @@ async function checkIfDatabaseHasData() {
   return result.length === 0;
 }
 
-async function seed() {
+export async function runSeed() {
   const isEmpty = await checkIfDatabaseHasData();
   if (!isEmpty) {
     console.log("O banco já possui dados. Seed não será executada.");
@@ -69,9 +69,13 @@ async function seed() {
   console.log("Executou seed adequadamente");
 }
 
-seed().catch((err) => {
-  console.error("Erro durante o seeding:", err);
-});
+const isManualRun = process.argv[1]?.includes("seed.ts");
+if (isManualRun) {
+  runSeed().catch((err) => {
+    console.error("Erro durante o seeding manual:", err);
+    process.exit(1);
+  });
+}
 
 async function insertModules() {
   // Considera ordem linear de desbloqueio

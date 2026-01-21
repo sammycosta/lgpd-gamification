@@ -1,8 +1,13 @@
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 
+const url =
+  process.env.NODE_ENV === "test"
+    ? "file::memory:?cache=shared"
+    : process.env.DATABASE_URL!;
+
 const client = createClient({
-  url: process.env.DATABASE_URL!,
+  url,
   authToken: process.env.DATABASE_AUTH_TOKEN,
 });
 
