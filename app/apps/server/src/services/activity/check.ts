@@ -1,14 +1,14 @@
+import { getMatchingPairsByActivityId } from "../../repositories/matching";
 import {
-  getCorrectQnaOptionsByActivityId,
-  getMatchingPairsByActivityId,
-  getQnaDetailsByActivityId,
-} from "../../repositories/activity";
+    getCorrectQnaOptionsByActivityId,
+    getQnaDetailsByActivityId,
+} from "../../repositories/qna";
 import { ActivityTypes } from "../../types/entities";
 import { arraysEqualIgnoreOrder } from "../../util/array";
 import {
-  validateMatchingAnswerType,
-  validateQnaAnswerType,
-  validateQnaCorrectOptions,
+    validateMatchingAnswerType,
+    validateQnaAnswerType,
+    validateQnaCorrectOptions,
 } from "./validators";
 
 async function checkQnAAnswer(activityId: number, answer: unknown) {

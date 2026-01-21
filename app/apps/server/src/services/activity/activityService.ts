@@ -1,30 +1,30 @@
 import { db } from "../../db";
 import {
-  getActivitiesByModuleId,
-  getActivityById,
-  getMatchingPairsByActivityIds,
-  getQnaOptionsByActivityIds,
+    getActivitiesByModuleId,
+    getActivityById,
 } from "../../repositories/activity";
+import { getMatchingPairsByActivityIds } from "../../repositories/matching";
+import { getQnaOptionsByActivityIds } from "../../repositories/qna";
 import {
-  createUserActivity,
-  getUserActivity,
-  updateUserActivity,
+    createUserActivity,
+    getUserActivity,
+    updateUserActivity,
 } from "../../repositories/userActivity";
 import { ActivityTypes, BadgeTypes } from "../../types/entities";
 import {
-  ActivitiesInfoBase,
-  ActivitiesQnaInfo,
-  MatchingData,
-  QnaData,
+    ActivitiesInfoBase,
+    ActivitiesQnaInfo,
+    MatchingData,
+    QnaData,
 } from "../../types/service";
 import { updateModuleProgress } from "../module/moduleService";
 import { updateUserProgress } from "../user/userService";
 import { checkers } from "./check";
 import { mapActivityStatus, mapMatchingData, mapQnaData } from "./mappers";
 import {
-  validateActivityExists,
-  validateSupportedActivityType,
-  validateUserActivityEditable,
+    validateActivityExists,
+    validateSupportedActivityType,
+    validateUserActivityEditable,
 } from "./validators";
 
 export async function getActivities(userId: string, moduleId: number) {
